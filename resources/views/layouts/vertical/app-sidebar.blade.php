@@ -187,6 +187,7 @@
 						<li class="slide">
 							<a class="side-menu__item" data-bs-toggle="slide" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">General Setting</span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
+                                <li><a href="{{route('admin.taxes.index')}}" class="slide-item">Vat & Tax</a></li>
 								<li><a href="{{route('admin.settings')}}" class="slide-item">Site Setting</a></li>
                                 <li><a href="{{route('admin.mail.settings')}}" class="slide-item">SMTP Setting</a></li>
 							</ul>

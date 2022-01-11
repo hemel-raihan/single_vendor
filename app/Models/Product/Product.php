@@ -33,9 +33,14 @@ class Product extends Model
         return $this->belongsToMany(Sidebar::class);
     }
 
-    public function flashdeal()
+    public function flashdeals()
     {
-        return $this->hasOne(Flashdeal::class);
+        return $this->belongsToMany(Flashdeal::class);
+    }
+
+    public function taxes()
+    {
+        return $this->belongsToMany(Tax::class);
     }
 
 }

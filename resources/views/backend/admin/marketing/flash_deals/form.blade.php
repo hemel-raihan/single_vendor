@@ -91,7 +91,7 @@
 						<!-- PAGE-HEADER -->
 						<div class="page-header">
 							<div>
-								<h1 class="page-title">{{ isset($category) ? 'Edit ' : 'Create '}}Flash-Deals</h1>
+								<h1 class="page-title">{{ isset($flash_deal) ? 'Edit ' : 'Create '}}Flash-Deals</h1>
 								{{-- <ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="#">Tables</a></li>
 									<li class="breadcrumb-item active" aria-current="page">Table</li>
@@ -113,9 +113,9 @@
 						<!-- PAGE-HEADER END -->
 
                    <!-- ROW-1 OPEN -->
-    <form method="POST" action="{{isset($category) ? route('admin.flash-deals.update',$category->id) : route('admin.flash-deals.store')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{isset($flash_deal) ? route('admin.flash-deals.update',$flash_deal->id) : route('admin.flash-deals.store')}}" enctype="multipart/form-data">
     @csrf
-    @isset($category)
+    @isset($flash_deal)
     @method('PUT')
     @endisset
 	<div class="row">
@@ -141,7 +141,7 @@
 
 					<div class="form-group">
 						<label for="exampleInputname">Title</label>
-						<input type="text" class="form-control @error('title') is-invalid @enderror" value="{{$category->title ?? old('title')}}" name="title" id="exampleInputname" >
+						<input type="text" class="form-control @error('title') is-invalid @enderror" value="{{$flash_deal->title ?? old('title')}}" name="title" id="exampleInputname" >
                         @error('title')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{$message}}</strong>
@@ -151,20 +151,20 @@
 
                     <div class="form-group">
 						<label for="exampleInputname">Background Color</label>
-						<input type="text" class="form-control " value="{{$category->background_color ?? old('background_color')}}" name="background_color" id="exampleInputname" placeholder="#0000">
+						<input type="text" class="form-control " value="{{$flash_deal->background_color ?? old('background_color')}}" name="background_color" id="exampleInputname" placeholder="#0000">
 
 					</div>
 
                     <div class="form-group">
 						<label for="exampleInputname">Text Color</label>
-						<input type="text" class="form-control " value="{{$category->text_color ?? old('text_color')}}" name="text_color" id="exampleInputname" >
+						<input type="text" class="form-control " value="{{$flash_deal->text_color ?? old('text_color')}}" name="text_color" id="exampleInputname" >
 
 					</div>
 
 					<div class="form-group">
 						<label class="form-label">Banner Image</label>
 						<!-- <input id="demo" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" multiple="" class="ff_fileupload_hidden"> -->
-                        <input type="file" data-height="100" class="dropify form-control @error('banner') is-invalid @enderror" data-default-file="{{ isset($category) ? asset($category->banner) : '' }}" name="banner">
+                        <input type="file" data-height="100" class="dropify form-control @error('banner') is-invalid @enderror" data-default-file="{{ isset($flash_deal) ? asset('uploads/flashdeal_photo/'.$flash_deal->banner) : '' }}" name="banner">
                         @error('banner')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{$message}}</strong>
@@ -174,13 +174,47 @@
 
                     <div class="form-group">
 						<label for="exampleInputname">Start Date</label>
-						<input type="date" class="form-control" value="{{$product->start_date ?? old('start_date') }}" name="start_date" id="">
+						<input type="date" class="form-control" value="{{$flash_deal->start_date ?? old('start_date') }}" name="start_date" id="">
 					</div>
 
                     <div class="form-group">
 						<label for="exampleInputname">End Date</label>
-						<input type="date" class="form-control" value="{{$product->end_date ?? old('end_date') }}" name="end_date" id="">
+						<input type="date" class="form-control" value="{{$flash_deal->end_date ?? old('end_date') }}" name="end_date" id="">
 					</div>
+
+                    @isset($flash_deal)
+
+                    {{-- <select name="leftsidebar_id" class="form-control form-select select2" data-bs-placeholder="Select Sidebar">
+                        <option value="">Select Left Sidebar</option>
+                        <option value="0" {{($category->leftsidebar_id == 0) ? 'selected' : ''}}>None</option>
+                        @foreach ($editsidebars as $editsidebar)
+                        @if($editsidebar->type == 'Left Side Bar')
+                        <option value="{{$editsidebar->id}}" {{($category->leftsidebar_id == $editsidebar->id) ? 'selected' : ''}}>{{$editsidebar->title}}</option>
+                        @endif
+                        @endforeach
+                    </select> --}}
+
+                    <div class="form-group">
+						<label class="form-label">Products</label>
+                            <select name="products[]" multiple="multiple" id="productss" class="testselect2" >
+                            @foreach (\App\Models\Product\Product::all() as $key => $product)
+                            {{-- @foreach ($flash_deal->products as $flashproduct)
+                                @php
+                                  $flash_deal_product = \App\Models\FlashDealProduct::where('flash_deal_id', $flash_deal->id)->where('product_id', $product->id)->first();
+                                @endphp
+                            @endforeach --}}
+                            @php
+                                $flash_deal_product = DB::table('flashdeal_product')
+                                            ->where('flashdeal_id', '=', $flash_deal->id)
+                                            ->where('product_id', '=', $product->id)
+                                            ->first();
+                            @endphp
+                            <option value="{{$product->id}}" <?php if($flash_deal_product != null) echo "selected";?> >{{$product->title}}</option>
+                            @endforeach
+						   </select>
+					</div>
+
+                    @else
 
                     <div class="form-group">
 						<label class="form-label">Products</label>
@@ -191,6 +225,10 @@
 						   </select>
 					</div>
 
+                    @endisset
+
+
+
                     <div class="form-group" id="discount_table">
 
                     </div>
@@ -198,7 +236,7 @@
 				</div>
 				<div class="card-footer text-end">
 					<button type="submit" class="btn btn-success mt-1">
-                        @isset($category)
+                        @isset($flash_deal)
                         <i class="fas fa-arrow-circle-up"></i>
                         Update
                         @else
@@ -206,7 +244,7 @@
                         Create
                         @endisset
                     </button>
-					<a href="{{route('admin.categories.index')}}" class="btn btn-danger mt-1">Cancel</a>
+					<a href="{{route('admin.flash-deals.index')}}" class="btn btn-danger mt-1">Cancel</a>
 				</div>
 			</div>
 		</div>
@@ -221,11 +259,11 @@
 					<h3 class="card-title">Create Page</h3>
 				</div>
 				<div class="card-body">
-                    @isset($category)
+                    @isset($flashdeal)
 					<div class="form-group">
 						<div class="form-label">Status</div>
 						<label class="custom-switch">
-							<input type="checkbox" name="status" {{$category->status == true ? 'checked' : ''}} class="custom-switch-input ">
+							<input type="checkbox" name="status" {{$flashdeal->status == true ? 'checked' : ''}} class="custom-switch-input ">
 							<span class="custom-switch-indicator"></span>
 						</label>
 					</div>
@@ -260,20 +298,6 @@
 
 
 <script type="text/javascript">
-    // $(document).ready(function(){
-    //     $('#products').on('change', function(){
-    //         var product_ids = $('#products').val();
-    //         if(product_ids.length > 0){
-    //             $.post('{{ route('admin.flash_deals.product_discount') }}', {_token:'{{ csrf_token() }}', product_ids:product_ids}, function(data){
-    //                 $('#discount_table').html(data);
-    //                 //SISMOO.plugins.fooTable();
-    //             });
-    //         }
-    //         else{
-    //             $('#discount_table').html(null);
-    //         }
-    //     });
-    // });
 
     $('#products').on('change', function() {
         var product_ids = $('#products').val();
@@ -289,6 +313,34 @@
     });
 
 </script>
+
+@isset($flash_deal)
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        get_flash_deal_discount();
+
+        $('#products').on('change', function(){
+            get_flash_deal_discount();
+        });
+
+        function get_flash_deal_discount(){
+            var product_ids = $('#productss').val();
+            if(product_ids.length > 0){
+                $.post('{{ route('admin.flash_deals.product_discount_edit') }}', {_token:'{{ csrf_token() }}', product_ids:product_ids, flash_deal_id:{{ $flash_deal->id }}}, function(data){
+                    $('#discount_table').html(data);
+                    console.log(data);
+                    //SISMOO.plugins.fooTable();
+                });
+            }
+            else{
+                $('#discount_table').html(null);
+            }
+        }
+    });
+</script>
+@endisset
+
 
 {{-- <script>
     // $("select").imagepicker()

@@ -242,6 +242,32 @@ class ProductController extends Controller
 
         $choice_options = json_encode($choice_options, JSON_UNESCAPED_UNICODE);
 
+        if($request->discount_rate)
+        {
+            $discount = $request->discount_rate;
+        }
+        elseif($request->flash_discount_rate)
+        {
+            $discount = $request->flash_discount_rate;
+        }
+        else
+        {
+            $discount = null;
+        }
+
+        if($request->discount_type)
+        {
+            $discount_type = $request->discount_type;
+        }
+        elseif($request->flash_discount_type)
+        {
+            $discount_type = $request->flash_discount_type;
+        }
+        else
+        {
+            $discount_type = null;
+        }
+
 
 
         $product = Product::create([
@@ -259,8 +285,8 @@ class ProductController extends Controller
             'colors' => $colors,
             'discount_startdate' => $request->discount_startdate,
             'discount_enddate' => $request->discount_enddate,
-            'discount_rate' => $request->discount_rate,
-            'discount_type' => $request->discount_type,
+            'discount_rate' => $discount,
+            'discount_type' => $discount_type,
             'quantity' => $request->quantity,
             'sku' => $request->sku,
             'image' => $featureimg,
@@ -284,6 +310,13 @@ class ProductController extends Controller
 
         //for many to many
         $product->productcategories()->attach($request->categories);
+        $product->flashdeals()->attach($request->flash_deal_id);
+
+        if($request->tax_id) {
+            foreach ($request->tax_id as $key => $val) {
+                $product->taxes()->attach($request->val);
+            }
+        }
 
 
         notify()->success("Product Successfully created","Added");
@@ -537,6 +570,23 @@ class ProductController extends Controller
             $featureimg = $imagename;
         }
 
+        if($request->discount_rate)
+        {
+            $discount = $request->discount_rate;
+        }
+        if($request->flash_discount_rate)
+        {
+            $discount = $request->flash_discount_rate;
+        }
+        if($request->discount_type)
+        {
+            $discount_type = $request->discount_type;
+        }
+        if($request->flash_discount_type)
+        {
+            $discount_type = $request->flash_discount_type;
+        }
+
         $product->update([
             'title' => $request->title,
             'slug' => $slug,
@@ -548,8 +598,8 @@ class ProductController extends Controller
             'unit_price' => $request->unit_price,
             'discount_startdate' => $request->discount_startdate,
             'discount_enddate' => $request->discount_enddate,
-            'discount_rate' => $request->discount_rate,
-            'discount_type' => $request->discount_type,
+            'discount_rate' => $discount,
+            'discount_type' => $discount_type,
             'quantity' => $request->quantity,
             'sku' => $request->sku,
             'image' => $featureimg,

@@ -105,28 +105,7 @@
 
 								</tbody>
 							</table>
-                            {{-- <table class="table table-stripped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($categories as $category)
-                                    <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $category->name }}</td>
-                                        <td>{{ $category->email }}</td>
-                                    </tr>
-                                    @empty
-                                    <p>No user found!</p>
-                                    @endforelse
-                                </tbody>
-                            </table> --}}
                             {{ $flashdeals->links('vendor.pagination.custom') }}
-                            {{-- {{ $categories->links() }} --}}
 
 						</div>
 

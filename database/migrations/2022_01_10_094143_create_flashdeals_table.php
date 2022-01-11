@@ -22,6 +22,7 @@ class CreateFlashdealsTable extends Migration
             $table->string('background_color')->nullable();
             $table->string('text_color')->nullable();
             $table->string('banner')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

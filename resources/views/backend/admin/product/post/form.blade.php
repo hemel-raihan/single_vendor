@@ -104,7 +104,7 @@
 										{{-- <i class="fe fe-minus"></i> --}}
 									</span> Back To List
 
-                                    
+
 								</a>
 								{{-- <a href="#" class="btn btn-success btn-icon text-white">
 									<span>
@@ -156,7 +156,6 @@
 						<label class="form-label">Brand</label>
 						<select name="brand_id" class="form-control form-select select2" data-bs-placeholder="Select Brand">
 							<option value="">Select brand_id</option>
-                            <option value="0" {{($product->brand_id == 0) ? 'selected' : ''}}>None</option>
                             @foreach ($editbrands as $editbrand)
                             <option value="{{$editbrand->id}}" {{($product->brand_id == $editbrand->id) ? 'selected' : ''}}>{{$editbrand->name}}</option>
                             @endforeach
@@ -169,7 +168,6 @@
 						<label class="form-label">Brand</label>
 						<select name="brand_id" class="form-control @error('brand_id') is-invalid @enderror form-select select2" data-bs-placeholder="Select Brand">
 							<option value="">Select Brand</option>
-                            <option value="0">None</option>
                             @foreach ($brands as $brand)
                             <option value="{{$brand->id}}">{{$brand->name}}</option>
                             @endforeach
@@ -306,6 +304,7 @@
                     @else
                     <label class="form-label" for="type">Select Discount Type</label>
 					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="discount_type" id="type" required >
+                        <option value="">Select Discount Type</option>
 						<option value="Flat">Flat</option>
 						<option value="Percent">Percent</option>
 					</select>
@@ -575,6 +574,54 @@
 				</div>
 			</div>
 
+            <div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Flash Deal</h3>
+				</div>
+                <div class="card-body">
+                    @isset($product)
+                    <label class="form-label" for="type">Add To Flash</label>
+					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="flash_deal_id" id="">
+						@foreach(\App\Models\Product\Flashdeal::where("status", 1)->get() as $flash_deal)
+                        @foreach ($product->flashdeals as $flashproduct)
+
+                        @endforeach
+						<option value="{{$flash_deal->id}}" {{($flashproduct->id == $flash_deal->id) ? 'selected' : ''}}>{{$flash_deal->title}}</option>
+                        @endforeach
+					</select>
+                    @else
+                    <label class="form-label" for="type">Add To Flash</label>
+					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="flash_deal_id" id="">
+                        <option value="">Select Flash-Deals</option>
+                        @foreach(\App\Models\Product\Flashdeal::where("status", 1)->get() as $flash_deal)
+						<option value="{{$flash_deal->id}}">{{$flash_deal->title}}</option>
+                        @endforeach
+					</select>
+                    @endisset
+
+                    @isset($product)
+                    <label class="form-label" for="type">Select Discount Type</label>
+					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="flash_discount_type" id="type"  >
+						<option value="Flat" {{($product->discount_type == 'Flat') ? 'selected' : ''}} >Flat</option>
+						<option value="Percent" {{($product->discount_type == 'Percent') ? 'selected' : ''}}>Percent</option>
+					</select>
+                    @else
+                    <label class="form-label" for="type">Select Discount Type</label>
+					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="flash_discount_type" id="type"  >
+                        <option value="">Select Discount Type</option>
+						<option value="Flat">Flat</option>
+						<option value="Percent">Percent</option>
+					</select>
+                    @endisset
+
+                    <div class="form-group">
+						<label for="exampleInputname">Discount</label>
+						<input type="text" class="form-control" value="{{isset($product->discount_rate) ? old('discount_rate') : 0}}" name="flash_discount_rate" id="">
+					</div>
+
+                </div>
+			</div>
+
 
             <div class="card">
 				<div class="card-header">
@@ -588,17 +635,23 @@
 						<option value="Percent" {{($product->tax_type == 'Percent') ? 'selected' : ''}}>Percent</option>
 					</select>
                     @else
-                    <label class="form-label" for="type">Select Discount Type</label>
-					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="tax_type" id="">
+
+                    @foreach(\App\Models\Product\Tax::where('status', 1)->get() as $tax)
+                    <label class="form-label" for="type">Select {{$tax->name}} Type</label>
+                    <input type="hidden" value="{{$tax->id}}" name="tax_id[]">
+					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="tax_type[]" id="">
 						<option value="Flat">Flat</option>
 						<option value="Percent">Percent</option>
 					</select>
-                    @endisset
 
                     <div class="form-group">
-						<label for="exampleInputname">Tax Amount</label>
-						<input type="text" class="form-control" value="{{isset($product->tax) ? old('tax') : 0}}" name="tax" id="">
+						<label for="exampleInputname">{{$tax->name}} Amount</label>
+						<input type="text" class="form-control" value="{{isset($product->tax) ? old('tax') : 0}}" name="tax[]" id="">
 					</div>
+
+                    @endforeach
+
+                    @endisset
 
                 </div>
 			</div>

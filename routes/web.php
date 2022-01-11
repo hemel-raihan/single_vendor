@@ -185,6 +185,10 @@ Route::group(['as'=>'admin.','prefix'=>'admin', 'namespace'=>'Admin', 'middlewar
 
     Route::resource('flash-deals','Product\FlashdealController');
     Route::post('/flash_deals/product_discount', 'Product\FlashdealController@product_discount')->name('flash_deals.product_discount');
+    Route::post('/flash_deals/product_discount_edit', 'Product\FlashdealController@product_discount_edit')->name('flash_deals.product_discount_edit');
+
+    Route::resource('taxes','Product\TaxController');
+    Route::get('taxes/{id}/status', 'Product\TaxController@status')->name('tax.status');
 
     Route::resource('services/servicecategories','Service\CategoryController');
     Route::get('services/servicecategories/{id}/approve', 'Service\CategoryController@approval')->name('service.category.approve');
