@@ -132,7 +132,7 @@
 
 					<div class="form-group">
 						<label for="exampleInputname">Attribute Name</label>
-						<input type="text" class="form-control @error('name') is-invalid @enderror" value="{{$attribute->name ?? old('name')}}" name="name" id="exampleInputname" placeholder="Brand Name">
+						<input type="text" class="form-control @error('name') is-invalid @enderror" value="{{$attribute->name ?? old('name')}}" name="name" id="exampleInputname" placeholder="Attribute Name">
                         @error('name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{$message}}</strong>

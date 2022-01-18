@@ -43,4 +43,9 @@ class Product extends Model
         return $this->belongsToMany(Tax::class);
     }
 
+    public function stocks()
+    {
+        return $this->hasMany(Productstock::class);
+    }
+
 }

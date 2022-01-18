@@ -67,13 +67,13 @@
 										<td>{{Str::limit($post->title,'30')}}</td>
                                         <td>{{$post->admin->name}}</td>
                                         <td>{{$post->unit_price}}</td>
-										{{-- <td>
+										<td>
                                             @if($post->status == true)
                                             <a href="{{route('admin.product.status',$post->id)}}" class="btn btn-green">Active</a>
                                             @else
                                             <a href="{{route('admin.product.status',$post->id)}}" class="btn btn-red">InActive</a>
                                             @endif
-                                        </td> --}}
+                                        </td>
 										<td>
 
                                             @if($auth->hasPermission('app.product.posts.edit'))

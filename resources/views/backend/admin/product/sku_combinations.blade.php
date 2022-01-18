@@ -63,17 +63,18 @@
 				</td>
 				<td>
 					<div class=" input-group " data-toggle="sismoouploader" data-type="image">
-						<div class="input-group-prepend">
+						{{-- <div class="input-group-prepend">
 							<div class="input-group-text bg-soft-secondary font-weight-medium">Browse</div>
-						</div>
-						<div class="form-control file-amount text-truncate">Choose File</div>
-						<input type="hidden" name="img_{{ $str }}" class="selected-files">
+						</div> --}}
+						{{-- <div class="form-control file-amount text-truncate">Choose File</div>
+						<input type="hidden" name="img_{{ $str }}" class="selected-files"> --}}
+                        <input type="file" data-height="100" class="dropify form-control" data-default-file="{{ isset($product) ? asset('uploads/productphoto/'.$product->image) : '' }}" name="image">
 					</div>
 					<div class="file-preview box sm"></div>
 				</td>
-				<td>
-					<button type="button" class="btn btn-icon btn-sm btn-danger" onclick="delete_variant(this)"><i class="las la-trash"></i></button>
-				</td>
+				{{-- <td>
+					<button type="button" class="btn btn-danger waves effect" onclick="delete_variant(this)"><i class="fa fa-trash"></i></button>
+				</td> --}}
 			</tr>
 		@endif
 	@endforeach

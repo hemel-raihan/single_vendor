@@ -168,7 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
          Spatie\Analytics\AnalyticsServiceProvider::class,
 
         //ZanySoft\LaravelPDF\PdfServiceProvider::class,

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Product;
 
-use App\Http\Controllers\Controller;
 use App\Models\Product\Tax;
 use Illuminate\Http\Request;
+use App\Models\Portfolio\Portfolio;
+use App\Http\Controllers\Controller;
 
 class TaxController extends Controller
 {
@@ -17,6 +18,14 @@ class TaxController extends Controller
     {
         $taxes = Tax::all();
         return view('backend.admin.product.tax.form',compact('taxes'));
+    }
+
+    public function fetchtax()
+    {
+        $taxes = Tax::all();
+        return response()->json([
+            'taxes' => $taxes,
+        ]);
     }
 
     /**
@@ -41,22 +50,20 @@ class TaxController extends Controller
             'name' => 'required|unique:taxes',
         ]);
 
-        if(!$request->status)
-        {
-            $status = 0;
-        }
-        else
-        {
-            $status = 1;
-        }
+
 
         $tax = Tax::create([
             'name' => $request->name,
-            'status' => $status,
         ]);
 
-        notify()->success("Tax Successfully created","Added");
-        return redirect()->route('admin.taxes.index');
+        // notify()->success("Tax Successfully created","Added");
+        // return redirect()->route('admin.taxes.index');
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully'
+            ]
+        );
     }
 
     public function status($id)
@@ -99,8 +106,26 @@ class TaxController extends Controller
      */
     public function edit(Tax $tax)
     {
-        $taxes = Tax::all();
-        return view('backend.admin.product.tax.form',compact('tax','taxes'));
+        $taxx = Tax::find($tax);
+        if($taxx)
+        {
+            return response()->json(
+                [
+                    'status' => 200,
+                    'tax' => $taxx,
+                ]
+            );
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'status' => 404,
+                    'message' => 'Tax Not Found'
+                ]
+            );
+        }
+
     }
 
     /**
@@ -112,26 +137,22 @@ class TaxController extends Controller
      */
     public function update(Request $request, Tax $tax)
     {
-        $this->validate($request,[
-            'name' => 'required',
-        ]);
+        // $this->validate($request,[
+        //     'name' => 'required',
+        // ]);
 
-        if(!$request->status)
-        {
-            $status = 0;
-        }
-        else
-        {
-            $status = 1;
-        }
 
-        $tax->update([
+        $taxx = Tax::find($request->id);
+        $taxx->update([
             'name' => $request->name,
-            'status' => $status,
         ]);
 
-        notify()->success('Tax Updated','Update');
-        return redirect()->route('admin.taxes.index');
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data Updated successfully'
+            ]
+        );
     }
 
     /**

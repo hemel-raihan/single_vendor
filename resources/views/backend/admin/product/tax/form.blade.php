@@ -111,32 +111,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($taxes as $tax)
-                                <tr>
-                                    <td>{{$tax->name}}</td>
-                                    <td>
-                                        @if($tax->status == true)
-                                        <a href="{{route('admin.tax.status',$tax->id)}}" class="btn btn-green">Active</a>
-                                        @else
-                                        <a href="{{route('admin.tax.status',$tax->id)}}" class="btn btn-red">InActive</a>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{route('admin.taxes.edit',$tax->id)}}" class="btn btn-success">
-                                        <i class="fa fa-edit"></i>
-                                        </a>
 
-                                        <button class="btn btn-danger waves effect" type="button"
-                                            onclick="deletepost$tax({{ $tax->id}})" >
-                                            <i class="fa fa-trash"></i>
-                                            </button>
-                                            <form id="deleteform-{{$tax->id}}" action="{{route('admin.taxes.destroy',$tax->id)}}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                            </form>
-                                    </td>
-                                </tr>
-                            @endforeach
 
                             </tbody>
                         </table>
@@ -144,52 +119,11 @@
                 </div>
             </div>
 		</div>
-@isset($tax)
-<div class="col-lg-5 col-xl-5 col-md-12 col-sm-12">
-    <form method="POST" action="{{route('admin.taxes.update',$tax->id)}}" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Edit Tax</h3>
-        </div>
-        <div class="card-body">
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-
-            <div class="form-group">
-                <label for="exampleInputname">Name</label>
-                <input type="text" class="form-control" value="{{$tax->name ?? old('name')}}" name="name" readonly id="exampleInputname">
-            </div>
-
-
-        </div>
-        <div class="card-footer text-end">
-            <button type="submit" class="btn btn-success mt-1">
-                <i class="fas fa-arrow-circle-up"></i>
-                Update
-            </button>
-
-        </div>
-    </div>
-</form>
-</div>
-
-@else
 
 <div class="col-lg-5 col-xl-5 col-md-12 col-sm-12">
-    <form method="POST" action="{{route('admin.taxes.store')}}" enctype="multipart/form-data">
-        @csrf
-    <div class="card">
+    <form method="POST"  enctype="multipart/form-data">
+
+    <div id="create" class="card">
         <div class="card-header">
             <h3 class="card-title">Create Tax</h3>
         </div>
@@ -205,31 +139,59 @@
                 </div>
             @endif
 
-
             <div class="form-group">
                 <label for="exampleInputname">Name</label>
-                <input type="text" class="form-control" name="name" id="exampleInputname">
+                <input type="text" class="form-control" value="" name="name"  id="create_name">
             </div>
 
 
         </div>
         <div class="card-footer text-end">
-            <button type="submit" class="btn btn-success mt-1">
-
-                <i class="fe fe-plus"></i>
-                Create
+            <button type="submit" id="btn_submit" class="btn btn-success mt-1">
+                <i class="fas fa-arrow-circle-up"></i>
+                Save
             </button>
 
         </div>
     </div>
+
+    <div id="edit" class="card" style="display: none;">
+        <div class="card-header">
+            <h3 class="card-title">Edit Tax</h3>
+        </div>
+        <div class="card-body">
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <input type="hidden" id="tax_edit_id" value="">
+
+            <div class="form-group">
+                <label for="exampleInputname">Name</label>
+                <input type="text" class="form-control" value="{{$tax->name ?? old('name')}}" name="name"  id="edit_name">
+            </div>
+
+
+        </div>
+        <div class="card-footer text-end">
+            <button type="submit" id="btn_submit_edit" class="btn btn-success mt-1">
+                <i class="fas fa-arrow-circle-up"></i>
+                Update
+            </button>
+
+        </div>
+    </div>
+
+
 </form>
 </div>
-
-@endisset
-
-
-		{{-- Right Side --}}
-
 
 	</div>
 
@@ -261,6 +223,188 @@
 
 @section('scripts')
 
+
+
+
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+fetchtax();
+
+function fetchtax()
+{
+    $.ajax({
+        type: "GET",
+        url: "{{route('admin.taxes.fetch')}}",
+        dtaType: "json",
+        success: function(response)
+        {
+            $('tbody').html('');
+            $.each(response.taxes, function(key, item){
+
+
+                var id = item.id;
+                var urll = '{{ route("admin.tax.status", ":id") }}';
+                urll = urll.replace(':id', id);
+
+                if (item.status == true)
+                    {
+                    html = '<a  href='+urll+' class="btn btn-green">Active</a>';
+                    }
+                else
+                {
+                    html = '<a  href='+urll+' class="btn btn-danger">InActive</a>';
+                }
+
+                var delete_url = '{{ route("admin.taxes.destroy", ":tax") }}';
+                delete_url = delete_url.replace(':tax', id);
+
+                $('tbody').append(`<tr>
+                        <td>`+item.name+`</td>
+                        <td>
+                            `+html+`
+                        </td>
+                        <td>
+                            <button class="edit_tax btn btn-success waves effect" type="button"
+                            value="`+item.id+`" >
+                            <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger waves effect" type="button"
+                            onclick="deletepost$tax(`+item.id+`)" >
+                            <i class="fa fa-trash"></i>
+                            </button>
+                            <form id="deleteform-`+item.id+`" action="`+delete_url+`" method="POST" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                            </form>
+                        </td>
+                        </tr>`);
+            });
+        }
+    });
+}
+
+
+$(document).on('click', '.edit_tax', function(e){
+    e.preventDefault();
+    var tax_id = $(this).val();
+    //document.getElementById("name").value = tax_id;
+    var urll = '{{ route("admin.taxes.edit", ":tax") }}';
+    urll = urll.replace(':tax', tax_id);
+    $.ajax({
+        type: 'GET',
+        url: urll,
+        success: function(response)
+        {
+            if(response.status == 404)
+            {
+                iziToast.success({
+                title: 'Error',
+                message: response.message,
+                 });
+            }
+            else
+            {
+                $.each(response.tax, function(key, item){
+                    $('#create').hide();
+                    $('#edit').show();
+                $("#tax_edit_id").val(item.id);
+                $("#edit_name").val(item.name);
+                });
+
+            }
+        }
+    });
+});
+
+    $("#btn_submit_edit").click(function(e){
+
+        e.preventDefault();
+        var name = $("#edit_name").val();
+        var tax_id = $("#tax_edit_id").val();
+        var urll = '{{ route("admin.taxes.update", ":tax") }}';
+        urll = urll.replace(':tax', tax_id);
+
+        // var data = {
+        //     _token: "{{ csrf_token() }}";
+        //     'name' : name;
+        //     'tax' : tax_id;
+        // }
+        $.ajax({
+        url: urll,
+        method: 'PUT',
+        data:{
+                _token: "{{ csrf_token() }}",
+                name:name,
+                id: tax_id,
+                },
+        dataType: 'json',
+        success:function(response){
+            if(response.success){
+                iziToast.success({
+                title: 'Success',
+                message: 'Successfully add menu in the list',
+                });
+            }else{
+                iziToast.success({
+                title: 'Error',
+                message: 'Something Wrong',
+                });
+            }
+            fetchtax();
+            $('#edit_name').val('');
+        },
+        error:function(error){
+            console.log(error)
+        }
+        });
+
+    });
+
+
+    $("#btn_submit").click(function(e){
+
+        e.preventDefault();
+        var name = $("input[name=name]").val();
+        var url = '{{ route('admin.taxes.store') }}';
+
+        $.ajax({
+        url:url,
+        method:'POST',
+        data:{
+                _token: "{{ csrf_token() }}",
+                name:name,
+                },
+        success:function(response){
+            if(response.success){
+
+                iziToast.success({
+                title: 'Success',
+                message: 'Successfully add menu in the list',
+                 });
+            }else{
+                iziToast.success({
+                title: 'Error',
+                message: 'Something Wrong',
+                 });
+            }
+            fetchtax();
+            $('#create_name').val('');
+        },
+        error:function(error){
+            console.log(error)
+        }
+        });
+
+    });
+});
+
+
+
+
+</script>
 
 
         <!-- <script>

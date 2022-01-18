@@ -16,7 +16,7 @@
 						<!-- PAGE-HEADER -->
 						<div class="page-header">
 							<div>
-								<h1 class="page-title">Dashboard</h1>
+								<h1 class="page-title">Dashboard {{Auth::guard('admin')->user()->name}}</h1>
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="#">Home</a></li>
 									<li class="breadcrumb-item active" aria-current="page">Dashboard</li>

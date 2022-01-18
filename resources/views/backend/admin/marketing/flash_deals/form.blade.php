@@ -184,15 +184,7 @@
 
                     @isset($flash_deal)
 
-                    {{-- <select name="leftsidebar_id" class="form-control form-select select2" data-bs-placeholder="Select Sidebar">
-                        <option value="">Select Left Sidebar</option>
-                        <option value="0" {{($category->leftsidebar_id == 0) ? 'selected' : ''}}>None</option>
-                        @foreach ($editsidebars as $editsidebar)
-                        @if($editsidebar->type == 'Left Side Bar')
-                        <option value="{{$editsidebar->id}}" {{($category->leftsidebar_id == $editsidebar->id) ? 'selected' : ''}}>{{$editsidebar->title}}</option>
-                        @endif
-                        @endforeach
-                    </select> --}}
+                
 
                     <div class="form-group">
 						<label class="form-label">Products</label>

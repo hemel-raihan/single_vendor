@@ -65,7 +65,7 @@
 										<th class="border-bottom-0">Banner</th>
 										<th class="border-bottom-0">Start Date</th>
                                         <th class="border-bottom-0">End Date</th>
-                                        {{-- <th class="border-bottom-0">Status</th> --}}
+                                        <th class="border-bottom-0">Status</th>
 										<th class="border-bottom-0">Action</th>
 
 									</tr>
@@ -74,16 +74,16 @@
                                 @foreach($flashdeals as $flashdeal)
 									<tr>
 										<td>{{$flashdeal->title}}</td>
-										<td>{{$flashdeal->banner}}</td>
+                                        <td><img class="" width="70px" src="{{ asset('uploads/flashdeal_photo/'.$flashdeal->banner)}}"></td>
                                         <td>{{$flashdeal->start_date}}</td>
                                         <td>{{$flashdeal->end_date}}</td>
-										{{-- <td>
-                                            @if($category->status == true)
-                                            <a href="{{route('admin.blog.category.approve',$category->id)}}" class="btn btn-info">Active</a>
+										<td>
+                                            @if($flashdeal->status == true)
+                                            <a href="{{route('admin.flash-deal.status',$flashdeal->id)}}" class="btn btn-info">Active</a>
                                             @else
-                                            <a href="{{route('admin.blog.category.approve',$category->id)}}" class="btn btn-primary">InActive</a>
+                                            <a href="{{route('admin.flash-deal.status',$flashdeal->id)}}" class="btn btn-primary">InActive</a>
                                             @endif
-                                        </td> --}}
+                                        </td>
 
 										<td>
                                             <a href="{{route('admin.flash-deals.edit',$flashdeal->id)}}" class="btn btn-success">

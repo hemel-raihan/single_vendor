@@ -19,15 +19,20 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
-//Route::get('user/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/user', [App\Http\Controllers\HomeController::class, 'index'])->name('user');
 
 
 //single page test
 // Route::get('/all', function () {
 //     return view('frontend_theme.default.front_layout.all-notice');
 // });
+Route::group(['middleware'=>['auth']], function(){
+Route::get('/user', function () {
+    return view('home');
+});
+});
 // Route::get('/', function () {
-//     return view('frontend_theme.default.test');
+//     return view('homepage');
 // });
 
 //Route::get('fetch-portfolios', 'Admin\Portfolio\PortfolioController@fetchportfolios')->name('hemel');
@@ -36,7 +41,7 @@ Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logou
 //     return view('frontend_theme.corporate.homepage');
 // })->name('home');
 
-Route::get('/', 'Corporate\HomepageController@index')->name('home');
+//Route::get('/', 'Corporate\HomepageController@index')->name('home');
 // Route::get('/content/details/{id}', 'HomepageController@contentdetails')->name('content.details');
 
 // Route::get('/team/details/{id}', 'HomepageController@teamdetails')->name('team.details');
@@ -178,16 +183,20 @@ Route::group(['as'=>'admin.','prefix'=>'admin', 'namespace'=>'Admin', 'middlewar
     Route::resource('products/colors','Product\ColorController');
 
     Route::resource('products','Product\ProductController');
-    Route::get('products/{id}/status', 'Product\ProductController@status')->name('product.status');
+    Route::get('product/{id}/status', 'Product\ProductController@status')->name('product.status');
 
     Route::post('/products/sku_combination', 'Product\ProductController@sku_combination')->name('products.sku_combination');
+    Route::put('/sku_combination_edit', 'Product\ProductController@sku_combination_edit')->name('sku_combination_edit');
     Route::post('/products/add-more-choice-option', 'Product\ProductController@add_more_choice_option')->name('products.add-more-choice-option');
 
     Route::resource('flash-deals','Product\FlashdealController');
+    Route::get('flash-deal/{id}/status', 'Product\FlashdealController@status')->name('flash-deal.status');
     Route::post('/flash_deals/product_discount', 'Product\FlashdealController@product_discount')->name('flash_deals.product_discount');
     Route::post('/flash_deals/product_discount_edit', 'Product\FlashdealController@product_discount_edit')->name('flash_deals.product_discount_edit');
 
     Route::resource('taxes','Product\TaxController');
+    Route::get('taxes/{id}/edit', 'Product\TaxController@fetchtax')->name('taxes.edit');
+    Route::get('fetch/taxes', 'Product\TaxController@fetchtax')->name('taxes.fetch');
     Route::get('taxes/{id}/status', 'Product\TaxController@status')->name('tax.status');
 
     Route::resource('services/servicecategories','Service\CategoryController');
@@ -248,6 +257,6 @@ Route::group(['as'=>'author.','prefix'=>'author', 'namespace'=>'Admin', 'middlew
     Route::get('dashboard', 'DashboardController@author')->name('dashboard');
 });
 
-Route::get('{slug}', 'PageController@index')->name('page');
+//Route::get('{slug}', 'PageController@index')->name('page');
 // Route::get('{categoryslug}', 'PageController@category')->name('category.page');
 //Route::get('{contentcategoryslug}', 'PageController@contentcategory')->name('contentcategory');

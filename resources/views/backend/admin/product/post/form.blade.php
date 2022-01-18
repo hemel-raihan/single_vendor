@@ -155,7 +155,7 @@
                     <div class="form-group">
 						<label class="form-label">Brand</label>
 						<select name="brand_id" class="form-control form-select select2" data-bs-placeholder="Select Brand">
-							<option value="">Select brand_id</option>
+							<option value="0">Select brand_id</option>
                             @foreach ($editbrands as $editbrand)
                             <option value="{{$editbrand->id}}" {{($product->brand_id == $editbrand->id) ? 'selected' : ''}}>{{$editbrand->name}}</option>
                             @endforeach
@@ -203,16 +203,16 @@
 					</div>
                     @endisset --}}
 
-                    <input type="radio" name="link" checked id="test2">
+                    {{-- <input type="radio" name="link" checked id="test2">
                     <label for="css">Feature Image</label>
                     <input type="radio" name="link" id="test1">
-                    <label for="html">Youtube Link</label>
+                    <label for="html">Youtube Link</label> --}}
 
 
-                    <div class="form-group youtube" style="display:none">
+                    {{-- <div class="form-group youtube" style="display:none">
 						<label for="exampleInputname">Youtube Link</label>
 						<input type="text" class="form-control" value="{{$product->youtube_link ?? old('youtube_link')}}" name="youtube_link" id="youtube_link" placeholder="Youtube Video Link">
-					</div>
+					</div> --}}
                     {{-- <input type="text" id="profile-photo">
                     <button onclick="filemanager.selectFile('profile-photo')">Choose</button> --}}
 					<div class="form-group featur">
@@ -221,10 +221,17 @@
                         <input type="file" data-height="100" class="dropify form-control" data-default-file="{{ isset($product) ? asset('uploads/productphoto/'.$product->image) : '' }}" name="image">
 					</div>
 
+                    @isset($product)
+
+						@php
+						$image = explode("|",$product->gallaryimage);
+						@endphp
+					@endisset
+
 					<div class="form-group">
 						<label class="form-label">Gallary Image</label>
 						<!-- <input id="demo" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" multiple="" class="ff_fileupload_hidden"> -->
-                        <input type="file" data-height="100" class="dropify form-control" data-default-file="{{ isset($product) ? asset('uploads/productgallary_image/'.$product->gallaryimage) : '' }}" multiple name="gallaryimage[]">
+                        <input type="file" data-height="100" class="dropify form-control" data-default-file="{{ isset($product) ? asset('uploads/productgallary_image/'.$image[0]) : '' }}" multiple name="gallaryimage[]">
 					</div>
 
                     {{-- <div class="col-md-8">
@@ -234,6 +241,34 @@
                             @endforeach
                         </select>
                     </div> --}}
+
+                    @isset($product)
+                    <input type="hidden" value="{{$product->id}}" name="product_id">
+                    @endisset
+
+
+                    @isset($product)
+
+                    <div class="form-group">
+                        <div class="form-label">Colors</div>
+                        <label class="custom-switch">
+                            <input type="checkbox" <?php if (count(json_decode($product->colors)) > 0) echo "checked"; ?> name="colors_active" id="colors_active" class="custom-switch-input ">
+                            <span class="custom-switch-indicator"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group" id="colordiv"  >
+						<label class="form-label">Colors</label>
+						{{-- <select name="colors[]" id="colors" class="custom-multiselect"  multiple="multiple" > --}}
+                            <select name="colors[]" multiple="multiple" id="colorsss" class="testselect2" >
+                            {{-- <option value="0">None</option> --}}
+                            @foreach (\App\Models\Product\Color::orderBy('name', 'asc')->get() as $key => $color)
+                            <option value="{{$color->code}}" <?php if (in_array($color->code, json_decode($product->colors))) echo 'selected' ?> >{{$color->name}}</option>
+                            @endforeach
+						</select>
+					</div>
+
+                    @else
 
                     <div class="form-group">
                         <div class="form-label">Colors</div>
@@ -252,13 +287,22 @@
                             <option value="{{$color->code}}"  >{{$color->name}}</option>
                             @endforeach
 						</select>
-                        @error('brand_id')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-
 					</div>
+
+                    @endisset
+
+                    @isset($product)
+
+                    <div class="form-group">
+						<label class="form-label">Attributes</label>
+                            <select name="choice_attributes[]" multiple="multiple" id="choice_attributess" class="testselect2" >
+                            @foreach (\App\Models\Product\Attribute::all() as $key => $attribute)
+                            <option value="{{$attribute->id}}" @if($product->attributes != null && in_array($attribute->id, json_decode($product->attributes, true))) selected @endif >{{$attribute->name}}</option>
+                            @endforeach
+						   </select>
+					</div>
+
+                    @else
 
                     <div class="form-group">
 						<label class="form-label">Attributes</label>
@@ -269,11 +313,47 @@
 						   </select>
 					</div>
 
+                    @endisset
+
+
+
+
+                    @isset($product)
+
+                    <div id="customer_choice_options" class="customer_choice_options" >
+                        @foreach (json_decode($product->choice_options) as $key => $choice_option)
+                        <div class="card-header">
+                            @php
+                                $attributeId = \App\Models\Product\Attribute::find($choice_option->attribute_id);
+                            @endphp
+                            <h5 class="card-title">{{$attributeId->name}}</h5>
+                            <input type="hidden" name="choice_noo[]" value="{{$attributeId->id}}">
+                        </div>
+                        <div class="transfer-double-list-content">
+                                                <div class="transfer-double-list-main">
+
+                                                    <ul class="transfer-double-group-list-ul transfer-double-group-list-ul-1636878492">
+                                                        @foreach (\App\Models\Product\AttributeValue::where('attribute_id', $choice_option->attribute_id)->get() as $key => $row)
+                                                        <li class="transfer-double-group-list-li transfer-double-group-list-li-1636878492">
+                                                            <div class="checkbox-group">
+                                                                <input type="checkbox" name="choice_options_{{$row->attribute->id}}[]" @if( in_array($row->value, $choice_option->values)) checked @endif value="{{$row->value}}" class="attribute_choice checkbox-normal group-select-all-1636878492" id="group_{{$key}}_1636878492" /><label for="group_{{$key}}_1636878492" class="group-name-1636878492">{{$row->value}}</label>
+                                                            </div>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                        @endforeach
+                    </div>
+
+                    @else
+
                     <div id="hemel" >
 
-
-
                     </div>
+
+                    @endisset
+
 
                     <div class="sku_combination" id="sku_combination">
 
@@ -282,7 +362,7 @@
 
                     <div class="form-group">
 						<label for="exampleInputname">Unit Price</label>
-						<input type="text" class="form-control" value="{{isset($product->unit_price) ?? old('unit_price') }}" name="unit_price" id="">
+						<input type="text" class="form-control" value="{{$product->unit_price ?? old('unit_price') }}" name="unit_price" id="">
 					</div>
 
                     <div class="form-group">
@@ -297,13 +377,13 @@
 
                     @isset($product)
                     <label class="form-label" for="type">Select Discount Type</label>
-					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="discount_type" id="type" required >
+					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="discount_type" id="type" >
 						<option value="Flat" {{($product->discount_type == 'Flat') ? 'selected' : ''}} >Flat</option>
 						<option value="Percent" {{($product->discount_type == 'Percent') ? 'selected' : ''}}>Percent</option>
 					</select>
                     @else
                     <label class="form-label" for="type">Select Discount Type</label>
-					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="discount_type" id="type" required >
+					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="discount_type" id="type" >
                         <option value="">Select Discount Type</option>
 						<option value="Flat">Flat</option>
 						<option value="Percent">Percent</option>
@@ -312,12 +392,12 @@
 
                     <div class="form-group">
 						<label for="exampleInputname">Discount</label>
-						<input type="text" class="form-control" value="{{isset($product->discount_rate) ? old('discount_rate') : 0}}" name="discount_rate" id="">
+						<input type="text" class="form-control" value="{{$product->discount_rate ?? old('discount_rate')}}" name="discount_rate" id="">
 					</div>
 
                     <div class="form-group">
 						<label for="exampleInputname">Quantity</label>
-						<input type="text" class="form-control" value="{{isset($product->quantity) ? old('quantity') : 0}}" name="quantity" id="">
+						<input type="text" class="form-control" value="{{$product->quantity ?? old('quantity') }}" name="quantity" id="">
 					</div>
 
                     <div class="form-group">
@@ -634,19 +714,20 @@
 						<option value="Flat" {{($product->tax_type == 'Flat') ? 'selected' : ''}} >Flat</option>
 						<option value="Percent" {{($product->tax_type == 'Percent') ? 'selected' : ''}}>Percent</option>
 					</select>
+
                     @else
 
                     @foreach(\App\Models\Product\Tax::where('status', 1)->get() as $tax)
                     <label class="form-label" for="type">Select {{$tax->name}} Type</label>
-                    <input type="hidden" value="{{$tax->id}}" name="tax_id[]">
-					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="tax_type[]" id="">
+                    <input type="hidden" value="{{$tax->id}}" name="tax_id">
+					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="tax_type_{{$tax->id}}" id="">
 						<option value="Flat">Flat</option>
 						<option value="Percent">Percent</option>
 					</select>
 
                     <div class="form-group">
 						<label for="exampleInputname">{{$tax->name}} Amount</label>
-						<input type="text" class="form-control" value="{{isset($product->tax) ? old('tax') : 0}}" name="tax[]" id="">
+						<input type="text" class="form-control" value="{{isset($product->tax) ? old('tax') : 0}}" name="tax_{{$tax->id}}" id="">
 					</div>
 
                     @endforeach
@@ -774,102 +855,206 @@
 
 <script>
 
-// function add_more_customer_choice_option(i, name){
-//         $.ajax({
-//             // headers: {
-//             //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//             // },
-//             type:"POST",
-//             url:'{{ route('admin.products.add-more-choice-option') }}',
-//             data:{
-//                 _token: "{{ csrf_token() }}",
-//                attribute_id: i
-//             },
-//             success: function(data) {
-//                 var obj = JSON.parse(data);
-//                 $('#hemel').append(`\
-//                 <div class="form-group row">\
+    function add_more_customer_choice_option(i, name){
+            $.ajax({
+                // headers: {
+                //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                // },
+                type:"POST",
+                url:'{{ route('admin.products.add-more-choice-option') }}',
+                data:{
+                    _token: "{{ csrf_token() }}",
+                   attribute_id: i
+                },
+                success: function(data) {
+                    var obj = JSON.parse(data);
+                    console.log(data);
+                    $('#hemel').append(`
+                    <div class="card-header">
+                        <h5 class="card-title">`+name+`</h5>
+                        <input type="hidden" name="choice_no[]" value="`+i+`">
+                    </div>
+                    <div class="transfer-double-list-content">
+                                            <div class="transfer-double-list-main">
 
-//                     <div class="col-md-8">\
-//                         <select class="form-control testselect2 attribute_choice" data-live-search="true" name="choice_options_'+ i +'[]"  multiple="multiple">\
-//                             `+obj+`\
-//                         </select>\
-//                     </div>\
-//                 </div>`);
-//            }
-//        });
-
-
-//     }
-
-
-
-function add_more_customer_choice_option(i, name){
-        $.ajax({
-            // headers: {
-            //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            // },
-            type:"POST",
-            url:'{{ route('admin.products.add-more-choice-option') }}',
-            data:{
-                _token: "{{ csrf_token() }}",
-               attribute_id: i
-            },
-            success: function(data) {
-                var obj = JSON.parse(data);
-                console.log(data);
-                $('#hemel').append(`
-                <div class="card-header">
-					<h5 class="card-title">`+name+`</h5>
-                    <input type="hidden" name="choice_no[]" value="`+i+`">
-				</div>
-                <div class="transfer-double-list-content">
-										<div class="transfer-double-list-main">
-
-											<ul class="transfer-double-group-list-ul transfer-double-group-list-ul-1636878492751">
-												`+obj+`
-											</ul>
-										</div>
-									</div>
-                    `);
+                                                <ul class="transfer-double-group-list-ul transfer-double-group-list-ul-1636878492">
+                                                    `+obj+`
+                                                </ul>
+                                            </div>
+                                        </div>
+                        `);
 
 
 
 
-           }
-       });
-    }
-
-
-$('input[name="colors_active"]').on('change', function() {
-        if(!$('input[name="colors_active"]').is(':checked')) {
-            //$('#colors').prop('disabled', true);
-            $('#colordiv').hide();
+               }
+           });
         }
-        else {
-             //$('#colors').prop('disabled', false);
-            $('#colordiv').show();
+
+
+    $('input[name="colors_active"]').on('change', function() {
+            if(!$('input[name="colors_active"]').is(':checked')) {
+                //$('#colors').prop('disabled', true);
+                $('#colordiv').hide();
+            }
+            else {
+                 //$('#colors').prop('disabled', false);
+                $('#colordiv').show();
+            }
+            //update_sku();
+        });
+
+
+        $(document).on("change", ".attribute_choice",function() {
+            update_sku();
+        });
+
+
+        $('#colors').on('change', function() {
+            update_sku();
+        });
+
+        function delete_variant(em){
+            $(em).closest('.variant').remove();
         }
-        //update_sku();
+
+
+        function update_sku(){
+            $.ajax({
+               type:"POST",
+               url:'{{ route('admin.products.sku_combination') }}',
+               data:$('#choice_form').serialize(),
+               success: function(data) {
+                    $('#sku_combination').html(data);
+                    // SISMOO.uploader.previewGenerate();
+                    // SISMOO.plugins.fooTable();
+                    if (data.length > 1) {
+                       $('#show-hide-div').hide();
+                    }
+                    else {
+                        $('#show-hide-div').show();
+                    }
+               }
+           });
+        }
+
+
+        $('#choice_attributes').on('change', function() {
+            $('#hemel').html(null);
+            $.each($("#choice_attributes option:selected"), function(){
+                //alert($(this).text());
+                add_more_customer_choice_option($(this).val(), $(this).text());
+            });
+
+            update_sku();
+        });
+
+
+
+        </script>
+
+
+@isset($product)
+<script type="text/javascript">
+
+        update_sku_edit();
+
+        function add_more_customer_choice_option(i, name){
+            $.ajax({
+                // headers: {
+                //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                // },
+                type:"POST",
+                url:'{{ route('admin.products.add-more-choice-option') }}',
+                data:{
+                    _token: "{{ csrf_token() }}",
+                   attribute_id: i
+                },
+                success: function(data) {
+                    var obj = JSON.parse(data);
+                    console.log(data);
+                    $('#customer_choice_options').append(`
+                    <div class="card-header">
+                        <h5 class="card-title">`+name+`</h5>
+                        <input type="hidden" name="choice_noo[]" value="`+i+`">
+                    </div>
+                    <div class="transfer-double-list-content">
+                                            <div class="transfer-double-list-main">
+
+                                                <ul class="transfer-double-group-list-ul transfer-double-group-list-ul-1636878492">
+                                                    `+obj+`
+                                                </ul>
+                                            </div>
+                                        </div>
+                        `);
+               }
+           });
+        }
+
+        // $('#choice_attributess').on('change', function() {
+        //     $('#customer_choice_options').html(null);
+        //     $.each($("#choice_attributess option:selected"), function(){
+        //         //alert($(this).text());
+        //         add_more_customer_choice_option($(this).val(), $(this).text());
+        //     });
+
+        //     update_sku_edit();
+        // });
+
+        $('#choice_attributess').on('change', function() {
+        $.each($("#choice_attributess option:selected"), function(j, attribute){
+            flag = false;
+            $('input[name="choice_noo[]"]').each(function(i, choice_noo) {
+                if($(attribute).val() == $(choice_noo).val()){
+                    flag = true;
+                }
+            });
+            if(!flag){
+                add_more_customer_choice_option($(attribute).val(), $(attribute).text());
+            }
+        });
+
+        var str = @php echo $product->attributes @endphp;
+
+        $.each(str, function(index, value){
+            flag = false;
+            $.each($("#choice_attributess option:selected"), function(j, attribute){
+                if(value == $(attribute).val()){
+                    flag = true;
+                }
+            });
+            if(!flag){
+                $('input[name="choice_noo[]"][value="'+value+'"]').parent().parent().remove();
+            }
+        });
+
+        update_sku_edit();
     });
 
+        $('#colorsss').on('change', function(){
+            update_sku_edit();
+        });
 
-    $(document).on("change", ".attribute_choice",function() {
-        update_sku();
+        function delete_variant(em){
+        $(em).closest('.variant').remove();
+        }
+
+        function delete_row(em){
+        $(em).closest('.form-group').remove();
+        update_sku_edit();
+        }
+
+        $(document).on("change", ".attribute_choice",function() {
+            update_sku_edit();
     });
 
-
-    $('#colors').on('change', function() {
-        update_sku();
-    });
-
-
-    function update_sku(){
+    function update_sku_edit(){
         $.ajax({
-           type:"POST",
-           url:'{{ route('admin.products.sku_combination') }}',
+           type:"PUT",
+           url:'{{ route('admin.sku_combination_edit') }}',
            data:$('#choice_form').serialize(),
            success: function(data) {
+               console.log(data);
                 $('#sku_combination').html(data);
                 // SISMOO.uploader.previewGenerate();
                 // SISMOO.plugins.fooTable();
@@ -882,20 +1067,9 @@ $('input[name="colors_active"]').on('change', function() {
            }
        });
     }
+</script>
 
-
-    $('#choice_attributes').on('change', function() {
-        $('#hemel').html(null);
-        $.each($("#choice_attributes option:selected"), function(){
-            //alert($(this).text());
-            add_more_customer_choice_option($(this).val(), $(this).text());
-        });
-
-        update_sku();
-    });
-
-
-    </script>
+@endisset
 
     {{-- <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script> --}}
 

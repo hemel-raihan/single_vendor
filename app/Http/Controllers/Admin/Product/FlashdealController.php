@@ -121,27 +121,28 @@ class FlashdealController extends Controller
         return view('backend.admin.marketing.flash_deals.flash_deal_discount_edit', compact('product_ids', 'flash_deal_id'));
     }
 
-    // public function approval($id)
-    // {
-    //     Gate::authorize('app.product.categories.approve');
-    //     $category = Productcategory::find($id);
-    //     if($category->status == true)
-    //     {
-    //         $category->status = false;
-    //         $category->save();
 
-    //         notify()->success('Successfully approved category');
-    //     }
-    //     elseif($category->status == false)
-    //     {
-    //         $category->status = true;
-    //         $category->save();
 
-    //         notify()->success('Removed the Category Approval');
-    //     }
+    public function status($id)
+    {
+        $flashdeal = Flashdeal::find($id);
+        if($flashdeal->status == true)
+        {
+            $flashdeal->status = false;
+            $flashdeal->save();
 
-    //     return redirect()->back();
-    // }
+            notify()->success('Successfully Deactiveated Post');
+        }
+        elseif($flashdeal->status == false)
+        {
+            $flashdeal->status = true;
+            $flashdeal->save();
+
+            notify()->success('Removed the Activeated Approval');
+        }
+
+        return redirect()->back();
+    }
 
     /**
      * Show the form for editing the specified resource.

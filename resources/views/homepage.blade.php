@@ -7,7 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-this is a home page
+this is a home page </br>
+{{Auth::user()->name}}
 
 <a href="{{route('login')}}">login</a></br>
 <a href="{{route('register')}}">register</a>
