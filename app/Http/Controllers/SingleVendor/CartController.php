@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SingleVendor;
 use Session;
 use App\Models\Cart\Cart;
 use Illuminate\Http\Request;
+use App\Models\Address\Address;
 use App\Models\Product\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,7 @@ class CartController extends Controller
             }
             $carts = Cart::where('user_id', $user_id)->get();
 
-
+           
         } else {
             $temp_user_id = $request->session()->get('temp_user_id');
             // $carts = Cart::where('temp_user_id', $temp_user_id)->get();
@@ -43,7 +44,7 @@ class CartController extends Controller
     }
 
     public function addToCart(Request $request){
-
+       
         $product = Product::find($request->id);
         $carts = array();
         $data = array();
@@ -152,7 +153,7 @@ class CartController extends Controller
             $data['shipping_cost'] = 0;
             $data['product_referral_code'] = null;
             $data['cash_on_delivery'] = 'COD';
-
+ 
 
             if ($request['quantity'] == null){
                 $data['quantity'] = 1;
@@ -210,7 +211,7 @@ class CartController extends Controller
                 $temp_user_id = $request->session()->get('temp_user_id');
                 $carts = Cart::where('temp_user_id', $temp_user_id)->get();
             }
-
+            
             return back();
         }
         else{
@@ -243,15 +244,87 @@ class CartController extends Controller
                 $temp_user_id = $request->session()->get('temp_user_id');
                 $carts = Cart::where('temp_user_id', $temp_user_id)->get();
             }
-            // return array(
-            //     'status' => 1,
-            //     'cart_count' => count($carts),
-            //     'modal_view' => view('frontend.partials.addedToCart', compact('product', 'data'))->render(),
-            //     'nav_cart_view' => view('frontend.partials.cart')->render(),
-            // );
+            return array(
+                'cart_count' => count($carts),
+                'single_product_view' => view('frontend_theme.single_vendor.partials.single-product-view', compact('carts'))->render(),
+                'nav_cart_view' => view('frontend_theme.single_vendor.partials.nav-cart')->render(),
+            );
 
-            return back();
+            // return back();
         }
 
+    }
+
+    //removeFromCart
+    function removeFromCart(Request $request){
+        Cart::destroy($request->id);
+
+        if(auth()->user() != null) {
+            $user_id = Auth::user()->id;
+            $carts = Cart::where('user_id', $user_id)->get();
+        } else {
+            $temp_user_id = $request->session()->get('temp_user_id');
+            $carts = Cart::where('temp_user_id', $temp_user_id)->get();
+        }
+
+        return array(
+            'cart_count' => count($carts),
+            'cart_view' => view('frontend_theme.single_vendor.partials.cart_details', compact('carts'))->render(),
+            'nav_cart_view' => view('frontend_theme.single_vendor.partials.nav-cart')->render(),
+        );
+
+        // return response()->json([
+        //     'status'=>200
+        // ]);
+    }
+
+        //updated the quantity for a cart item
+        public function updateQuantity(Request $request)
+        {
+            $cartItem = Cart::findOrFail($request->id);
+    
+            if($cartItem['id'] == $request->id){
+                $product = Product::find($cartItem['product_id']);
+                $product_stock = $product->stocks->where('variant', $cartItem['variation'])->first();
+                $quantity = $product_stock->qty;
+                $price = $product_stock->price;
+    
+                if($quantity >= $request->quantity) {
+                    if($request->quantity >= $product->min_qty){
+                        $cartItem['quantity'] = $request->quantity;
+                    }
+                }
+    
+                if($product->wholesale_product){
+                    $wholesalePrice = $product_stock->wholesalePrices->where('min_qty', '<=', $request->quantity)->where('max_qty', '>=', $request->quantity)->first();
+                    if($wholesalePrice){
+                        $price = $wholesalePrice->price;
+                    }
+                }
+    
+                $cartItem->save();
+            }
+    
+            if(auth()->user() != null) {
+                $user_id = Auth::user()->id;
+                $carts = Cart::where('user_id', $user_id)->get();
+            } else {
+                $temp_user_id = $request->session()->get('temp_user_id');
+                $carts = Cart::where('temp_user_id', $temp_user_id)->get();
+            }
+    
+            return array(
+                'cart_count' => count($carts),
+                'cart_view' => view('frontend_theme.single_vendor.partials.cart_details', compact('carts'))->render(),
+                'nav_cart_view' => view('frontend_theme.single_vendor.partials.nav-cart')->render(),
+            );
+        }
+
+    //checkout
+    public function checkout(){
+        $carts = Cart::where('user_id', Auth::user()->id)->get();
+        $address = Address::where('id', $carts[0]['address_id'])->first();
+
+        return view('frontend_theme.single_vendor.pages.checkout',compact('carts','address'));
     }
 }

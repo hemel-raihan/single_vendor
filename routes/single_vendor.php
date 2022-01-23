@@ -23,11 +23,10 @@ Route::post('/home/section/hot-deals', 'SingleVendor\HomepageController@load_hot
 Route::post('/home/section/special-offer', 'SingleVendor\HomepageController@load_special_offer_section')->name('home.section.specialoffer');
 Route::post('/home/section/home-brand', 'SingleVendor\HomepageController@load_brand_section')->name('home.section.brand');
 Route::post('/home/section/home-callsection', 'SingleVendor\HomepageController@load_call_section')->name('home.section.call');
-Route::post('/home/section/home-recent', 'SingleVendor\HomepageController@load_recent_section')->name('home.section.recent');;
+Route::post('/home/section/home-recent', 'SingleVendor\HomepageController@load_recent_section')->name('home.section.recent');
 
 Route::get('/product/details/{slug}', 'SingleVendor\HomepageController@single_product_details')->name('product.details');
-
-Route::get('/product/shops/{slug}', 'SingleVendor\HomepageController@shop')->name('shops');
+Route::get('/product/shops', 'SingleVendor\HomepageController@shop')->name('shops');
 // Route::get('/product/cart', 'SingleVendor\HomepageController@view_cart')->name('view.cart');
 Route::get('/product/checkout', 'SingleVendor\HomepageController@checkout')->name('checkout');
 
@@ -43,6 +42,9 @@ Route::post('/customer/address-add', 'SingleVendor\CustomerController@storeAddre
 //Single add to cart
 Route::get('/cart/view', 'SingleVendor\CartController@index')->name('cart');
 Route::post('/cart/addtocart', 'SingleVendor\CartController@addToCart')->name('cart.addToCart');
+Route::post('/cart/removeFromCart', 'SingleVendor\CartController@removeFromCart')->name('cart.removeFromCart');
+Route::post('/cart/updateQuantity', 'SingleVendor\CartController@updateQuantity')->name('cart.updateQuantity');
+Route::get('/cart/checkout', 'SingleVendor\CartController@checkout')->name('checkout');
 //Order+OrderDetails Store
 Route::post('/order/store','SingleVendor\OrderController@store')->name('order.store');
 Route::get('/order/order-success', 'SingleVendor\HomepageController@order_success')->name('order.success');

@@ -30,11 +30,11 @@
             </a>
             <div class="category-content">
                 <h3 class="category-title">{{ $category->name }}</h3>
-
+              
             </div>
-        </div>
+        </div>  
         @endforeach
 
-
+        
     </div>
 </section>

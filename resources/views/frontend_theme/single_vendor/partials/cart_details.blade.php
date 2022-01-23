@@ -1,12 +1,5 @@
-@extends('frontend_theme.single_vendor.front_layout.app')
-
-{{-- @section('single_styles')
-
-@endsection --}}
-
-@section('main-content')
-<main class="main"  >
-<div class="container" id="cart-summary">
+{{-- Rendering cart details --}}
+<div class="container">
     <ul class="checkout-progress-bar d-flex justify-content-center flex-wrap">
         <li class="active">
             <a href="#">Shopping Cart</a>
@@ -55,7 +48,7 @@
                         <tr class="product-row" >
                             <td>
                                 <figure class="product-image-container">
-                                    <a href="product.html" class="product-image">
+                                    <a href="#" class="product-image">
                                         <img src="{{ asset('uploads/productphoto/'.$product->image) }}" alt="product">
                                     </a>
 
@@ -70,12 +63,7 @@
                             <td>{{ $cartItem['price'] }}</td>
                             <td>
                                 <div class="product-single-qty">
-                                    {{-- <input class="horizontal-quantity form-control" type="text" value="{{ $cartItem['quantity'] }} "> --}}
-                                    <input class="horizontal-quantity form-control" type="text" value="{{ $cartItem['quantity'] }}" name="quantity[{{ $cartItem['id'] }}]" onchange="updateQuantity({{ $cartItem['id'] }}, this)">
-                                    {{-- <input type="number" name="quantity[{{ $cartItem['id'] }}]" class="col border-0 text-center flex-grow-1 fs-16 input-number" placeholder="1" value="{{ $cartItem['quantity'] }}" min="{{ $product->min_qty }}" max="{{ $product_stock->qty }}" onchange="updateQuantity({{ $cartItem['id'] }}, this)">
-                                                        <button class="btn col-auto btn-icon btn-sm btn-circle btn-light" type="button" data-type="plus" data-field="quantity[{{ $cartItem['id'] }}]">
-                                                            <i class="las la-plus"></i>
-                                                        </button> --}}
+                                    <input class="horizontal-quantity form-control" type="text" value="{{ $cartItem['quantity'] }} " name="quantity">
                                 </div><!-- End .product-single-qty -->
                             </td>
                             <td class="text-right"><span class="subtotal-price">{{ ($cartItem['price'] + $cartItem['tax']) * $cartItem['quantity'] }}</span></td>
@@ -132,9 +120,7 @@
 
                 <table class="table table-totals">
                     <tbody>
-                     
-
-                        
+ 
                     </tbody>
 
                     <tfoot>
@@ -158,30 +144,3 @@
         </div><!-- End .col-lg-4 -->
     </div><!-- End .row -->
 </div>
-
-<!-- End .container -->
-</main>
-
-<div class="mb-6"></div>
-@endsection
-
-@section('single_scripts')
-    <script>
-        function removeFromCartView(event, key){
-            event.preventDefault();
-            removeFromCart(key);
-        }
-
-        //Update cart
-        function updateQuantity(key, element){
-            $.post('{{ route('cart.updateQuantity') }}', {
-                _token : '{{ csrf_token() }}',
-                id       :  key,
-                quantity :  element.value
-            }, function(data){
-                updateNavCart(data.nav_cart_view,data.cart_count);
-                $('#cart-summary').html(data.cart_view);
-            });
-        }
-    </script>
-@endsection

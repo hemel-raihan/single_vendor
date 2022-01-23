@@ -16,7 +16,7 @@ if(auth()->user() != null) {
     <a href="#" title="Cart" class="dropdown-toggle dropdown-arrow cart-toggle" role="button"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
         <i class="icon-cart-thick"></i>
-        <span class="cart-count badge-circle">{{ count($cart) }}</span>
+        <span class="cart-count badge-circle cart-count">{{ count($cart) }}</span>
     </a>
 
     <div class="cart-overlay"></div>
@@ -55,7 +55,7 @@ if(auth()->user() != null) {
                                 <img src="{{ asset('uploads/productphoto/'.$product->image) }}" alt="product"
                                     width="80" height="80">
                             </a>
-                            <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
+                            <a href="javascript:void(0)" class="btn-remove" onclick="removeFromCart({{ $cartItem['id'] }})" title="Remove Product"><span>×</span></a>
                         </figure>
                     </div>
                 @endforeach

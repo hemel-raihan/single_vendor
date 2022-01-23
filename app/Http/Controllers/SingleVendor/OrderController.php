@@ -24,7 +24,20 @@ class OrderController extends Controller
         }
 
         $address = Address::where('id', $carts[0]['address_id'])->first();
+
+        //update address
+        $address->address = $request->address;
+        $address->country_id = $request->country_id;
+        $address->state_id = $request->state_id;
+        $address->city_id = $request->city_id;
+        $address->postal_code = $request->postal_code;
+        $address->phone = $request->phone;
+        $address->save();
+
         $shippingAddress = [];
+
+        //This is also okey as per 
+
         if ($address != null) {
             $shippingAddress['name']        = Auth::user()->name;
             $shippingAddress['email']       = Auth::user()->email;
@@ -43,7 +56,7 @@ class OrderController extends Controller
         $combined_order->user_id = Auth::user()->id;
         $combined_order->shipping_address = json_encode($shippingAddress);
         $combined_order->save();
-
+        
 
         $seller_products = array();
         foreach ($carts as $cartItem){

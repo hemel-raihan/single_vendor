@@ -49,16 +49,14 @@
 
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/demo42.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('single_vendor/assets/vendor/fontawesome-free/css/all.min.css') }}">
+    
+    <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/style.min.css') }}">
 
-	{{-- <!-- Main CSS File -->
-	<link rel="stylesheet" href="assets/css/style.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendor/simple-line-icons/css/simple-line-icons.min.css">
-     --}}
     @yield('single_styles')
-
+    
 </head>
 
 <body>
@@ -70,7 +68,7 @@
         <!-- End .header -->
 
             @yield('main-content')
-
+            
         <!-- End .main -->
         {{-- Modal --}}
         @yield('modal')
@@ -167,18 +165,40 @@
             $.ajax({
                     type:"POST",
                     url: '{{ route('cart.addToCart') }}',
-                    dataType: 'json',
                     product_id:product_id,
                     data: $('#option-choice-form').serializeArray(),
-
+               
                     success: function(data){
                         console.log("cart added");
+                        //  $('#single_product_view').html(data.single_product_view);
+                        //window.location.reload();
+                        updateNavCart(data.nav_cart_view,data.cart_count);
                     }
                 });
 
-            // $.post('{{ route('cart.addToCart') }}', { _token : '{{ csrf_token() }}', product_id : product_id}, function(data){
-            //     console.log(product_id);
-            // });
+           
+        }
+
+        function removeFromCart(key){
+
+            $.post('{{ route('cart.removeFromCart') }}', {
+              _token : '{{ csrf_token() }}',
+                id      :  key
+            }, function(data){
+                // console.log("success");
+                updateNavCart(data.nav_cart_view,data.cart_count);
+                 $('#cart-summary').html(data.cart_view);
+                 //window.location.reload();
+                // SISMOO.plugins.notify('success', "{{ translate('Item has been removed from cart') }}");
+                // $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html())-1);
+            });
+        }
+
+        function updateNavCart(view,count){
+            $('.cart-count').html(count);
+            $('#cart_items').html(view);
+            window.location.reload();
+            // window.location.href="{{ route('cart') }}";
         }
 
 

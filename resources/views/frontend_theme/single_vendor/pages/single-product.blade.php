@@ -2,7 +2,7 @@
 
 @section('main-content')
 <main class="main">
-<div class="container">
+<div class="container" id="single_product_view">
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="demo42.html"><i class="icon-home"></i></a></li>
@@ -198,7 +198,7 @@
 
 
                         <div class="product-single-qty">
-                            <input class="horizontal-quantity form-control" type="text" name="quantity">
+                            <input class="horizontal-quantity form-control" type="text" name="quantity"  value="{{ $product->min_qty }}" min="{{ $product->min_qty }}" max="10">
                         </div>
                         <input type="hidden" name="product_id" value="{{ $product->id }}" >
                         <input type="hidden" name="price" value="{{ $product->unit_price }}" >
@@ -221,9 +221,9 @@
                         <!-- End .product-single-qty -->
                     </form>
 
-                    <a href="javascript:;" onclick="addToCart({{ $product->id }})" class="btn btn-dark add-cart mr-2" title="Add to Cart">Add to Cart</a>
+                    <a href="javascript:void(0)" onclick="addToCart({{ $product->id }})" class="btn btn-dark add-cart mr-2" title="Add to Cart">Add to Cart</a>
 
-                    <a href="{{ route('cart') }}" class="btn btn-gray view-cart d-none">View cart</a>
+                    <a href="{{ route('cart') }}" class="btn btn-gray view-cart">View cart</a>
                 </div><!-- End .product-action -->
 
                 <hr class="divider mb-0 mt-0">

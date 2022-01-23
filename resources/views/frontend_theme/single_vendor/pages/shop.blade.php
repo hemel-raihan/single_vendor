@@ -77,7 +77,6 @@
             </nav>
 
             <div class="row">
-                @foreach ($products as $product)
                 <div class="col-6 col-sm-4">
                     <div class="product-default inner-quickview inner-icon">
                         <figure>
@@ -89,8 +88,8 @@
                                 <span class="product-label label-sale">-13%</span>
                             </div>
                             <div class="btn-icon-group">
-                                {{-- <a href="javascript:;" onclick="addToCart({{ $product->id }})" class="btn-icon btn-add-cart product-type-simple"><i
-                                        class="icon-shopping-cart"></i></a> --}}
+                                <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
+                                        class="icon-shopping-cart"></i></a>
                             </div>
                             <a href="ajax/product-quick-view.html" class="btn-quickview"
                                 title="Quick View">Quick
@@ -120,10 +119,8 @@
                         </div><!-- End .product-details -->
                     </div>
                 </div><!-- End .col-sm-4 -->
-                @endforeach
 
-
-                {{-- <div class="col-6 col-sm-4">
+                <div class="col-6 col-sm-4">
                     <div class="product-default inner-quickview inner-icon">
                         <figure>
                             <a href="demo42-product.html">
@@ -580,7 +577,7 @@
                             </div><!-- End .price-box -->
                         </div><!-- End .product-details -->
                     </div>
-                </div><!-- End .col-sm-4 --> --}}
+                </div><!-- End .col-sm-4 -->
             </div><!-- End .row -->
 
             <nav class="toolbox toolbox-pagination">
@@ -623,44 +620,64 @@
                     <div class="collapse show" id="widget-body-2">
                         <div class="widget-body">
                             <ul class="cat-list">
-                                @foreach (\App\Models\Product\Productcategory::where(['status'=>1])->get() as $key=>$category)
-                                {{-- @if(!$category->childrenRecursive->count()>0) --}}
-                                @if($category->children->isEmpty())
-                                @if ($category->parent_id == 0)
                                 <li>
                                     <a href="#widget-category-1" data-toggle="collapse" role="button"
                                         aria-expanded="true" aria-controls="widget-category-1">
-                                        {{$category->name}}<span class="products-count">({{$category->products()->count()}})</span>
+                                        Accessories<span class="products-count">(3)</span>
+                                        <span class="toggle"></span>
                                     </a>
-                                    {{-- <div class="collapse show" id="widget-category-1">
+                                    <div class="collapse show" id="widget-category-1">
                                         <ul class="cat-sublist">
                                             <li>Caps<span class="products-count">(1)</span></li>
                                             <li>Watches<span class="products-count">(2)</span></li>
                                         </ul>
-                                    </div> --}}
+                                    </div>
                                 </li>
-                                @endif
-                                @else
                                 <li>
-                                    <a href="#{{$category->slug}}" data-toggle="collapse" role="button"
-                                        aria-expanded="true" aria-controls="{{$category->slug}}">
-                                        {{$category->name}}<span class="products-count"></span>
+                                    <a href="#widget-category-2" class="collapsed" data-toggle="collapse"
+                                        role="button" aria-expanded="false"
+                                        aria-controls="widget-category-2">
+                                        Dress<span class="products-count">(4)</span>
                                         <span class="toggle"></span>
                                     </a>
-                                    <div class="collapse" id="{{$category->slug}}">
+                                    <div class="collapse" id="widget-category-2">
                                         <ul class="cat-sublist">
-                                            @foreach($category->childrenRecursive as $key => $sub_cat)
-                                            <li>{{$sub_cat->name}}<span class="products-count">({{$category->products()->count()}})</span></li>
-                                            @endforeach
+                                            <li>Clothing<span class="products-count">(4)</span></li>
                                         </ul>
                                     </div>
                                 </li>
-                                @endif
-                                @endforeach
+                                <li>
+                                    <a href="#widget-category-3" class="collapsed" data-toggle="collapse"
+                                        role="button" aria-expanded="false"
+                                        aria-controls="widget-category-3">
+                                        Electronics<span class="products-count">(2)</span>
+                                        <span class="toggle"></span>
+                                    </a>
+                                    <div class="collapse" id="widget-category-3">
+                                        <ul class="cat-sublist">
+                                            <li>Headphone<span class="products-count">(1)</span></li>
+                                            <li>Watch<span class="products-count">(1)</span></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#widget-category-4" class="collapsed" data-toggle="collapse"
+                                        role="button" aria-expanded="false"
+                                        aria-controls="widget-category-4">
+                                        Fashion<span class="products-count">(6)</span>
+                                        <span class="toggle"></span>
+                                    </a>
+                                    <div class="collapse" id="widget-category-4">
+                                        <ul class="cat-sublist">
+                                            <li>Shoes<span class="products-count">(4)</span></li>
+                                            <li>Bag<span class="products-count">(2)</span></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><a href="#">Music</a><span class="products-count">(2)</span></li>
                             </ul>
                         </div><!-- End .widget-body -->
-                    </div>
-                    <!-- End .collapse -->
+                    </div><!-- End .collapse -->
                 </div><!-- End .widget -->
 
                 <div class="widget">

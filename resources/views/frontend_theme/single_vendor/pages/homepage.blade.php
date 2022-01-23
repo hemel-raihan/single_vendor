@@ -56,7 +56,7 @@
 
 {{--Home Category section --}}
 <div id="home_category_section">
-
+    
 </div>
 
 {{--Home Hot Deals section --}}
@@ -179,7 +179,7 @@
             });
         });
 
-
+  
     });
 </script>
 @endsection

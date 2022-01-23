@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost/marvellous'),
+    'url' => env('APP_URL', 'http://localhost/single_vendor'),
 
     'asset_url' => env('ASSET_URL', null),
 
