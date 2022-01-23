@@ -56,7 +56,7 @@
 
 {{--Home Category section --}}
 <div id="home_category_section">
-    
+
 </div>
 
 {{--Home Hot Deals section --}}
@@ -94,7 +94,7 @@
             $('#home_category_section').html(data);
                 // Now we can call the owlCarousel
                 var owl = $(".owl-carousel");
-                owl.owlCarousel({'loop': true,'dots': false,'nav': true,'margin': 20,'responsive': {
+                owl.owlCarousel({'loop': false,'dots': false,'nav': true,'margin': 20,'responsive': {
                         '0': {
                             'items': 2
                         },
@@ -179,7 +179,7 @@
             });
         });
 
-  
+
     });
 </script>
 @endsection

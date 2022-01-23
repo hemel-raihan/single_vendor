@@ -49,6 +49,7 @@
 
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/demo42.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('single_vendor/assets/vendor/fontawesome-free/css/all.min.css') }}">
 
 
@@ -57,7 +58,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/vendor/simple-line-icons/css/simple-line-icons.min.css">
      --}}
     @yield('single_styles')
-    
+
 </head>
 
 <body>
@@ -69,7 +70,7 @@
         <!-- End .header -->
 
             @yield('main-content')
-            
+
         <!-- End .main -->
         {{-- Modal --}}
         @yield('modal')
@@ -169,7 +170,7 @@
                     dataType: 'json',
                     product_id:product_id,
                     data: $('#option-choice-form').serializeArray(),
-               
+
                     success: function(data){
                         console.log("cart added");
                     }

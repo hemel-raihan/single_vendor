@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Order;
+namespace App\Http\Controllers\SingleVendor;
 
 use App\Models\Cart\Cart;
 use App\Models\Order\Order;
@@ -43,7 +43,7 @@ class OrderController extends Controller
         $combined_order->user_id = Auth::user()->id;
         $combined_order->shipping_address = json_encode($shippingAddress);
         $combined_order->save();
-        
+
 
         $seller_products = array();
         foreach ($carts as $cartItem){
@@ -86,7 +86,7 @@ class OrderController extends Controller
 
                 $product_variation = $cartItem['variation'];
 
-                $product_stock = $product->stocks->where('variant', '#e62a45')->first();
+                $product_stock = $product->stocks->where('variant', $product_variation)->first();
                 // dd($product_stock);
                 if ($product->digital != 1 && $cartItem['quantity'] > $product_stock->qty) {
                     // flash(translate('The requested quantity is not available for ') . $product->getTranslation('name'))->warning();
@@ -156,7 +156,12 @@ class OrderController extends Controller
 
             $combined_order->grand_total += $order->grand_total;
 
-            $order->save();
+            //$order->save();
+            if($order->save()){
+                foreach($carts as $cart){
+                    $cart->delete();
+                }
+            }
         }
 
         $combined_order->save();

@@ -16,7 +16,7 @@
                     }
                 }">
 
-                @foreach (\App\Models\Product\Product::all() as $product)
+                @foreach (\App\Models\Product\Product::where(['status'=>1,'todays_deal'=>1])->get() as $product)
                     @include('frontend_theme.single_vendor.partials.product_box_1',['product'=>$product])
                 @endforeach
                 

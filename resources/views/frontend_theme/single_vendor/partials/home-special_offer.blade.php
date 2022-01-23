@@ -48,22 +48,25 @@
             data-animation-delay="200">
             <div class="d-lg-flex align-items-center">
                 <h3 class="custom-title divider">We Suggest</h3>
-                <a href="demo42-shop.html" class="sicon-title">VIEW ALL<i
+                <a href="#" class="sicon-title">VIEW ALL<i
                         class="fas fa-arrow-right"></i></a>
             </div>
+            @foreach (\App\Models\Product\Product::where(['status'=>1,'todays_deal'=>1])->take(3)->get() as $product)
             <div class="product-default left-details product-widget">
                 <figure>
                     <a href="demo42-product.html">
-                        <img src="{{ asset('single_vendor/assets/images/demoes/demo42/product/product7-300x300.jpg') }}" width="95"
+                        <img src="{{ asset('uploads/productphoto/'.$product->image) }}" width="95"
                             height="95" alt="product">
                     </a>
                 </figure>
                 <div class="product-details">
                     <div class="category-list">
-                        <a href="category.html">Interior Accessories</a>
+                        @foreach ($product->productcategories as $category)
+                        <a href="#">{{ $category->name }}</a>
+                        @endforeach
                     </div>
                     <h3 class="product-title">
-                        <a href="#">Product Short Name</a>
+                        <a href="#">{{ $product->title }}</a>
                     </h3>
                     <div class="ratings-container">
                         <div class="product-ratings">
@@ -75,95 +78,41 @@
                     </div>
                     <!-- End .product-container -->
                     <div class="price-box">
-                        <del class="old-price">$199.00</del>
-                        <span class="product-price">$129.00</span>
+                        <del class="old-price">Tk.{{ $product->unit_price }}</del>
+                        {{-- <span class="product-price">Tk.{{ $product->discount }}</span> --}}
+                        <span class="product-price">Tk.{{ home_discounted_base_price($product) }}</span>
                     </div>
                     <!-- End .price-box -->
                 </div>
                 <!-- End .product-details -->
             </div>
-            <div class="product-default left-details product-widget">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{ asset('single_vendor/assets/images/demoes/demo42/product/product8-300x300.jpg') }}" width="95"
-                            height="95" alt="product">
-                    </a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-list">
-                        <a href="category.html">Auto Parts</a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:0%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="product-price">$288.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
-            <div class="product-default left-details product-widget">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{ asset('single_vendor/assets/images/demoes/demo42/product/product9-300x300.jpg') }}" width="95"
-                            height="95" alt="product">
-                    </a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-list">
-                        <a href="category.html">Interior Accessories</a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:0%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <del class="old-price">$299.00</del>
-                        <span class="product-price">$259.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
+            @endforeach
+           
         </div>
         <div class="col-md-4 appear-animate" data-animation-name="fadeInLeftShorter"
             data-animation-delay="400">
             <div class="d-lg-flex align-items-center">
                 <h3 class="custom-title divider">Customer Favorites</h3>
-                <a href="demo42-shop.html" class="sicon-title">VIEW ALL<i
+                <a href="#" class="sicon-title">VIEW ALL<i
                         class="fas fa-arrow-right"></i></a>
             </div>
+
+            @foreach (\App\Models\Product\Product::where(['status'=>1,'todays_deal'=>1])->take(3)->get() as $product)
             <div class="product-default left-details product-widget">
                 <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{ asset('single_vendor/assets/images/demoes/demo42/product/product10-300x300.jpg') }}" width="95"
+                    <a href="#">
+                        <img src="{{ asset('uploads/productphoto/'.$product->image) }}" width="95"
                             height="95" alt="product">
                     </a>
                 </figure>
                 <div class="product-details">
                     <div class="category-list">
-                        <a href="category.html">Performance</a>
+                        @foreach ($product->productcategories as $category)
+                        <a href="#">{{ $category->name }}</a>
+                        @endforeach
                     </div>
                     <h3 class="product-title">
-                        <a href="#">Product Short Name</a>
+                        <a href="#">{{ $product->title }}</a>
                     </h3>
                     <div class="ratings-container">
                         <div class="product-ratings">
@@ -175,73 +124,16 @@
                     </div>
                     <!-- End .product-container -->
                     <div class="price-box">
-                        <span class="product-price">$488.00</span>
+                        <del class="old-price">Tk.{{ $product->unit_price }}</del>
+                        {{-- <span class="product-price">Tk.{{ $product->discount }}</span> --}}
+                        <span class="product-price">Tk.{{ home_discounted_base_price($product) }}</span>
                     </div>
                     <!-- End .price-box -->
                 </div>
                 <!-- End .product-details -->
             </div>
-            <div class="product-default left-details product-widget">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{ asset('single_vendor/assets/images/demoes/demo42/product/product11-300x300.jpg') }}" width="95"
-                            height="95" alt="product">
-                    </a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-list">
-                        <a href="category.html">Sound & Video</a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:80%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="product-price">$299.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
-            <div class="product-default left-details product-widget">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{ asset('single_vendor/assets/images/demoes/demo42/product/product12-300x300.jpg') }}" width="95"
-                            height="95" alt="product">
-                    </a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-list">
-                        <a href="category.html">Hot Deals</a>,
-                        <a href="category.html">Steering Wheels</a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:80%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="product-price">$55.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
+            @endforeach
+            
         </div>
     </div>
 </section>

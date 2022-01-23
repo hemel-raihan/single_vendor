@@ -1,4 +1,5 @@
 @extends('frontend_theme.single_vendor.front_layout.app')
+
 @section('main-content')
 <main class="main">
 <div class="container">
@@ -137,17 +138,77 @@
 
                 <div class="product-action">
                     <form id="option-choice-form">
+
+                        {{-- Attribute --}}
+                        <input type="hidden" name="id" value="{{ $product->id }}">
+
+                        @if ($product->choice_options != null)
+                        @foreach (json_decode($product->choice_options) as $key => $choice)
+                            <div class="row no-gutters">
+                                <div class="col-sm-2">
+                                    <div class="opacity-50 my-2">{{ \App\Models\Product\Attribute::find($choice->attribute_id)->name }}:</div>
+                                </div>
+                                <div class="col-sm-10">
+                                    <div class="sismoo-radio-inline">
+                                        @foreach ($choice->values as $key => $value)
+                                        <label class="sismoo-megabox pl-0 mr-2">
+                                            <input
+                                                type="radio"
+                                                name="attribute_id_{{ $choice->attribute_id }}"
+                                                value="{{ $value }}"
+                                                @if($key == 0) checked @endif
+                                            >
+                                            <span class="sismoo-megabox-elem rounded d-flex align-items-center justify-content-center py-2 px-3 mb-2">
+                                                {{ $value }}
+                                            </span>
+                                        </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        @endif
+                        {{-- Color --}}
+                        @if (count(json_decode($product->colors)) > 0)
+                        <div class="row no-gutters">
+                            <div class="col-sm-2">
+                                <div class="opacity-50 my-2">{{ translate('Color')}}:</div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="sismoo-radio-inline">
+                                    @foreach (json_decode($product->colors) as $key => $color)
+                                    <label class="sismoo-megabox pl-0 mr-2" data-toggle="tooltip" data-title="{{ \App\Models\Product\Color::where('code', $color)->first()->name }}">
+                                        <input
+                                            type="radio"
+                                            name="color"
+                                            value="{{ \App\Models\Product\Color::where('code', $color)->first()->name }}"
+                                            @if($key == 0) checked @endif
+                                            >
+
+                                        <span class="sismoo-megabox-elem rounded d-flex align-items-center justify-content-center p-1 mb-2">
+                                            <span class="size-30px d-inline-block rounded" style="background: {{ $color }};"></span>
+                                        </span>
+                                    </label>
+                                    @endforeach
+                                
+                                </div>
+                            </div>
+                        </div>
+                       @endif
+
+
                         <div class="product-single-qty">
                             <input class="horizontal-quantity form-control" type="text" name="quantity">
                         </div>
                         <input type="hidden" name="product_id" value="{{ $product->id }}" >
                         <input type="hidden" name="price" value="{{ $product->unit_price }}" >
-                        @php
+
+                        {{-- @php
                             $colors = json_decode($product->colors);
                         @endphp
-                        @foreach ($colors as $color)
-                        <input type="text" name="color" value="{{ $color }}" >
-                        @endforeach
+                        @foreach ($colors as $key=>$color)
+                        <input type="text" name="color" value="{{ \App\Models\Product\Color::where('code', $color)->first()->name }}">
+                        @endforeach --}}
 
                         @if (Auth::check() && !Auth::user()->addresses->isEmpty())
                         @php  
