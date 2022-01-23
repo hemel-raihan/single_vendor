@@ -171,7 +171,7 @@
                         Create
                         @endisset
                     </button>
-					<a href="{{route('admin.productcategories.index')}}" class="btn btn-danger mt-1">Cancel</a>
+					<a href="{{route('admin.categories.index')}}" class="btn btn-danger mt-1">Cancel</a>
 				</div>
 			</div>
 		</div>

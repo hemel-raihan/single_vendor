@@ -43,11 +43,10 @@ class ColorController extends Controller
 
         ]);
 
-        $color = Color::create([
-            'name' => $request->name,
-            'code' => $request->color,
-
-        ]);
+        $color = new Color;
+        $color->name = $request->name;
+        $color->code = $request->code;
+        $color->save();
 
         notify()->success("Color Successfully created","Added");
         return redirect()->route('admin.colors.index');

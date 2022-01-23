@@ -91,7 +91,6 @@ class ProductController extends Controller
         }
 
 
-
          //get form Gallary image
          $gallaryimage = $request->file('gallaryimage');
          $images=array();
@@ -191,23 +190,23 @@ class ProductController extends Controller
             $is_approved = true;
         }
 
-        // if(!$request->youtube_link)
-        // {
-        //     $youtube = null;
-        // }
-        // else
-        // {
-        //     $youtube = $request->youtube_link;
-        // }
+        if(!$request->youtube_link)
+        {
+            $youtube = null;
+        }
+        else
+        {
+            $youtube = $request->youtube_link;
+        }
 
-        // if(!$request->image)
-        // {
-        //     $featureimg = null;
-        // }
-        // else
-        // {
-        //     $featureimg = $imagename;
-        // }
+        if(!$request->image)
+        {
+            $featureimg = null;
+        }
+        else
+        {
+            $featureimg = $imagename;
+        }
 
 
         if($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0){
@@ -321,8 +320,8 @@ class ProductController extends Controller
             'discount_type' => $discount_type,
             'quantity' => $request->quantity,
             'sku' => $request->sku,
-            'image' => $imagename,
-            //'youtube_link' => $youtube,
+            'image' => $featureimg,
+            'youtube_link' => $youtube,
             'gallaryimage'=>  implode("|",$images),
             'files' => $filename,
             'desc' => $request->desc,
@@ -457,7 +456,7 @@ class ProductController extends Controller
 
             $html .= '<li class="transfer-double-group-list-li transfer-double-group-list-li-1636878492">
             <div class="checkbox-group">
-                <input type="checkbox" name="choice_options_'.$row->attribute->id.'[]" value="'.$row->value.'" class="attribute_choice checkbox-normal group-select-all-1636878492" id="group_'.$key.'_1636878492_'.$row->attribute->id.'" /><label for="group_'.$key.'_1636878492_'.$row->attribute->id.'" class="group-name-1636878492_'.$row->attribute->id.'">'.$row->value.'</label>
+                <input type="checkbox" name="choice_options_'.$row->attribute->id.'[]" value="'.$row->value.'" class="attribute_choice checkbox-normal group-select-all-1636878492" id="group_'.$key.'_1636878492" /><label for="group_'.$key.'_1636878492" class="group-name-1636878492">'.$row->value.'</label>
             </div>
         </li>';
         }
@@ -584,7 +583,7 @@ class ProductController extends Controller
 
             }
 
-           $img                     =       Image::make($image->path());
+           $img = Image::make($image->path());
             $img->resize(900, 600)->save($postphotoPath.'/'.$imagename);
 
         }
@@ -676,29 +675,6 @@ class ProductController extends Controller
             $cash_on_delivery = 1;
         }
 
-        if(!$request->todays_deal)
-        {
-            $todays_deal = 0;
-        }
-        else
-        {
-            $todays_deal = 1;
-        }
-
-        if($request->Free_Shipping)
-        {
-            $shipping = null;
-        }
-        else
-        {
-            $shipping = $request->Free_Shipping;
-        }
-
-        if($request->Flat_Rate)
-        {
-            $shipping = $request->shipping;
-        }
-
         if(!Auth::guard('admin')->user()->role_id == 1)
         {
             $is_approved = false;
@@ -708,23 +684,23 @@ class ProductController extends Controller
             $is_approved = true;
         }
 
-        // if(!$request->youtube_link)
-        // {
-        //     $youtube = null;
-        // }
-        // else
-        // {
-        //     $youtube = $request->youtube_link;
-        // }
+        if(!$request->youtube_link)
+        {
+            $youtube = null;
+        }
+        else
+        {
+            $youtube = $request->youtube_link;
+        }
 
-        // if(!$request->image)
-        // {
-        //     $featureimg = null;
-        // }
-        // else
-        // {
-        //     $featureimg = $imagename;
-        // }
+        if(!$request->image)
+        {
+            $featureimg = null;
+        }
+        else
+        {
+            $featureimg = $imagename;
+        }
 
         if($request->discount_rate)
         {
@@ -738,6 +714,7 @@ class ProductController extends Controller
         {
             $discount = null;
         }
+
         if($request->discount_type)
         {
             $discount_type = $request->discount_type;
@@ -747,108 +724,7 @@ class ProductController extends Controller
             $discount_type = $request->flash_discount_type;
         }
 
-        if($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0){
-            $colors = json_encode($request->colors);
-        }
-        else {
-            $colors = array();
-            $colors = json_encode($colors);
-        }
-
-        $choice_options = array();
-
-        if($request->has('choice_noo')){
-            foreach ($request->choice_noo as $key => $no) {
-                $str = 'choice_options_'.$no;
-
-                $item['attribute_id'] = $no;
-
-                $data = array();
-                foreach ($request[$str] as $key => $eachValue) {
-                    array_push($data, $eachValue);
-                }
-
-                $item['values'] = $data;
-                array_push($choice_options, $item);
-            }
-        }
-
-        foreach ($product->stocks as $key => $stock) {
-            $stock->delete();
-        }
-
-        if (!empty($request->choice_no)) {
-            $attributes = json_encode($request->choice_no);
-        }
-        else {
-            $attributes = json_encode(array());
-        }
-
-        $product->choice_options = json_encode($choice_options, JSON_UNESCAPED_UNICODE);
-
-
-        //combinations start
-        $options = array();
-        if($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0){
-            $colors_active = 1;
-            array_push($options, $request->colors);
-        }
-
-        if($request->has('choice_noo')){
-            foreach ($request->choice_noo as $key => $no) {
-                $name = 'choice_options_'.$no;
-                $data = array();
-                foreach ($request[$name] as $key => $item) {
-                    array_push($data, $item);
-                }
-                array_push($options, $data);
-            }
-        }
-
-
-        $combinations = Combinations::makeCombinations($options);
-        if(count($combinations[0]) > 0){
-            $variant_product = 1;
-        }
-        else
-        {
-            $variant_product = null;
-        }
-
-
         $product->update([
-            // 'title' => $request->title,
-            // 'slug' => $slug,
-            // 'admin_id' => Auth::id(),
-            // 'brand_id' => $request->brand_id,
-            // 'unit' => $request->unit,
-            // 'purchase_qty' => $request->purchase_qty,
-            // 'low_stock_qty' => $request->low_stock_qty,
-            // 'unit_price' => $request->unit_price,
-            // 'discount_startdate' => $request->discount_startdate,
-            // 'discount_enddate' => $request->discount_enddate,
-            // 'discount_rate' => $discount,
-            // 'discount_type' => $discount_type,
-            // 'quantity' => $request->quantity,
-            // 'sku' => $request->sku,
-            // 'image' => $imagename,
-            // //'youtube_link' => $youtube,
-            // 'gallaryimage'=>  implode("|",$images),
-            // 'files' => $filename,
-            // 'desc' => $request->desc,
-            // 'shipping' => $request->shipping,
-            // 'cash_on_delivery' => $cash_on_delivery,
-            // 'todays_deal' => $todays_deal,
-            // 'estimate_shipping_time' => $request->estimate_shipping_time,
-            // 'tax_type' => $request->tax_type,
-            // 'tax' => $request->tax,
-            // 'leftsidebar_id' => $request->leftsidebar_id,
-            // 'rightsidebar_id' => $request->rightsidebar_id,
-            // 'status' => $status,
-            // 'is_approved' => $is_approved,
-            // 'meta_title' => $request->meta_title,
-            // 'meta_desc' => $request->meta_desc,
-
             'title' => $request->title,
             'slug' => $slug,
             'admin_id' => Auth::id(),
@@ -857,24 +733,20 @@ class ProductController extends Controller
             'purchase_qty' => $request->purchase_qty,
             'low_stock_qty' => $request->low_stock_qty,
             'unit_price' => $request->unit_price,
-            'variant_product' => $variant_product,
-            'attributes' => $attributes,
-            'choice_options' => $choice_options,
-            'colors' => $colors,
             'discount_startdate' => $request->discount_startdate,
             'discount_enddate' => $request->discount_enddate,
             'discount_rate' => $discount,
             'discount_type' => $discount_type,
             'quantity' => $request->quantity,
             'sku' => $request->sku,
-            'image' => $imagename,
-            //'youtube_link' => $youtube,
+            'image' => $featureimg,
+            'youtube_link' => $youtube,
             'gallaryimage'=>  implode("|",$images),
             'files' => $filename,
             'desc' => $request->desc,
-            'shipping' => $shipping,
+            'shipping' => $request->shipping,
             'cash_on_delivery' => $cash_on_delivery,
-            'todays_deal' => $todays_deal,
+            'todays_deal' => $request->todays_deal,
             'estimate_shipping_time' => $request->estimate_shipping_time,
             'tax_type' => $request->tax_type,
             'tax' => $request->tax,
@@ -886,54 +758,6 @@ class ProductController extends Controller
             'meta_desc' => $request->meta_desc,
 
         ]);
-
-
-        $combinations = Combinations::makeCombinations($options);
-        if(count($combinations[0]) > 0){
-            $product->variant_product = 1;
-            foreach ($combinations as $key => $combination){
-                $str = '';
-                foreach ($combination as $key => $item){
-                    if($key > 0 ){
-                        $str .= '-'.str_replace(' ', '', $item);
-                    }
-                    else{
-                        if($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0){
-                            $color_name = Color::where('code', $item)->first()->name;
-                            $str .= $color_name;
-                        }
-                        else{
-                            $str .= str_replace(' ', '', $item);
-                        }
-                    }
-                }
-
-                $product_stock = Productstock::where('product_id', $product->id)->where('variant', $str)->first();
-                if($product_stock == null){
-                    $product_stock = new Productstock;
-                    $product_stock->product_id = $product->id;
-                }
-                if(isset($request['price_'.str_replace('.', '_', $str)])) {
-
-                    $product_stock->variant = $str;
-                    $product_stock->price = $request['price_'.str_replace('.', '_', $str)];
-                    $product_stock->sku = $request['sku_'.str_replace('.', '_', $str)];
-                    $product_stock->qty = $request['qty_'.str_replace('.', '_', $str)];
-                    $product_stock->image = $request['img_'.str_replace('.', '_', $str)];
-
-                    $product_stock->save();
-                }
-            }
-        }
-        else{
-            $product_stock              = new Productstock;
-            $product_stock->product_id  = $product->id;
-            $product_stock->variant     = '';
-            $product_stock->price       = $request->unit_price;
-            $product_stock->sku         = $request->sku;
-            $product_stock->qty         = $request->current_stock;
-            $product_stock->save();
-        }
 
         //for many to many
         $product->productcategories()->sync($request->categories);

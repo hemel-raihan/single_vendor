@@ -91,7 +91,6 @@ class ProductController extends Controller
         }
 
 
-
          //get form Gallary image
          $gallaryimage = $request->file('gallaryimage');
          $images=array();
