@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\SingleVendor;
 
+use Session;
 use App\Models\Cart\Cart;
 use App\Models\Order\Order;
 use Illuminate\Http\Request;
@@ -75,7 +76,7 @@ class OrderController extends Controller
             $order->user_id = Auth::user()->id;
             $order->shipping_address = $combined_order->shipping_address;
 
-            $order->payment_type = 'COD';
+            $order->payment_type = $request->payment_type;
             $order->delivery_viewed = '0';
             $order->payment_status_viewed = '0';
             $order->code = date('Ymd-His') . rand(10, 99);
@@ -117,7 +118,7 @@ class OrderController extends Controller
                 $order_detail->variation = $product_variation;
                 $order_detail->price = $cartItem['price'] * $cartItem['quantity'];
                 $order_detail->tax = $cartItem['tax'] * $cartItem['quantity'];
-                $order_detail->shipping_type = $cartItem['shipping_type'];
+                $order_detail->shipping_type = $request->shipping_type;
                 $order_detail->product_referral_code = $cartItem['product_referral_code'];
                 $order_detail->shipping_cost = $cartItem['shipping_cost'];
 
@@ -183,5 +184,17 @@ class OrderController extends Controller
 
         return redirect()->route('order.success');
 
+    }
+
+    //order confirmed
+    public function order_confirmed(){
+        $combined_order = CombinedOrder::findOrFail(Session::get('combined_order_id'));
+        Cart::where('user_id', $combined_order->user_id)->delete();
+
+        // $first_order = $combined_order->orders->first();
+
+        // dd($first_order);
+
+        return view('frontend_theme.single_vendor.pages.order_success', compact('combined_order'));
     }
 }

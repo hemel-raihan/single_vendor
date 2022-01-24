@@ -11,8 +11,8 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" id="order-tab" data-toggle="tab" href="#order" role="tab"
-                aria-controls="order" aria-selected="true">Orders</a>
+            <a class="nav-link" href="{{ route('customer.orders') }}" 
+               >Orders</a>
         </li>
 
         <li class="nav-item">

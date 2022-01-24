@@ -52,9 +52,7 @@ class HomepageController extends Controller
         return view('frontend_theme.single_vendor.pages.checkout');
     }
 
-    public function order_success(){
-        return view('frontend_theme.single_vendor.pages.order_success');
-    }
+
 
 
 

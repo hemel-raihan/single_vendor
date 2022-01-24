@@ -152,6 +152,12 @@
             </div>
             <!-- End .col-lg-8 -->
 
+            @php
+                $carts = \App\Models\Cart\Cart::where('user_id', Auth::user()->id)->get();
+                $subtotal = 0;
+                $tax = 0;
+            @endphp
+
             <div class="col-lg-5">
                 <div class="order-summary">
                     <h3>YOUR ORDER</h3>
@@ -162,32 +168,32 @@
                                 <th colspan="2">Product</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            <tr>
-                                <td class="product-col">
-                                    <h3 class="product-title">
-                                        Circled Ultimate 3D Speaker ×
-                                        <span class="product-qty">4</span>
-                                    </h3>
-                                </td>
+                            @foreach ($carts as $cartItem)
 
-                                <td class="price-col">
-                                    <span>$1,040.00</span>
-                                </td>
-                            </tr>
+                            @php
+                                $product = \App\Models\Product\Product::find($cartItem['product_id']);
+                                $subtotal += $cartItem['price'] * $cartItem['quantity'];
+                                $tax += $cartItem['tax'] * $cartItem['quantity'];
+
+                                $total = $subtotal+$tax;
+                            @endphp
 
                             <tr>
                                 <td class="product-col">
                                     <h3 class="product-title">
-                                        Fashion Computer Bag ×
-                                        <span class="product-qty">2</span>
+                                        {{ $product->title }} ×
+                                        <span class="product-qty">{{ $cartItem['quantity'] }}</span>
                                     </h3>
                                 </td>
 
                                 <td class="price-col">
-                                    <span>$418.00</span>
+                                    <span>{{ $cartItem['price'] * $cartItem['quantity'] }}</span>
                                 </td>
                             </tr>
+                            @endforeach
+
                         </tbody>
                         <tfoot>
                             <tr class="cart-subtotal">
@@ -196,26 +202,17 @@
                                 </td>
 
                                 <td class="price-col">
-                                    <span>$1,458.00</span>
+                                    <span>{{ $subtotal }}</span>
                                 </td>
                             </tr>
                             <tr class="order-shipping">
                                 <td class="text-left" colspan="2">
-                                    <h4 class="m-b-sm">Shipping</h4>
+                                    <h4 class="m-b-sm">Delivery Type</h4>
 
                                     <div class="form-group form-group-custom-control">
                                         <div class="custom-control custom-radio d-flex">
-                                            <input type="radio" class="custom-control-input" name="radio" checked />
-                                            <label class="custom-control-label">Local Pickup</label>
-                                        </div>
-                                        <!-- End .custom-checkbox -->
-                                    </div>
-                                    <!-- End .form-group -->
-
-                                    <div class="form-group form-group-custom-control mb-0">
-                                        <div class="custom-control custom-radio d-flex mb-0">
-                                            <input type="radio" name="radio" class="custom-control-input">
-                                            <label class="custom-control-label">Flat Rate</label>
+                                            <input type="radio" class="custom-control-input" value="home_delivery" name="shipping_type" checked />
+                                            <label class="custom-control-label">Home Delivery</label>
                                         </div>
                                         <!-- End .custom-checkbox -->
                                     </div>
@@ -229,18 +226,43 @@
                                     <h4>Total</h4>
                                 </td>
                                 <td>
-                                    <b class="total-price"><span>$1,603.80</span></b>
+                                    <b class="total-price"><span>Tk.{{ $total }}</span></b>
                                 </td>
                             </tr>
                         </tfoot>
+
                     </table>
 
                     <div class="payment-methods">
                         <h4 class="">Payment methods</h4>
                         <div class="info-box with-icon p-0">
-                            <p>
-                                Sorry, it seems that there are no available payment methods for your state. Please contact us if you require assistance or wish to make alternate arrangements.
-                            </p>
+                            
+                            <div class="row">
+                                <div class="col-6 col-md-6">
+                                    <label class="sismoo-megabox d-block mb-3">
+                                        <input value="sslcommerz" class="online_payment" type="radio" name="payment_type" disabled="yes">
+                                        <span class="d-block p-3 sismoo-megabox-elem">
+                                            <img src="{{ asset('single_vendor/assets/images/payment/sslcommerz.png')}}" class="img-fluid mb-2">
+                                            <span class="d-block text-center">
+                                                <span class="d-block fw-600 fs-15">{{ translate('sslcommerz')}}</span>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-md-6">
+                                    <label class="sismoo-megabox d-block mb-3">
+                                        <input value="cash_on_delivery" class="online_payment" type="radio" name="payment_type" checked>
+                                        <span class="d-block p-3 sismoo-megabox-elem">
+                                            <img src="{{ asset('single_vendor/assets/images/payment/cod.png')}}" class="img-fluid mb-2">
+                                            <span class="d-block text-center">
+                                                <span class="d-block fw-600 fs-15">{{ translate('Cash on Delivery')}}</span>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
 

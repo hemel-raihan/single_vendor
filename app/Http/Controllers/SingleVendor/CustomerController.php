@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\SingleVendor;
 
-use App\Http\Controllers\Controller;
-use App\Models\Address\Address;
 use Auth;
+use App\Models\Order\Order;
 use Illuminate\Http\Request;
+use App\Models\Address\Address;
+use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
     public function index(){
-       // return view('frontend_theme.single_vendor.front_layout.user_panel');
-         return view('frontend_theme.single_vendor.user.customer.dashboard');
+        $orders = Order::where('user_id', Auth::user()->id)->orderBy('code', 'desc')->paginate(2);
+         return view('frontend_theme.single_vendor.user.customer.dashboard',compact('orders'));
+    }
+
+    public function purchaseOrders(){
+        $orders = Order::where('user_id', Auth::user()->id)->orderBy('code', 'desc')->paginate(2);
+         return view('frontend_theme.single_vendor.user.customer.purchase-history',compact('orders'));
     }
 
     public function userProfileUpdate(Request $request){

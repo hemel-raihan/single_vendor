@@ -33,6 +33,7 @@ Route::get('/product/checkout', 'SingleVendor\HomepageController@checkout')->nam
 
 // Customer Panel
 Route::get('/customer/dashboard', 'SingleVendor\CustomerController@index')->name('customer.dashboard');
+Route::get('/customer/purchase', 'SingleVendor\CustomerController@purchaseOrders')->name('customer.orders');
 Route::post('/purchase_history/details', 'SingleVendor\PurchaseHistoryController@purchase_history_details')->name('purchase_history.details');
 
 //user-profile
@@ -47,7 +48,7 @@ Route::post('/cart/updateQuantity', 'SingleVendor\CartController@updateQuantity'
 Route::get('/cart/checkout', 'SingleVendor\CartController@checkout')->name('checkout');
 //Order+OrderDetails Store
 Route::post('/order/store','SingleVendor\OrderController@store')->name('order.store');
-Route::get('/order/order-success', 'SingleVendor\HomepageController@order_success')->name('order.success');
+Route::get('/order/order-success', 'SingleVendor\OrderController@order_confirmed')->name('order.success');
 
 
 
