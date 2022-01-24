@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SingleVendor;
 
 use Illuminate\Http\Request;
+use App\Models\Product\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Product\Productcategory;
 
@@ -38,11 +39,30 @@ class HomepageController extends Controller
         //dd($color);
         return view('frontend_theme.single_vendor.pages.single-product',compact('product'));
     }
-    public function shop($slug)
+    public function shop($id)
     {
-        $category = Productcategory::find(1);
-        return $category;
+        $category = Productcategory::find($id);
         $products = $category->products()->get();
+        return view('frontend_theme.single_vendor.pages.shop',compact('products'));
+    }
+    public function filter($catId,$id)
+    {
+        $category = Productcategory::find($catId);
+        $productcolor = Product::find($id);
+        $products = $category->products()->where('colors',$productcolor->colors)->get();
+        return view('frontend_theme.single_vendor.pages.shop',compact('products'));
+    }
+    public function filterAttribute($catId,$id)
+    {
+        $category = Productcategory::find($catId);
+        $productattribute = Product::find($id);
+        foreach(json_decode($productattribute->choice_options) as $key => $choice)
+        {
+            foreach ($choice->values as $key => $value)
+            {
+                $products = $category->products()->where('choice_options', 'like', '%'.$value.'%')->get();
+            }
+        }
         return view('frontend_theme.single_vendor.pages.shop',compact('products'));
     }
     public function view_cart(){
