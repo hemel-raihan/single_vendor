@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Models\User;
 use App\Models\Order\OrderDetail;
 use App\Models\Order\CombinedOrder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,5 +20,10 @@ class Order extends Model
 
     public function combinedOrders(){
         return $this->belongsTo(CombinedOrder::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

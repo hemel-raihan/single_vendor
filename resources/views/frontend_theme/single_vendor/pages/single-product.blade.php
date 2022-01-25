@@ -23,7 +23,7 @@
                 <div class="product-slider-container">
                     @php
                         $photos = explode('|',$product->gallaryimage);
-                    @endphp 
+                    @endphp
                     <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
                         @foreach ($photos as $key=>$photo)
                         <div class="product-item">
@@ -33,7 +33,7 @@
                                 width="468" height="468" alt="product" />
                         </div>
                         @endforeach
-                    
+
                     </div>
                     <!-- End .product-single-carousel -->
                     <span class="prod-full-screen">
@@ -48,7 +48,7 @@
                                 height="110" alt="product-thumbnail" />
                         </div>
                     @endforeach
-                   
+
                 </div>
             </div><!-- End .product-single-gallery -->
 
@@ -190,7 +190,7 @@
                                         </span>
                                     </label>
                                     @endforeach
-                                
+
                                 </div>
                             </div>
                         </div>
@@ -211,13 +211,13 @@
                         @endforeach --}}
 
                         @if (Auth::check() && !Auth::user()->addresses->isEmpty())
-                        @php  
+                        @php
                             $address = \App\Models\Address\Address::where('user_id',Auth::user()->id)->first();
                         @endphp
                         <input type="hidden" name="address_id" value="{{ $address->id }}" >
-                        
+
                         @endif
-                       
+
                         <!-- End .product-single-qty -->
                     </form>
 

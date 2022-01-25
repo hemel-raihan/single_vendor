@@ -1,7 +1,7 @@
 <div class="col-6 col-sm-4">
     <div class="product-default inner-quickview inner-icon">
         <figure>
-            <a href="demo42-product.html">
+            <a href="{{route('product.details',$product->slug)}}">
                 <img src="{{asset('uploads/productphoto/'.$product->image)}}"
                     width="300" height="300" alt="product">
             </a>
@@ -21,7 +21,7 @@
                 <a href="wishlist.html" class="btn-icon-wish"><i class="icon-heart"></i></a>
             </div>
             <h3 class="product-title">
-                <a href="demo42-product.html">{{$product->title}}</a>
+                <a href="{{route('product.details',$product->slug)}}">{{$product->title}}</a>
             </h3>
             <div class="ratings-container">
                 <div class="product-ratings">

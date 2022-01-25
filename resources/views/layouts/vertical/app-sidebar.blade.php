@@ -60,6 +60,13 @@
 						</li>
 
                         <li class="slide">
+							<a class="side-menu__item" data-bs-toggle="slide" href="#"><i class="side-menu__icon fe fe-globe"></i><span class="side-menu__label">Sales Management</span><i class="angle fa fa-angle-right"></i></a>
+							<ul class="slide-menu">
+								<li><a href="{{route('admin.all_orders.index')}}" class="slide-item">Order List</a></li>
+							</ul>
+						</li>
+
+                        <li class="slide">
 							<a class="side-menu__item" data-bs-toggle="slide" href="#"><i class="side-menu__icon fe fe-database"></i><span class="side-menu__label">Genaral Content</span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
 								<li><a href="{{route('admin.contentposts.create')}}" class="slide-item">Add New Content </a></li>

@@ -137,8 +137,8 @@
                         </div>
                     @endif
 
-                    <input type="text" id="profile-photo">
-                    <button onclick="filemanager.selectFile('profile-photo')">Choose</button>
+                    {{-- <input type="text" id="profile-photo">
+                    <button onclick="filemanager.selectFile('profile-photo')">Choose</button> --}}
 
 					<div class="form-group">
 						<label for="exampleInputname">Category Name</label>
