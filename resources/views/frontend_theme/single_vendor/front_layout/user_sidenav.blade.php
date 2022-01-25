@@ -6,41 +6,35 @@
     </h2>
     <ul class="nav nav-tabs list flex-column mb-0" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="dashboard-tab" data-toggle="tab" href="#dashboard"
-                role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</a>
+            <a class="nav-link" href="javascript:void(0)" data-href="#"  onclick="customer_dashboard()" >Dashboard</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('customer.orders') }}" 
-               >Orders</a>
+            <a class="nav-link" href="javascript:void(0)" data-href="#"  onclick="customer_orders()" >Orders</a>
+            {{-- <a class="nav-link" href="{{ route('customer.orders') }}" >Orders</a> --}}
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" id="download-tab" data-toggle="tab" href="#download" role="tab"
-                aria-controls="download" aria-selected="false">Downloads</a>
+            {{-- <a class="nav-link" href="{{ route('download.index') }}">Downloads</a> --}}
+            <a class="nav-link" href="javascript:void(0)" data-href="#"  onclick="customer_downloads()" >Downloads</a>
+
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab"
-                aria-controls="address" aria-selected="false">Addresses</a>
+            <a class="nav-link" href="javascript:void(0)" data-href="#"  onclick="customer_address()">Addresses</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" id="edit-tab" data-toggle="tab" href="#edit" role="tab"
-                aria-controls="edit" aria-selected="false">Account
+            <a class="nav-link" href="javascript:void(0)" data-href="#" onclick="customer_account_details()">Account
                 details</a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" id="shop-address-tab" data-toggle="tab" href="#shipping" role="tab"
-                aria-controls="edit" aria-selected="false">Shopping Addres</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="wishlist-tab" data-toggle="tab" href="#wishlist" role="tab"
-                aria-controls="wishlist" aria-selected="false">Wishlist</a>
+            <a class="nav-link" href="javascript:void(0)" data-href="#" onclick="customer_wishlist()">Wishlist</a>
         </li>
        
         <li class="nav-item">
-            <a class="nav-link" href="login.html">Logout</a>
+            <a class="nav-link" href="{{ route('logout') }}">Logout</a>
         </li>
     </ul>
 </div>

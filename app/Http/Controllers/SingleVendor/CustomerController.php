@@ -11,14 +11,33 @@ use App\Http\Controllers\Controller;
 class CustomerController extends Controller
 {
     public function index(){
-        $orders = Order::where('user_id', Auth::user()->id)->orderBy('code', 'desc')->paginate(2);
-         return view('frontend_theme.single_vendor.user.customer.dashboard',compact('orders'));
+        // $orders = Order::where('user_id', Auth::user()->id)->orderBy('code', 'desc')->paginate(2);
+
+      //   return array(
+      //     'view_dashboard' => view('frontend_theme.single_vendor.user.customer.dashboard_home',compact('orders'))->render(),
+      // );
+          return view('frontend_theme.single_vendor.user.customer.dashboard');
     }
 
-    public function purchaseOrders(){
-        $orders = Order::where('user_id', Auth::user()->id)->orderBy('code', 'desc')->paginate(2);
-         return view('frontend_theme.single_vendor.user.customer.purchase-history',compact('orders'));
+    public function dashboard_home(){
+      return view('frontend_theme.single_vendor.user.customer.dashboard_home');
     }
+
+    public function address(){
+
+      return array(
+        'view_address' => view('frontend_theme.single_vendor.user.customer.address')->render(),
+      );
+      // return view('frontend_theme.single_vendor.user.customer.address');
+    }
+    public function account_details(){
+
+      return array(
+        'view_account' => view('frontend_theme.single_vendor.user.customer.account_details')->render(),
+      );
+      // return view('frontend_theme.single_vendor.user.customer.address');
+    }
+
 
     public function userProfileUpdate(Request $request){
       $user = Auth::user();

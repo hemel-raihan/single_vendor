@@ -51,7 +51,7 @@
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/demo42.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('single_vendor/assets/vendor/fontawesome-free/css/all.min.css') }}">
     
-    {{-- <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}">
 
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/style.min.css') }}">
 
@@ -199,6 +199,68 @@
             $('#cart_items').html(view);
             window.location.reload();
             // window.location.href="{{ route('cart') }}";
+        }
+
+
+
+        //Customer Dashboard section
+        function customer_dashboard(){
+             $('#customer-dashboard').html(null);
+            $.post('{{ route('customer.dashboard-home') }}', {
+              _token : '{{ csrf_token() }}',
+            }, function(data){
+                console.log("success");
+                $('#customer-dashboard').html(data);
+            });
+        }
+
+        function customer_orders(){
+             $('#customer-dashboard').html(null);
+            $.post('{{ route('customer.orders') }}', {
+              _token : '{{ csrf_token() }}',
+            }, function(data){
+                console.log("success");
+                $('#customer-dashboard').html(data.view_orders);
+            });
+        }
+
+        function customer_downloads(){
+             $('#customer-dashboard').html(null);
+            $.post('{{ route('customer.download') }}', {
+              _token : '{{ csrf_token() }}',
+            }, function(data){
+                console.log("success");
+                 $('#customer-dashboard').html(data.view_download);
+            });
+        }
+        function customer_address(){
+             $('#customer-dashboard').html(null);
+            $.post('{{ route('customer.address') }}', {
+              _token : '{{ csrf_token() }}',
+            }, function(data){
+                console.log("success");
+                 $('#customer-dashboard').html(data.view_address);
+            });
+        }
+
+        function customer_account_details(){
+             $('#customer-dashboard').html(null);
+            $.post('{{ route('customer.account-details') }}', {
+              _token : '{{ csrf_token() }}',
+            }, function(data){
+                console.log("success");
+                 $('#customer-dashboard').html(data.view_account);
+            });
+        }
+
+        function customer_wishlist(){
+             $('#customer-dashboard').html(null);
+            $.post('{{ route('customer.wishlist') }}', {
+              _token : '{{ csrf_token() }}',
+            }, function(data){
+                console.log("success");
+                 $('#customer-dashboard').html(data.view_wish);
+            });
         }
 
 
