@@ -194,22 +194,6 @@
             });
         }
 
-        // function addToCart(product_id){
-        //     if(!$('#modal-size').hasClass('modal-lg')){
-        //         $('#modal-size').addClass('modal-lg');
-        //     }
-        //     $('#addToCart').modal();
-        //     //$('.c-preloader').show();
-        //     $.post('{{ route('cart.addToCart') }}', {_token : '{{ csrf_token() }}', product_id:product_id, data: $('#option-choice-form').serializeArray()}, function(data){
-        //             $('#addToCart-modal-body').html(null);
-        //             //$('.c-preloader').hide();
-        //             $('#modal-size').removeClass('modal-lg');
-        //             $('#addToCart-modal-body').html(data.modal_view);
-
-        //             updateNavCart(data.nav_cart_view,data.cart_count);
-        //     });
-        // }
-
         function addToCart(product_id)
         {
             $.ajaxSetup({
