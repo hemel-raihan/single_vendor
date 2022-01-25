@@ -2,10 +2,12 @@
 
 namespace App\Models\Product;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin;
 use App\Models\Admin\Sidebar;
+use App\Models\Order\OrderDetail;
+use App\Models\Product\Productcategory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -50,6 +52,11 @@ class Product extends Model
 
     public function choice_options() {
         return json_decode($this->choice_options['choice_options']); // [city => dhaka, zip => 4112]
+    }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
     }
 
 }

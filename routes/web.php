@@ -248,6 +248,15 @@ Route::group(['as'=>'admin.','prefix'=>'admin', 'namespace'=>'Admin', 'middlewar
 
     Route::post('/contact/index', 'ContactController@index')->name('contact.index');
 
+
+    //Sales All Orders Action
+    Route::get('/all_orders', 'Sales\OrderController@all_orders')->name('all_orders.index');
+    Route::get('/all_orders/{id}/show', 'Sales\OrderController@all_orders_show')->name('all_orders.show');
+    Route::delete('/orders/destroy/{id}', 'Sales\OrderController@destroy')->name('orders.destroy');
+
+    Route::post('/orders/update_delivery_status', 'Sales\OrderController@update_delivery_status')->name('orders.update_delivery_status');
+    Route::post('/orders/update_payment_status', 'Sales\OrderController@update_payment_status')->name('orders.update_payment_status');
+    Route::get('invoice/{order_id}', 'InvoiceController@invoice_download')->name('invoice.download');
 });
 
 
