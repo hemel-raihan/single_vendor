@@ -56,7 +56,7 @@
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/style.min.css') }}">
 
     @yield('single_styles')
-    
+
 </head>
 
 <body>
@@ -68,7 +68,7 @@
         <!-- End .header -->
 
             @yield('main-content')
-            
+
         <!-- End .main -->
         {{-- Modal --}}
         @yield('modal')
@@ -167,7 +167,7 @@
                     url: '{{ route('cart.addToCart') }}',
                     product_id:product_id,
                     data: $('#option-choice-form').serializeArray(),
-               
+
                     success: function(data){
                         console.log("cart added");
                         //  $('#single_product_view').html(data.single_product_view);
@@ -176,7 +176,7 @@
                     }
                 });
 
-           
+
         }
 
         function removeFromCart(key){

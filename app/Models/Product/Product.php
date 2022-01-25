@@ -48,4 +48,8 @@ class Product extends Model
         return $this->hasMany(Productstock::class);
     }
 
+    public function choice_options() {
+        return json_decode($this->choice_options['choice_options']); // [city => dhaka, zip => 4112]
+    }
+
 }

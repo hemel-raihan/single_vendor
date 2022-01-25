@@ -105,7 +105,7 @@
                     <div class="header-user">
                         <i class="icon-user-2"></i>
                         <div class="header-userinfo">
-                         
+
                             <h4>
                                 @if (Auth::check())
                                 <a href="{{ route('logout') }}">{{ __('Logout') }}</a> /
@@ -124,7 +124,7 @@
                 <div id="cart-items">
                     @include('frontend_theme.single_vendor.partials.nav-cart')
                 </div>
-                
+
                 <!-- End .dropdown -->
             </div><!-- End .header-right -->
         </div><!-- End .container -->
@@ -139,20 +139,11 @@
                         <a href="#" class="d-inline-flex align-items-center sf-with-ul">
                             <i class="custom-icon-toggle-menu d-inline-table"></i><span>All
                                 Departments</span></a>
-                        <div class="menu-depart">
-                            <a href="#"><i class="icon-category-motorcycles"></i>Auto Parts</a>
-
-                            <a href="#">
-                                <i class="icon-category-internal-accessories"></i>Interior Accessories
-                            </a>
-
-                            <a href="#"><i class="icon-category-mechanics"></i>Performance</a>
-
-                            <a href="#"><i class="icon-category-sound-video"></i>Sound & Video</a>
-
-                            <a href="#"><i class="icon-category-steering"></i>Steering Wheels</a>
-
-                        </div>
+                                <div class="menu-depart">
+                                    @foreach (\App\Models\Product\Productcategory::where(['status'=>1])->get() as $key=>$category)
+                                    <a href="{{route('shops',$category->id)}}">{{$category->name}}</a>
+                                    @endforeach
+                                </div>
                     </li>
                     <li class="active">
                         <a href="demo42.html">Home</a>

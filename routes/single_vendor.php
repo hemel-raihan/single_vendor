@@ -26,7 +26,9 @@ Route::post('/home/section/home-callsection', 'SingleVendor\HomepageController@l
 Route::post('/home/section/home-recent', 'SingleVendor\HomepageController@load_recent_section')->name('home.section.recent');
 
 Route::get('/product/details/{slug}', 'SingleVendor\HomepageController@single_product_details')->name('product.details');
-Route::get('/product/shops', 'SingleVendor\HomepageController@shop')->name('shops');
+Route::get('/product/shops/{id}', 'SingleVendor\HomepageController@shop')->name('shops');
+Route::get('/product/shops/filtered/{catId}/{id}', 'SingleVendor\HomepageController@filter')->name('shops.filter');
+Route::get('/product/shops/filtered/attribute/{catId}/{id}', 'SingleVendor\HomepageController@filterAttribute')->name('shops.filter.attribute');
 // Route::get('/product/cart', 'SingleVendor\HomepageController@view_cart')->name('view.cart');
 Route::get('/product/checkout', 'SingleVendor\HomepageController@checkout')->name('checkout');
 
