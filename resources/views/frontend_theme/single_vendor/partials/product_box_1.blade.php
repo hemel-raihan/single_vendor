@@ -4,7 +4,7 @@
             <img src="{{ asset('uploads/productphoto/'.$product->image) }}" width="300" height="300" alt="product">
         </a>
         <div class="btn-icon-group">
-            <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
+            <a href="javascript:void(0)" onclick="showAddToCartModal({{ $product->id }})" class="btn-icon btn-add-cart product-type-simple"><i
                     class="icon-shopping-cart"></i></a>
         </div>
         

@@ -43,6 +43,13 @@ class CartController extends Controller
         return view('frontend_theme.single_vendor.pages.cart', compact('categories', 'carts'));
     }
 
+    //Show add to card modal
+    public function showCartModal(Request $request)
+    {
+        $product = Product::find($request->id);
+        return view('frontend_theme.single_vendor.partials.addToCart', compact('product'));
+    }
+
     public function addToCart(Request $request){
        
         $product = Product::find($request->id);
@@ -233,6 +240,7 @@ class CartController extends Controller
                 'cart_count' => count($carts),
                 'single_product_view' => view('frontend_theme.single_vendor.partials.single-product-view', compact('carts'))->render(),
                 'nav_cart_view' => view('frontend_theme.single_vendor.partials.nav-cart')->render(),
+                'modal_view' => view('frontend_theme.single_vendor.partials.addedToCart', compact('product', 'data'))->render(),
             );
         }
         else{

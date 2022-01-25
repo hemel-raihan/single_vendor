@@ -55,6 +55,7 @@ Route::post('/customer/wishlist', 'SingleVendor\WishlistController@customer_wish
 
 //Single add to cart
 Route::get('/cart/view', 'SingleVendor\CartController@index')->name('cart');
+Route::post('/cart/show-cart-modal', 'SingleVendor\CartController@showCartModal')->name('cart.showCartModal');
 Route::post('/cart/addtocart', 'SingleVendor\CartController@addToCart')->name('cart.addToCart');
 Route::post('/cart/removeFromCart', 'SingleVendor\CartController@removeFromCart')->name('cart.removeFromCart');
 Route::post('/cart/updateQuantity', 'SingleVendor\CartController@updateQuantity')->name('cart.updateQuantity');

@@ -50,7 +50,8 @@
                     @endforeach
                    
                 </div>
-            </div><!-- End .product-single-gallery -->
+            </div>
+            <!-- End .product-single-gallery -->
 
             <div class="col-lg-7 col-md-6 product-single-details">
                 <h1 class="product-title">{{ $product->title }}</h1>
@@ -224,7 +225,8 @@
                     <a href="javascript:void(0)" onclick="addToCart({{ $product->id }})" class="btn btn-dark add-cart mr-2" title="Add to Cart">Add to Cart</a>
 
                     <a href="{{ route('cart') }}" class="btn btn-gray view-cart">View cart</a>
-                </div><!-- End .product-action -->
+                </div>
+                <!-- End .product-action -->
 
                 <hr class="divider mb-0 mt-0">
 
@@ -249,8 +251,10 @@
                             Wishlist</span></a>
                 </div><!-- End .product single-share -->
             </div><!-- End .product-single-details -->
-        </div><!-- End .row -->
-    </div><!-- End .product-single-container -->
+        </div>
+        <!-- End .row -->
+    </div>
+    <!-- End .product-single-container -->
 
     <div class="product-single-tabs">
         <ul class="nav nav-tabs" role="tablist">

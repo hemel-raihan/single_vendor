@@ -13,7 +13,7 @@ if(auth()->user() != null) {
 
 @if(isset($cart) && count($cart) > 0)
 <div class="dropdown cart-dropdown">
-    <a href="#" title="Cart" class="dropdown-toggle dropdown-arrow cart-toggle" role="button"
+    <a href="javascript:void(0)" title="Cart" class="dropdown-toggle dropdown-arrow cart-toggle" role="button"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
         <i class="icon-cart-thick"></i>
         <span class="cart-count badge-circle cart-count">{{ count($cart) }}</span>
@@ -81,7 +81,7 @@ if(auth()->user() != null) {
 
 {{-- else --}}
 <div class="dropdown cart-dropdown">
-    <a href="#" title="Cart" class="dropdown-toggle dropdown-arrow cart-toggle" role="button"
+    <a href="javascript:void(0)" title="Cart" class="dropdown-toggle dropdown-arrow cart-toggle" role="button"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
         <i class="icon-cart-thick"></i>
         <span class="cart-count badge-circle">0</span>

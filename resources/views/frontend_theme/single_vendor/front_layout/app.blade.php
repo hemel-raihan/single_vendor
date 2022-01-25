@@ -126,6 +126,26 @@
 
     <a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
+    {{-- Modal section --}}
+
+    {{-- show add to card modal --}}
+    <div class="modal fade" id="addToCart">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom product-modal" id="modal-size" role="document">
+            <div class="modal-content position-relative">
+                <div class="c-preloader text-center p-3">
+                    <i class="fa fa-spinner fa-spin fa-3x"></i>
+                </div>
+                <button type="button" class="close absolute-top-right btn-icon close z-1" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="fa-2x">&times;</span>
+                </button>
+                <div id="addToCart-modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- end add to card modal --}}
+
     <!-- Plugins JS File -->
     <script src="{{ asset('single_vendor/assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('single_vendor/assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -151,9 +171,44 @@
             $.post('{{ route('purchase_history.details') }}', { _token : '{{ csrf_token() }}', order_id : order_id}, function(data){
                 $('#order-details-modal-body').html(data);
                 $('#order_details').modal();
-                // $('.c-preloader').hide();
+                $('.c-preloader').hide();
             });
         }
+
+        //Show add cart modal
+        function showAddToCartModal(id){
+            if(!$('#modal-size').hasClass('modal-lg')){
+                $('#modal-size').addClass('modal-lg');
+            }
+
+            $('#addToCart-modal-body').html(null);
+            $('#addToCart').modal();
+            $('.c-preloader').show();
+            $.post('{{ route('cart.showCartModal') }}', {_token : '{{ csrf_token() }}', id:id}, function(data){
+                $('.c-preloader').hide();
+                $('#addToCart-modal-body').html(data);
+                // SISMOO.plugins.slickCarousel();
+                // SISMOO.plugins.zoom();
+                // SISMOO.extra.plusMinus();
+                // getVariantPrice();
+            });
+        }
+
+        // function addToCart(product_id){
+        //     if(!$('#modal-size').hasClass('modal-lg')){
+        //         $('#modal-size').addClass('modal-lg');
+        //     }
+        //     $('#addToCart').modal();
+        //     //$('.c-preloader').show();
+        //     $.post('{{ route('cart.addToCart') }}', {_token : '{{ csrf_token() }}', product_id:product_id, data: $('#option-choice-form').serializeArray()}, function(data){
+        //             $('#addToCart-modal-body').html(null);
+        //             //$('.c-preloader').hide();
+        //             $('#modal-size').removeClass('modal-lg');
+        //             $('#addToCart-modal-body').html(data.modal_view);
+
+        //             updateNavCart(data.nav_cart_view,data.cart_count);
+        //     });
+        // }
 
         function addToCart(product_id)
         {
@@ -162,6 +217,9 @@
                     'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            $('#addToCart').modal();
+            $('.c-preloader').show();
             $.ajax({
                     type:"POST",
                     url: '{{ route('cart.addToCart') }}',
@@ -170,8 +228,10 @@
 
                     success: function(data){
                         console.log("cart added");
-                        //  $('#single_product_view').html(data.single_product_view);
-                        //window.location.reload();
+                        //$('#addToCart-modal-body').html(null);
+                       $('.c-preloader').hide();
+                       //$('#modal-size').removeClass('modal-lg');
+                       //$('#addToCart-modal-body').html(data.modal_view);
                         updateNavCart(data.nav_cart_view,data.cart_count);
                     }
                 });
@@ -188,7 +248,7 @@
                 // console.log("success");
                 updateNavCart(data.nav_cart_view,data.cart_count);
                  $('#cart-summary').html(data.cart_view);
-                 //window.location.reload();
+                 window.location.reload();
                 // SISMOO.plugins.notify('success', "{{ translate('Item has been removed from cart') }}");
                 // $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html())-1);
             });
@@ -196,7 +256,7 @@
 
         function updateNavCart(view,count){
             $('.cart-count').html(count);
-            $('#cart_items').html(view);
+            $('#cart-items').html(view);
             window.location.reload();
             // window.location.href="{{ route('cart') }}";
         }
