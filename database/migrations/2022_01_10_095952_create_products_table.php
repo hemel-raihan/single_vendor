@@ -45,12 +45,15 @@ class CreateProductsTable extends Migration
             $table->boolean('is_approved')->default(false);
             $table->integer('rightsidebar_id')->nullable();
             $table->integer('leftsidebar_id')->nullable();
+            $table->integer('digital')->default(0);
             $table->string('files')->nullable();
             $table->integer('shipping')->nullable();
             $table->integer('low_stock_qty')->nullable();
+            $table->integer('min_qty')->default(1);
             $table->boolean('cash_on_delivery')->nullable();
             $table->boolean('todays_deal')->nullable();
             $table->integer('estimate_shipping_time')->nullable();
+            $table->integer('num_of_sale')->default(0);
             $table->string('meta_title')->nullable();
             $table->string('meta_desc')->nullable();
             $table->timestamps();
