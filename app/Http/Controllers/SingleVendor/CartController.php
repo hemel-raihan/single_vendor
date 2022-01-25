@@ -77,7 +77,12 @@ class CartController extends Controller
                 //     'modal_view' => view('frontend.partials.minQtyNotSatisfied', [ 'min_qty' => $product->min_qty ])->render(),
                 //     'nav_cart_view' => view('frontend.partials.cart')->render(),
                 // );
-                return back();
+                //return back();
+                return array(
+                    'cart_count' => count($carts),
+                    'single_product_view' => view('frontend_theme.single_vendor.partials.single-product-view', compact('carts'))->render(),
+                    'nav_cart_view' => view('frontend_theme.single_vendor.partials.nav-cart')->render(),
+                );
             }
 
             //check the color enabled or disabled for the product
@@ -112,7 +117,12 @@ class CartController extends Controller
             $quantity = $product_stock->qty;
 
             if($quantity < $request['quantity']){
-                return back();
+                //return back();
+                return array(
+                    'cart_count' => count($carts),
+                    'single_product_view' => view('frontend_theme.single_vendor.partials.single-product-view', compact('carts'))->render(),
+                    'nav_cart_view' => view('frontend_theme.single_vendor.partials.nav-cart')->render(),
+                );
             }
 
             //discount calculation
@@ -176,7 +186,13 @@ class CartController extends Controller
                         $product_stock = $product->stocks->where('variant', $str)->first();
                         $quantity = $product_stock->qty;
                         if($quantity < $cartItem['quantity'] + $request['quantity']){
-                            return back();
+                            // return back();
+                            return array(
+                                'status' => 0,
+                                'cart_count' => count($carts),
+                                'single_product_view' => view('frontend_theme.single_vendor.partials.single-product-view', compact('carts'))->render(),
+                                'nav_cart_view' => view('frontend_theme.single_vendor.partials.nav-cart')->render(),
+                            );
                         }
                         if(($str != null && $cartItem['variation'] == $str) || $str == null){
                             $foundInCart = true;
@@ -212,7 +228,12 @@ class CartController extends Controller
                 $carts = Cart::where('temp_user_id', $temp_user_id)->get();
             }
             
-            return back();
+            // return back();
+            return array(
+                'cart_count' => count($carts),
+                'single_product_view' => view('frontend_theme.single_vendor.partials.single-product-view', compact('carts'))->render(),
+                'nav_cart_view' => view('frontend_theme.single_vendor.partials.nav-cart')->render(),
+            );
         }
         else{
             $price = $product->bids->max('amount');

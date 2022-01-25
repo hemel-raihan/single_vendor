@@ -35,12 +35,23 @@ Route::get('/product/checkout', 'SingleVendor\HomepageController@checkout')->nam
 
 // Customer Panel
 Route::get('/customer/dashboard', 'SingleVendor\CustomerController@index')->name('customer.dashboard');
-Route::get('/customer/purchase', 'SingleVendor\CustomerController@purchaseOrders')->name('customer.orders');
+Route::post('/customer/dashboard-home', 'SingleVendor\CustomerController@dashboard_home')->name('customer.dashboard-home');
+//orders
+//Route::get('/customer/purchase-history', 'SingleVendor\PurchaseHistoryController@purchaseOrders')->name('customer.orders');
+Route::post('/customer/purchase-history', 'SingleVendor\PurchaseHistoryController@purchaseOrders')->name('customer.orders');
 Route::post('/purchase_history/details', 'SingleVendor\PurchaseHistoryController@purchase_history_details')->name('purchase_history.details');
 
+//Download
+// Route::get('/customer/download','SingleVendor\DownloadController@index')->name('download.index');
+Route::post('/customer/download','SingleVendor\DownloadController@index')->name('customer.download');
+
 //user-profile
-Route::post('/customer/profile-update', 'SingleVendor\CustomerController@userProfileUpdate')->name('customer.profile.update');
+Route::post('/customer/account-details', 'SingleVendor\CustomerController@account_details')->name('customer.account-details');
+Route::post('/customer/account-details-update', 'SingleVendor\CustomerController@userProfileUpdate')->name('customer.profile.update');
+Route::post('/customer/address', 'SingleVendor\CustomerController@address')->name('customer.address');
 Route::post('/customer/address-add', 'SingleVendor\CustomerController@storeAddress')->name('customer.profile.address');
+
+Route::post('/customer/wishlist', 'SingleVendor\WishlistController@customer_wishlist')->name('customer.wishlist');
 
 //Single add to cart
 Route::get('/cart/view', 'SingleVendor\CartController@index')->name('cart');
