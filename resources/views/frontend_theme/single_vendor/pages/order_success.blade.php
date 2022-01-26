@@ -104,8 +104,8 @@
                                                         <td>{{ $key+1 }}</td>
                                                         <td>
                                                             @if ($orderDetail->product != null)
-                                                                <a href="#" target="_blank" class="text-reset">
-                                                                    {{ $orderDetail->product->name }}
+                                                                <a href="{{ route('product.details',$orderDetail->product->slug) }}" target="_blank" class="text-reset">
+                                                                    {{ $orderDetail->product->title }}
                                                                     {{-- @php
                                                                         if($orderDetail->combo_id != null) {
                                                                             $combo = \App\Models\ComboProduct::findOrFail($orderDetail->combo_id);

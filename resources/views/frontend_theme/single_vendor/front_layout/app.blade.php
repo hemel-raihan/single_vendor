@@ -48,12 +48,16 @@
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/bootstrap.min.css') }}">
 
     <!-- Main CSS File -->
+
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/demo42.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('single_vendor/assets/vendor/fontawesome-free/css/all.min.css') }}">
     
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}">
 
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/style.min.css') }}">
+
+
+
 
     @yield('single_styles')
 

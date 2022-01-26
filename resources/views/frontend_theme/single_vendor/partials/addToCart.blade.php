@@ -67,9 +67,22 @@
                    @endif
 
 
-                    <div class="product-single-qty">
+                    {{-- <div class="product-single-qty">
                         <input class="horizontal-quantity form-control" type="text" name="quantity"  value="{{ $product->min_qty }}" min="{{ $product->min_qty }}" max="10">
+                    </div> --}}
+
+                    <div class="product-single-qty">
+                        <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                            <span class="input-group-btn input-group-prepend">
+                                <button class="btn btn-outline btn-down-icon bootstrap-touchspin-down" type="button"></button>
+                            </span>
+                            <input class="horizontal-quantity form-control" type="text" name="quantity" value="{{ $product->min_qty }}" min="{{ $product->min_qty }}" max="10">
+                            <span class="input-group-btn input-group-append">
+                                <button class="btn btn-outline btn-up-icon bootstrap-touchspin-up" type="button"></button>
+                            </span>
+                        </div>
                     </div>
+
                     <input type="hidden" name="product_id" value="{{ $product->id }}" >
                     <input type="hidden" name="price" value="{{ $product->unit_price }}" >
 

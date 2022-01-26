@@ -131,37 +131,83 @@
     </div>
     <!-- End .header-middle -->
 
-    <div class="header-bottom sticky-header d-none d-lg-block" data-sticky-options="{'mobile': false}">
+    <div class="header-bottom sticky-header d-none d-lg-flex" data-sticky-options="{'mobile': false}">
         <div class="container">
             <nav class="main-nav w-100">
                 <ul class="menu w-100">
-                    {{-- category section --}}
                     <li class="menu-item d-flex align-items-center">
-                        <a class="d-inline-flex align-items-center sf-with-ul">
-                            <i class="custom-icon-toggle-menu d-inline-table"></i><span>All Categories</span></a>
-                        <ul>
-                            @php
-                                $categories = \App\Models\Product\Productcategory::where('parent_id', 0)
-                                                ->with('childrenRecursive')
-                                                ->get();
-                            @endphp
-
-                            @foreach ($categories as $category)
-                            <li><a href="{{route('shops',$category->id)}}">{{ $category->name }}</a>
-                                <ul>
-                                    @foreach ($category->childrenRecursive as $childCategory)
-                                        @include('frontend_theme.single_vendor.categories.child_category', ['child_category' => $childCategory])
+                        <a href="#" class="d-inline-flex align-items-center sf-with-ul">
+                            <i class="custom-icon-toggle-menu d-inline-table"></i><span>All
+                                Departments</span></a>
+                                <div class="menu-depart">
+                                    @foreach (\App\Models\Product\Productcategory::where(['status'=>1])->get() as $key=>$category)
+                                    <a href="{{route('shops',$category->id)}}">{{$category->name}}</a>
                                     @endforeach
-                                </ul>
-                            </li>
-                            @endforeach
-                           
-                        </ul>
+                                </div>
                     </li>
-                    {{-- end category --}}
-
+                    <li class="active">
+                        <a href="demo42.html">Home</a>
+                    </li>
                     <li>
-                        <a href="product.html">Products</a>
+                        <a href="demo42-shop.html">Shop</a>
+                        <div class="megamenu megamenu-fixed-width megamenu-3cols">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <a href="#" class="nolink">VARIATION 1</a>
+                                    <ul class="submenu">
+                                        <li><a href="demo42-shop.html" title="shop">Fullwidth Banner</a></li>
+                                        <li><a href="category-banner-boxed-slider.html">Boxed Slider
+                                                Banner</a>
+                                        </li>
+                                        <li><a href="category-banner-boxed-image.html">Boxed Image
+                                                Banner</a>
+                                        </li>
+                                        <li><a href="demo42-shop.html" title="shop">Left Sidebar</a></li>
+                                        <li><a href="category-sidebar-right.html">Right Sidebar</a></li>
+                                        <li><a href="category-off-canvas.html">Off Canvas Filter</a></li>
+                                        <li><a href="category-horizontal-filter1.html">Horizontal
+                                                Filter1</a>
+                                        </li>
+                                        <li><a href="category-horizontal-filter2.html">Horizontal
+                                                Filter2</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4">
+                                    <a href="#" class="nolink">VARIATION 2</a>
+                                    <ul class="submenu">
+                                        <li><a href="category-list.html">List Types</a></li>
+                                        <li><a href="category-infinite-scroll.html">Ajax Infinite Scroll</a>
+                                        </li>
+                                        <li><a href="demo42-shop.html" title="shop">3 Columns Products</a></li>
+                                        <li><a href="category-4col.html">4 Columns Products</a></li>
+                                        <li><a href="category-5col.html">5 Columns Products</a></li>
+                                        <li><a href="category-6col.html">6 Columns Products</a></li>
+                                        <li><a href="category-7col.html">7 Columns Products</a></li>
+                                        <li><a href="category-8col.html">8 Columns Products</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 p-0">
+                                    <div class="menu-banner">
+                                        <figure>
+                                            <img src="{{ asset('single_vendor/assets/images/menu-banner.jpg') }}" width="192" height="313"
+                                                alt="Menu banner">
+                                        </figure>
+                                        <div class="banner-content">
+                                            <h4>
+                                                <span class="">UP TO</span><br />
+                                                <b class="">50%</b>
+                                                <i>OFF</i>
+                                            </h4>
+                                            <a href="demo42-shop.html" class="btn btn-sm btn-dark">SHOP NOW</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End .megamenu -->
+                    </li>
+                    <li>
+                        <a href="demo42-product.html">Products</a>
                         <div class="megamenu megamenu-fixed-width">
                             <div class="row">
                                 <div class="col-lg-4">
@@ -186,7 +232,8 @@
                                         <li><a href="product-full-width.html">FULL WIDTH LAYOUT</a></li>
                                         <li><a href="product-sticky-info.html">STICKY INFO</a></li>
                                         <li><a href="product-sticky-both.html">LEFT & RIGHT STICKY</a></li>
-                                        <li><a href="product-transparent-image.html">TRANSPARENT IMAGE</a></li>
+                                        <li><a href="product-transparent-image.html">TRANSPARENT IMAGE</a>
+                                        </li>
                                         <li><a href="product-center-vertical.html">CENTER VERTICAL</a></li>
                                         <li><a href="#">BUILD YOUR OWN</a></li>
                                     </ul>
@@ -195,8 +242,8 @@
                                 <div class="col-lg-4 p-0">
                                     <div class="menu-banner menu-banner-2">
                                         <figure>
-                                            <img src="{{ asset('single_vendor/assets/images/menu-banner-1.jpg') }}" width="182" height="317"
-                                                alt="Menu banner" class="product-promo">
+                                            <img src="{{ asset('single_vendor/assets/images/menu-banner-1.jpg') }}" alt="Menu banner"
+                                                class="product-promo">
                                         </figure>
                                         <i>OFF</i>
                                         <div class="banner-content">
@@ -205,22 +252,37 @@
                                                 <b class="">50%</b>
                                             </h4>
                                         </div>
-                                        <a href="category.html" class="btn btn-sm btn-dark">SHOP NOW</a>
+                                        <a href="demo42-shop.html" class="btn btn-sm btn-dark">SHOP NOW</a>
                                     </div>
                                 </div><!-- End .col-lg-4 -->
                             </div><!-- End .row -->
                         </div><!-- End .megamenu -->
                     </li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li class="float-right"><a href="https://1.envato.market/DdLk5" class="pl-5"
-                            target="_blank">Buy Porto!</a></li>
-                    <li class="float-right"><a href="#" class="pl-5">Special Offer!</a></li>
+                    <li>
+                        <a href="#">Pages</a>
+                        <ul>
+                            <li><a href="wishlist.html">Wishlist</a></li>
+                            <li><a href="cart.html">Shopping Cart</a></li>
+                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="dashboard.html">Dashboard</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="#">Blog</a>
+                                <ul>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="single.html">Blog Post</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="forgot-password.html">Forgot Password</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="https://1.envato.market/DdLk5" rel="noopener" target="_blank">Buy Porto!</a>
+                    </li>
+                    <li class="float-right"><a href="#" class="pr-0">Special Offers</a></li>
                 </ul>
             </nav>
-        </div>
-        
+        </div><!-- End .container -->
     </div>
     <!-- End .header-bottom -->
 </header>

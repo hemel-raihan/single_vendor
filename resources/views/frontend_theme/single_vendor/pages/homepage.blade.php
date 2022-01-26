@@ -128,7 +128,7 @@
             $('#home_specialoffer_section').html(data);
             // Now we can call the owlCarousel
             var owl = $(".owl-carousel");
-            owl.owlCarousel({'loop': true,'dots': false,'nav': true,'margin': 20,'responsive': {
+            owl.owlCarousel({'loop': false,'dots': false,'nav': true,'margin': 20,'responsive': {
                     '0': {
                         'items': 1
                     },

@@ -18,6 +18,11 @@ class Productcategory extends Model
         return $this->belongsTo(Productcategory::class, 'parent_id');
     }
 
+    public function categories()
+    {
+        return $this->hasMany(Productcategory::class, 'parent_id');
+    }
+
     public function children()
     {
         return $this->hasMany(Productcategory::class, 'parent_id');
