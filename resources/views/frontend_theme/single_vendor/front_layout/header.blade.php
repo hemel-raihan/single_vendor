@@ -156,30 +156,41 @@
                                 </ul>
                             </li>
                             @endforeach
-                           
+
                         </ul>
                     </li>
                     {{-- end category --}}
+                    @isset($menuitems)
+                    @foreach ($menuitems as $menuitem)
+                    @if($menuitem->childs->isEmpty())
 
                     <li>
-                        <a href="product.html">Products</a>
+                        <a href="{{route('page',$menuitem->slug)}}">{{$menuitem->title}}</a>
+                    </li>
+
+                    @else
+
+                    <li>
+                        <a href="#">{{$menuitem->title}}</a>
                         <div class="megamenu megamenu-fixed-width">
                             <div class="row">
+                                @foreach ($menuitem->childs as $item)
+                                @if ($item->childs->isEmpty())
                                 <div class="col-lg-4">
-                                    <a href="#" class="nolink">PRODUCT PAGES</a>
+                                    <a href="{{route('page',$item->slug)}}">{{$item->title}}</a>
+                                </div>
+                                @else
+                                <div class="col-lg-4">
+                                    <a href="#" class="nolink">{{$item->title}}</a>
                                     <ul class="submenu">
-                                        <li><a href="product.html">SIMPLE PRODUCT</a></li>
-                                        <li><a href="product-variable.html">VARIABLE PRODUCT</a></li>
-                                        <li><a href="product.html">SALE PRODUCT</a></li>
-                                        <li><a href="product.html">FEATURED & ON SALE</a></li>
-                                        <li><a href="product-custom-tab.html">WITH CUSTOM TAB</a></li>
-                                        <li><a href="product-sidebar-left.html">WITH LEFT SIDEBAR</a></li>
-                                        <li><a href="product-sidebar-right.html">WITH RIGHT SIDEBAR</a></li>
-                                        <li><a href="product-addcart-sticky.html">ADD CART STICKY</a></li>
+                                        @foreach ($item->childs as $itemm)
+                                        <li><a href="{{route('page',$itemm->slug)}}">{{$itemm->title}}</a></li>
+                                        @endforeach
                                     </ul>
-                                </div><!-- End .col-lg-4 -->
-
-                                <div class="col-lg-4">
+                                </div>
+                                @endif
+                                @endforeach
+                                {{-- <div class="col-lg-4">
                                     <a href="#" class="nolink">PRODUCT LAYOUTS</a>
                                     <ul class="submenu">
                                         <li><a href="product-extended-layout.html">EXTENDED LAYOUT</a></li>
@@ -191,9 +202,9 @@
                                         <li><a href="product-center-vertical.html">CENTER VERTICAL</a></li>
                                         <li><a href="#">BUILD YOUR OWN</a></li>
                                     </ul>
-                                </div><!-- End .col-lg-4 -->
+                                </div><!-- End .col-lg-4 --> --}}
 
-                                <div class="col-lg-4 p-0">
+                                {{-- <div class="col-lg-4 p-0">
                                     <div class="menu-banner menu-banner-2">
                                         <figure>
                                             <img src="{{ asset('single_vendor/assets/images/menu-banner-1.jpg') }}" width="182" height="317"
@@ -208,20 +219,17 @@
                                         </div>
                                         <a href="category.html" class="btn btn-sm btn-dark">SHOP NOW</a>
                                     </div>
-                                </div><!-- End .col-lg-4 -->
+                                </div><!-- End .col-lg-4 --> --}}
                             </div><!-- End .row -->
                         </div><!-- End .megamenu -->
                     </li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li class="float-right"><a href="https://1.envato.market/DdLk5" class="pl-5"
-                            target="_blank">Buy Porto!</a></li>
-                    <li class="float-right"><a href="#" class="pl-5">Special Offer!</a></li>
+                    @endif
+                    @endforeach
+                    @endisset
                 </ul>
             </nav>
         </div>
-        
+
     </div>
     <!-- End .header-bottom -->
 </header>

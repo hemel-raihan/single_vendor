@@ -51,7 +51,7 @@
 
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/demo42.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('single_vendor/assets/vendor/fontawesome-free/css/all.min.css') }}">
-    
+
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}">
 
     <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/style.min.css') }}">
@@ -68,7 +68,18 @@
         @include('frontend_theme.single_vendor.front_layout.top-notice')
         <!-- End .top-notice -->
 
-        @include('frontend_theme.single_vendor.front_layout.header')
+        @php
+            $menus = \App\Models\Frontmenu\Frontmenu::where([['type','=','main-menu'],['status','=',true]])->get();
+            foreach($menus as $menu)
+            {
+                $menuitems = $menu->menuItems()->get();
+            }
+            @endphp
+            @isset($menuitems)
+             @include('frontend_theme.single_vendor.front_layout.header')
+             @else
+            @include('frontend_theme.single_vendor.front_layout.header')
+            @endisset
         <!-- End .header -->
 
             @yield('main-content')

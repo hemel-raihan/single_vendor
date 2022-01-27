@@ -44,6 +44,8 @@ class MenuitemController extends Controller
 
     public function store(Request $request,$id)
     {
+        $contentcategory_id = null;
+        $page_id = null;
         foreach($request->input('slug') as $key => $value) {
             $slug = $request->input('slug')[$key];
         }
