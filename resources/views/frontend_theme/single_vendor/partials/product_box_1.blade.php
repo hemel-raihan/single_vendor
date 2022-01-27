@@ -30,7 +30,11 @@
             </div>
         </div>
         <div class="price-box">
-            <span class="product-price">Tk.{{ $product->unit_price }}</span>
+            @if ($product->unit_price != home_discounted_base_price($product))
+            <del class="old-price">Tk.{{ $product->unit_price }}</del>
+            @endif
+            {{-- <span class="product-price">Tk.{{ $product->discount }}</span> --}}
+            <span class="product-price">Tk.{{ home_discounted_base_price($product) }}</span>
         </div>
     </div>
 </div>

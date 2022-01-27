@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/style.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('single_vendor/assets/vendor/simple-line-icons/css/simple-line-icons.min.css') }}">
 
-{{-- <link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}"> --}}
+<link rel="stylesheet" href="{{ asset('single_vendor/assets/css/sismoo-core.css') }}">
 
 
 

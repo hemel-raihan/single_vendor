@@ -123,6 +123,7 @@
 
                 <div id="cart-items">
                     @include('frontend_theme.single_vendor.partials.nav-cart')
+                    
                 </div>
 
                 <!-- End .dropdown -->

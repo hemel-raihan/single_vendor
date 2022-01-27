@@ -198,8 +198,11 @@
             });
         }
 
-        function addToCart(product_id)
+        function addToCart()
         {
+           
+            if(checkAddToCartValidity()) {
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -211,20 +214,41 @@
             $.ajax({
                     type:"POST",
                     url: '{{ route('cart.addToCart') }}',
-                    product_id:product_id,
+                    // product_id:product_id,
                     data: $('#option-choice-form').serializeArray(),
 
                     success: function(data){
                         console.log("cart added");
-                        //$('#addToCart-modal-body').html(null);
+                       $('#addToCart-modal-body').html(null);
                        $('.c-preloader').hide();
-                       //$('#modal-size').removeClass('modal-lg');
-                       //$('#addToCart-modal-body').html(data.modal_view);
+                       $('#modal-size').removeClass('modal-lg');
+                       $('#addToCart-modal-body').html(data.modal_view);
                         updateNavCart(data.nav_cart_view,data.cart_count);
                     }
                 });
+            }
+            else{
+                alert('Please choose all the options');
+            }
 
+        }
 
+        //visibility check
+        function checkAddToCartValidity(){
+            var names = {};
+            $('#option-choice-form input:radio').each(function() { // find unique names
+                  names[$(this).attr('name')] = true;
+            });
+            var count = 0;
+            $.each(names, function() { // then count them
+                  count++;
+            });
+
+            if($('#option-choice-form input:radio:checked').length == count){
+                return true;
+            }
+
+            return false;
         }
 
         function removeFromCart(key){
@@ -242,7 +266,9 @@
             });
         }
 
+
         function updateNavCart(view,count){
+
             $('.cart-count').html(count);
             $('#cart-items').html(view);
             window.location.reload();
