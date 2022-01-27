@@ -5,6 +5,10 @@
                 <img src="{{asset('uploads/productphoto/'.$product->image)}}"
                     width="300" height="300" alt="product">
             </a>
+            <div class="btn-icon-group">
+                <a href="javascript:void(0)" onclick="showAddToCartModal({{ $product->id }})" class="btn-icon  product-type-simple"><i
+                        class="icon-shopping-cart"></i></a>
+            </div>
             <div class="label-group">
                 @if ($product->discount_type == 'Percent')
                 <span class="product-label label-sale">-{{$product->discount_rate}}%</span>
@@ -36,7 +40,7 @@
                 @else
                 <del class="old-price">${{number_format(($product->unit_price),2,'.','')}}</del>
                 @php
-                    if($product->discount_type == 'Flat')
+                    if($product->discount_type == 'amount')
                     {
                         $after_discount = $product->unit_price - $product->discount_rate;
                     }

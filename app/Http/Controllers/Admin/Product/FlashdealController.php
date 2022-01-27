@@ -195,7 +195,7 @@ class FlashdealController extends Controller
         }
         else
         {
-            $imagename = $flash_deal->image;
+            $imagename = $flash_deal->banner;
         }
 
         if(!$request->status)
@@ -218,7 +218,7 @@ class FlashdealController extends Controller
             'status' => $status,
         ]);
 
-        $flash_deal->products()->attach($request->products);
+        $flash_deal->products()->sync($request->products);
 
         foreach ($request->products as $key => $product) {
         $root_product = Product::findOrFail($product);

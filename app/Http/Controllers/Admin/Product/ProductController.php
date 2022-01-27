@@ -937,7 +937,7 @@ class ProductController extends Controller
 
         //for many to many
         $product->productcategories()->sync($request->categories);
-
+        $product->flashdeals()->sync($request->flash_deal_id);
 
         notify()->success("Product Successfully Updated","Update");
         return redirect()->route('admin.products.index');

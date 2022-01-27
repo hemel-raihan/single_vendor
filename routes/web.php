@@ -266,6 +266,6 @@ Route::group(['as'=>'author.','prefix'=>'author', 'namespace'=>'Admin', 'middlew
     Route::get('dashboard', 'DashboardController@author')->name('dashboard');
 });
 
-//Route::get('{slug}', 'PageController@index')->name('page');
+Route::get('{slug}', 'PageController@index')->name('page');
 // Route::get('{categoryslug}', 'PageController@category')->name('category.page');
 //Route::get('{contentcategoryslug}', 'PageController@contentcategory')->name('contentcategory');

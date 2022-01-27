@@ -16,6 +16,9 @@ class HomepageController extends Controller
     public function load_category_section(){
         return view('frontend_theme.single_vendor.partials.home-category');
     }
+    public function load_flashdeal_section(){
+        return view('frontend_theme.single_vendor.partials.home-flashdeal');
+    }
     public function load_hot_deals_section(){
         return view('frontend_theme.single_vendor.partials.home-hotdeals');
     }
