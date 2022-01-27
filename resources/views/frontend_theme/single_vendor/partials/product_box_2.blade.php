@@ -1,9 +1,9 @@
-<div class="col-6 col-sm-4">
+
     <div class="product-default inner-quickview inner-icon">
         <figure>
             <a href="{{route('product.details',$product->slug)}}">
                 <img src="{{asset('uploads/productphoto/'.$product->image)}}"
-                    width="300" height="300" alt="product">
+                     alt="product">
             </a>
             <div class="btn-icon-group">
                 <a href="javascript:void(0)" onclick="showAddToCartModal({{ $product->id }})" class="btn-icon  product-type-simple"><i
@@ -55,4 +55,4 @@
             </div><!-- End .price-box -->
         </div><!-- End .product-details -->
     </div>
-</div>
+
