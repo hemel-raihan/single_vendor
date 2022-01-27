@@ -90,7 +90,7 @@
 								</ol> --}}
 							</div>
 							<div class="ms-auto pageheader-btn">
-								<a href="{{route('admin.sidebars.index')}}" class="btn btn-primary btn-icon text-white me-2">
+								<a href="{{route('admin.frontmenus.index')}}" class="btn btn-primary btn-icon text-white me-2">
 									<span>
 										{{-- <i class="fe fe-minus"></i> --}}
 									</span> Back To PostList
@@ -128,15 +128,17 @@
                         @enderror
 					</div>
 
+
                     <div class="form-group">
                         <label for="type">Type</label>
                         <select class="form-control form-select select2" name="type" id="type">
                             <option value="" >Select Menu Type</option>
-                            <option value="main-menu" @isset($menuItem) {{$frontmenu->type == 'main-menu' ? 'selected' : ''}} @endisset >Main Menu</option>
-                            <option value="top-menu" @isset($menuItem) {{$frontmenu->type == 'top-menu' ? 'selected' : ''}} @endisset >Top Menu</option>
-                            <option value="footer-menu" @isset($menuItem) {{$frontmenu->type == 'footer-menu' ? 'selected' : ''}} @endisset >Footer Menu</option>
+                            <option value="main-menu" @isset($frontmenu) {{$frontmenu->type == 'main-menu' ? 'selected' : ''}} @endisset >Main Menu</option>
+                            <option value="top-menu" @isset($frontmenu) {{$frontmenu->type == 'top-menu' ? 'selected' : ''}} @endisset >Top Menu</option>
+                            <option value="footer-menu" @isset($frontmenu) {{$frontmenu->type == 'footer-menu' ? 'selected' : ''}} @endisset >Footer Menu</option>
                         </select>
                     </div>
+
 
 				</div>
 

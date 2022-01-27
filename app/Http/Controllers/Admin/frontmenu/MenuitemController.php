@@ -44,7 +44,15 @@ class MenuitemController extends Controller
 
     public function store(Request $request,$id)
     {
+        $this->validate($request,[
+            'title' => 'required'
+        ],
+        [
+            'title.required' => 'Menu Order already changed. check in Home-page Please!',
+        ]);
+
         $contentcategory_id = null;
+        $blogcategory_id = null;
         $page_id = null;
         foreach($request->input('slug') as $key => $value) {
             $slug = $request->input('slug')[$key];
@@ -67,6 +75,20 @@ class MenuitemController extends Controller
 
         }
 
+        $blogcategory = category::all();
+        foreach($blogcategory  as $blogcat)
+        {
+            if($blogcat->slug == $slug)
+            {
+                $blogcategory_id = $content_id;
+            }
+            else
+            {
+                $blogcategory_id = null;
+            }
+
+        }
+
         $page = Page::all();
         foreach($page  as $page)
         {
@@ -82,12 +104,7 @@ class MenuitemController extends Controller
         }
 
 
-        $this->validate($request,[
-            'title' => 'required'
-        ],
-        [
-            'title.required' => 'Menu Order already changed. check in Home-page Please!',
-        ]);
+
 
 
         $menu = Frontmenu::findOrFail($id);
@@ -112,6 +129,7 @@ class MenuitemController extends Controller
             'title' => $title,
             'slug' => $slug,
             'contentcategory_id' => $contentcategory_id,
+            'blogcategory_id' => $blogcategory_id,
             'page_id' => $page_id,
         ]);
 
@@ -126,16 +144,9 @@ class MenuitemController extends Controller
         $menu = Frontmenu::findOrFail($id);
         $menu->menuItems()->create([
             'title' => $request->title,
-            'slug' => $request->slug,
+            'url' => $request->url,
         ]);
         return back();
-
-        // $menu = new Frontmenuitem();
-        // $menu->title = $request->title;
-        // $menu->slug = $request->slug;
-        // $menu->frontmenu_id = 1;
-        // $menu->save();
-        // return ['success'=>true,'message'=>'data insert successfully'];
     }
 
     public function order(Request $request, $id)
@@ -180,9 +191,26 @@ class MenuitemController extends Controller
     public function update(Request $request,$menuId)
     {
         $frontmenu = Frontmenuitem::findOrFail($menuId);
+        if($request->slug)
+        {
+            $slug = $request->slug;
+        }
+        else
+        {
+            $slug = null;
+        }
+        if($request->url)
+        {
+            $url = $request->url;
+        }
+        else
+        {
+            $url = null;
+        }
         $frontmenu->update([
             'title' => $request->title,
-            'slug' => $request->slug,
+            'slug' => $slug,
+            'url' => $url,
         ]);
         notify()->success('Menu Updated Successfully');
         return back();

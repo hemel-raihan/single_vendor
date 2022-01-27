@@ -40,24 +40,28 @@
                     </div><!-- End .widget -->
                 </div><!-- End .col-lg-3 -->
 
+                @isset($footer_menuitems)
+                @foreach ($footer_menuitems as $footer_menuitem)
+
                 <div class="col-lg-3 col-sm-6 pb-2 pb-sm-0">
                     <div class="widget">
-                        <h4 class="widget-title pb-1">Customer Services</h4>
-
+                        <h4 class="widget-title pb-1">{{$footer_menuitem->title}}</h4>
+                        @if(!$footer_menuitem->childs->isEmpty())
                         <ul class="links">
-                            <li><a href="#">Help &amp; FAQs</a></li>
-                            <li><a href="#">Order Tracking</a></li>
-                            <li><a href="#">Shipping &amp; Delivery</a></li>
-                            <li><a href="#">Orders History</a></li>
-                            <li><a href="#">Advanced Search</a></li>
-                            <li><a href="login.html">Login</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="demo1-about.html">About Us</a></li>
-                            <li><a href="#">Corporate Sales</a></li>
+                            @foreach ($footer_menuitem->childs as $footer_item)
+                            @if ($footer_item->slug == null)
+                            <li><a href="{{$footer_item->url}}">{{$footer_item->title}}</a></li>
+                            @else
+                            <li><a href="{{route('page',$footer_item->slug)}}">{{$footer_item->title}}</a></li>
+                            @endif
+                            @endforeach
                         </ul>
+                        @endif
                     </div><!-- End .widget -->
                 </div><!-- End .col-lg-3 -->
 
+                @endforeach
+                @endisset
                 <div class="col-lg-4 col-sm-6 pb-0">
                     <div class="widget widget-newsletter mb-1 mb-sm-3">
                         <h4 class="widget-title">Subscribe Newsletter</h4>

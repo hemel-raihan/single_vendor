@@ -68,7 +68,7 @@
         @include('frontend_theme.single_vendor.front_layout.top-notice')
         <!-- End .top-notice -->
 
-        @php
+            @php
             $menus = \App\Models\Frontmenu\Frontmenu::where([['type','=','main-menu'],['status','=',true]])->get();
             foreach($menus as $menu)
             {
@@ -76,7 +76,7 @@
             }
             @endphp
             @isset($menuitems)
-             @include('frontend_theme.single_vendor.front_layout.header')
+             @include('frontend_theme.single_vendor.front_layout.header',['menuitems'=>$menuitems])
              @else
             @include('frontend_theme.single_vendor.front_layout.header')
             @endisset
@@ -89,7 +89,19 @@
         @yield('modal')
         {{--End Modal --}}
 
+        @php
+        $footer_menus = \App\Models\Frontmenu\Frontmenu::where([['type','=','footer-menu'],['status','=',true]])->get();
+        foreach($footer_menus as $footer_menu)
+        {
+            $footer_menuitems = $footer_menu->menuItems()->get();
+        }
+        @endphp
+        @isset($footer_menuitems)
+        @include('frontend_theme.single_vendor.front_layout.footer',['footer_menuitems'=>$footer_menuitems])
+        @else
         @include('frontend_theme.single_vendor.front_layout.footer')
+        @endisset
+
     </div><!-- End .page-wrapper -->
 
     <div class="loading-overlay">
@@ -211,7 +223,7 @@
 
         function addToCart()
         {
-           
+
             if(checkAddToCartValidity()) {
 
             $.ajaxSetup({

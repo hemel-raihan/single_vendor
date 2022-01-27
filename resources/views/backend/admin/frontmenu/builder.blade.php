@@ -226,7 +226,7 @@
                                           </div>
 
 
-                                          <p style="background: #f3f8fb;">
+                                          {{-- <p style="background: #f3f8fb;">
                                             <a class="btn" data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample">
                                               Teams Categories
                                             </a>
@@ -256,7 +256,7 @@
 
                                                 <button id="add_teamcategory" class="btn btn-primary">Add to Menu</button>
                                             </div>
-                                          </div>
+                                          </div> --}}
 
 
                                           <p style="background: #f3f8fb;">
@@ -275,7 +275,7 @@
                                                 <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="" name="title" id="title" placeholder="Menu Name">
 
                                                 <label style="margin-left: 20px;" for="exampleInputname">Menu URL :</label>
-                                                <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="" name="slug" id="menuslug" placeholder="Menu URL">
+                                                <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="" name="url" id="menuslug" placeholder="Menu URL">
 
                                                 <button style="width: 20%; margin-left: 40%; " type="submit"  class="btn btn-success mt-5 mb-5">Save</button>
                                                 </form>
@@ -362,7 +362,13 @@
                                                             <strong> Divider: {{$item->divider_title }}</strong>
                                                             @else
                                                             <span id="span_title-{{$item->id}}"> {{$item->title }}</span>
+                                                            @isset($item->url)
+                                                            <small id="span_url-{{$item->id}}" class="url">{{$item->url}}</small>
+                                                            <small id="span_slug-{{$item->id}}" class="url">0</small>
+                                                            @else
                                                             <small id="span_slug-{{$item->id}}" class="url">{{$item->slug}}</small>
+                                                            <small id="span_url-{{$item->id}}" class="url">0</small>
+                                                            @endisset
                                                             @endif
                                                         </div>
 
@@ -567,6 +573,17 @@ function fetchportfolio()
     function Foo(id) {
         var span_Text = document.getElementById("span_title-"+id).innerText;
         var span_Slug = document.getElementById("span_slug-"+id).innerText;
+        var span_Url = document.getElementById("span_url-"+id).innerText;
+        if(span_Slug == 0)
+        {
+            var value = span_Url;
+            var name = 'url';
+        }
+        if(span_Url == 0)
+        {
+            var value = span_Slug;
+            var name = 'slug';
+        }
         var idd = id;
         var url = '{{ route("admin.menuitem.update", ":id") }}';
         url = url.replace(':id', id);
@@ -583,7 +600,8 @@ function fetchportfolio()
                                     <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="`+span_Text+`" name="title" id="menutitle" placeholder="Menu Name">
 
                                     <label style="margin-left: 20px;" for="exampleInputname">Menu URL :</label>
-                                    <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="`+span_Slug+`" name="slug" id="slug" placeholder="Menu Slug">
+
+                                    <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="`+value+`" name="`+name+`" id="`+name+`" placeholder="Menu Slug">
 
                                     <button style="width: 20%; margin-left: 40%; " type="submit" class="btn btn-success mt-5 mb-5">Edit</button>
                                 </div>
@@ -599,6 +617,17 @@ function fetchportfolio()
     function Foo_child(id) {
         var span_Text = document.getElementById("titlee-"+id).innerText;
         var span_Slug = document.getElementById("slug-"+id).innerText;
+        var span_Url = document.getElementById("url-"+id).innerText;
+        if(span_Slug == 0)
+        {
+            var value = span_Url;
+            var name = 'url';
+        }
+        if(span_Url == 0)
+        {
+            var value = span_Slug;
+            var name = 'slug';
+        }
         var url = '{{ route("admin.menuitem.update", ":id") }}';
         url = url.replace(':id', id);
 
@@ -614,7 +643,7 @@ function fetchportfolio()
                                     <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="`+span_Text+`" name="title" id="menutitle" placeholder="Menu Name">
 
                                     <label style="margin-left: 20px;" for="exampleInputname">Menu URL :</label>
-                                    <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="`+span_Slug+`" name="slug" id="slug" placeholder="Menu Slug">
+                                    <input style="margin-left: 20px; width: 80%;" type="text" class="form-control" value="`+value+`" name="`+name+`" id="`+name+`" placeholder="Menu Slug">
 
                                     <button style="width: 20%; margin-left: 40%; " type="submit" class="btn btn-success mt-5 mb-5">Edit</button>
                                 </div>

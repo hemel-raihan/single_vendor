@@ -48,20 +48,20 @@ class MenuController extends Controller
             'title' => 'required',
         ]);
 
-        // if(!$request->status)
-        // {
-        //     $status = 0;
-        // }
-        // else
-        // {
-        //     $status = 1;
-        // }
+        if(!$request->status)
+        {
+            $status = 0;
+        }
+        else
+        {
+            $status = 1;
+        }
 
 
         $menu = Frontmenu::create([
             'title' => Str::slug($request->title),
             'type' => $request->type,
-            'status' => 0,
+            'status' => $status,
         ]);
 
 
@@ -89,7 +89,7 @@ class MenuController extends Controller
                     $mmenu->save();
                 }
             }
-            
+
         return redirect()->back();
     }
 
@@ -132,19 +132,19 @@ class MenuController extends Controller
         ]);
 
 
-        // if(!$request->status)
-        // {
-        //     $status = 0;
-        // }
-        // else
-        // {
-        //     $status = 1;
-        // }
+        if(!$request->status)
+        {
+            $status = 0;
+        }
+        else
+        {
+            $status = 1;
+        }
 
         $frontmenu->update([
             'title' => Str::slug($request->title),
             'type' => $request->type,
-            'status' => 0,
+            'status' => $status,
         ]);
 
 

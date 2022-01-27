@@ -123,7 +123,7 @@
 
                 <div id="cart-items">
                     @include('frontend_theme.single_vendor.partials.nav-cart')
-                    
+
                 </div>
 
                 <!-- End .dropdown -->
@@ -165,7 +165,12 @@
                     @if($menuitem->childs->isEmpty())
 
                     <li>
-                        <a href="{{route('page',$menuitem->slug)}}">{{$menuitem->title}}</a>
+
+                        @if ($menuitem->slug == null)
+                        <a class="active" href="{{$menuitem->url}}">{{$menuitem->title}}</a>
+                        @else
+                        <a class="active" href="{{route('page',$menuitem->slug)}}">{{$menuitem->title}}</a>
+                        @endif
                     </li>
 
                     @else
@@ -176,11 +181,15 @@
                             <div class="row">
                                 @foreach ($menuitem->childs as $item)
                                 @if ($item->childs->isEmpty())
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
+                                    @if ($item->slug == null)
+                                    <a href="{{$item->url}}">{{$item->title}}</a>
+                                    @else
                                     <a href="{{route('page',$item->slug)}}">{{$item->title}}</a>
+                                    @endif
                                 </div>
                                 @else
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <a href="#" class="nolink">{{$item->title}}</a>
                                     <ul class="submenu">
                                         @foreach ($item->childs as $itemm)

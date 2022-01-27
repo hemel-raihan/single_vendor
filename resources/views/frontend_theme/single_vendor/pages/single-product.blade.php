@@ -102,7 +102,12 @@
                 <hr class="short-divider">
 
                 <div class="price-box">
-                    <span class="product-price">Tk.{{ $product->unit_price }}</span>
+                    {{-- <span class="product-price">Tk.{{ $product->unit_price }}</span> --}}
+                    @if ($product->unit_price != home_discounted_base_price($product))
+                    <del class="old-price">Tk.{{ $product->unit_price }}</del>
+                    @endif
+                    {{-- <span class="product-price">Tk.{{ $product->discount }}</span> --}}
+                    <span class="product-price">Tk.{{ home_discounted_base_price($product) }}</span>
                 </div><!-- End .price-box -->
 
                 <div class="product-desc">
@@ -293,7 +298,7 @@
                 aria-labelledby="product-tab-tags">
                 <table class="table table-striped mt-2">
                     <tbody>
-                        <tr>
+                        {{-- <tr>
                             <th>Weight</th>
                             <td>23 kg</td>
                         </tr>
@@ -301,16 +306,34 @@
                         <tr>
                             <th>Dimensions</th>
                             <td>12 × 24 × 35 cm</td>
-                        </tr>
+                        </tr> --}}
 
                         <tr>
                             <th>Color</th>
-                            <td>Black, Green, Indigo</td>
+                            <td>
+                                @if (count(json_decode($product->colors)) != 0)
+                                @foreach (json_decode($product->colors) as $key => $color)
+                                {{ \App\Models\Product\Color::where('code', $color)->first()->name }},
+                                @endforeach
+                                @else
+                                No Colors
+                                @endif
+                            </td>
                         </tr>
 
                         <tr>
                             <th>Size</th>
-                            <td>Large, Medium, Small</td>
+                            <td>
+                                @if (count(json_decode($product->choice_options)) != 0)
+                                @foreach (json_decode($product->choice_options) as $key => $choice)
+                                @foreach ($choice->values as $key => $value)
+                                {{$value}},
+                                @endforeach
+                                @endforeach
+                                @else
+                                No Size
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>
