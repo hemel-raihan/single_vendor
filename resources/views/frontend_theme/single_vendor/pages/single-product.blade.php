@@ -107,10 +107,7 @@
 
                 <div class="product-desc">
                     <p>
-                        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-                        egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet,
-                        ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est.
-                        Mauris placerat eleifend leo.
+                        {!!Str::limit($product->desc, 100)!!}
                     </p>
                 </div><!-- End .product-desc -->
 
@@ -130,10 +127,17 @@
                         </strong>
                     </li>
 
-                    <li>
+                    {{-- <li>
                         TAGs:
                         <strong><a href="#" class="product-category">Jeep</a></strong>,
                         <strong><a href="#" class="product-category">Nissan</a></strong>
+                    </li> --}}
+                    <li>
+                        Brand:
+                        @isset($product->brand)
+                        <strong><a href="#" class="product-category">{{$product->brand->name}}</a></strong>
+                        @endisset
+
                     </li>
                 </ul>
 
@@ -281,22 +285,7 @@
             <div class="tab-pane fade show active" id="product-desc-content" role="tabpanel"
                 aria-labelledby="product-tab-desc">
                 <div class="product-desc-content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud ipsum
-                        consectetur sed do, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.</p>
-                    <ul>
-                        <li>Any Product types that You want - Simple,
-                            Configurable</li>
-                        <li>Downloadable/Digital Products, Virtual
-                            Products</li>
-                        <li>Inventory Management with Backordered items
-                        </li>
-                    </ul>
-                    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. </p>
+                    {!!$product->desc!!}
                 </div><!-- End .product-desc-content -->
             </div><!-- End .tab-pane -->
 

@@ -19,6 +19,7 @@ Route::post('change-password', 'SingleVendor\ChangePasswordController@store')->n
 
 Route::get('/', 'SingleVendor\HomepageController@index')->name('home');
 Route::post('/home/section/category', 'SingleVendor\HomepageController@load_category_section')->name('home.section.category');
+Route::post('/home/section/flashdeal', 'SingleVendor\HomepageController@load_flashdeal_section')->name('home.section.flashdeal');
 Route::post('/home/section/hot-deals', 'SingleVendor\HomepageController@load_hot_deals_section')->name('home.section.hot-deal');
 Route::post('/home/section/special-offer', 'SingleVendor\HomepageController@load_special_offer_section')->name('home.section.specialoffer');
 Route::post('/home/section/home-brand', 'SingleVendor\HomepageController@load_brand_section')->name('home.section.brand');

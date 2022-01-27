@@ -107,7 +107,7 @@
                                     echo null;
                                 }
                                @endphp"> --}}
-                               <input type="file" data-height="100" class="dropify form-control" data-default-file="{{ isset($product) ? asset('uploads/productphoto/'.$product->image) : '' }}" name="image">
+                               <input type="file" data-height="100" class="dropify form-control" data-default-file="{{ isset($product) ? asset('uploads/productphoto/'.$product->image) : '' }}" name="variant_image">
                     </div>
                     <div class="file-preview box sm"></div>
                 </td>

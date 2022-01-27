@@ -54,9 +54,14 @@
     </div>
 </section>
 
+{{--Home Flashdeal section --}}
+<div id="home_flashdeal_section">
+
+</div>
+
 {{--Home Category section --}}
 <div id="home_category_section">
-    
+
 </div>
 
 {{--Home Hot Deals section --}}
@@ -92,6 +97,23 @@
     $(document).ready(function(){
         $.post('{{ route('home.section.category') }}', {_token:'{{ csrf_token() }}'}, function(data){
             $('#home_category_section').html(data);
+                // Now we can call the owlCarousel
+                var owl = $(".owl-carousel");
+                owl.owlCarousel({'loop': false,'dots': false,'nav': true,'margin': 20,'responsive': {
+                        '0': {
+                            'items': 2
+                        },
+                        '576': {
+                            'items': 4
+                        },
+                        '991': {
+                            'items': 6
+                        }
+                    }
+                });
+        });
+        $.post('{{ route('home.section.flashdeal') }}', {_token:'{{ csrf_token() }}'}, function(data){
+            $('#home_flashdeal_section').html(data);
                 // Now we can call the owlCarousel
                 var owl = $(".owl-carousel");
                 owl.owlCarousel({'loop': false,'dots': false,'nav': true,'margin': 20,'responsive': {
@@ -179,7 +201,7 @@
             });
         });
 
-  
+
     });
 </script>
 @endsection

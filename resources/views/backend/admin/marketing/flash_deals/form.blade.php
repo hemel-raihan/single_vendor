@@ -184,11 +184,9 @@
 
                     @isset($flash_deal)
 
-                
-
                     <div class="form-group">
 						<label class="form-label">Products</label>
-                            <select name="products[]" multiple="multiple" id="productss" class="testselect2" >
+                            <select name="products[]" multiple="multiple" id="product_edit" class="testselect2" >
                             @foreach (\App\Models\Product\Product::all() as $key => $product)
                             {{-- @foreach ($flash_deal->products as $flashproduct)
                                 @php
@@ -251,11 +249,11 @@
 					<h3 class="card-title">Create Page</h3>
 				</div>
 				<div class="card-body">
-                    @isset($flashdeal)
+                    @isset($flash_deal)
 					<div class="form-group">
 						<div class="form-label">Status</div>
 						<label class="custom-switch">
-							<input type="checkbox" name="status" {{$flashdeal->status == true ? 'checked' : ''}} class="custom-switch-input ">
+							<input type="checkbox" name="status" {{$flash_deal->status == true ? 'checked' : ''}} class="custom-switch-input ">
 							<span class="custom-switch-indicator"></span>
 						</label>
 					</div>
@@ -308,28 +306,29 @@
 
 @isset($flash_deal)
 <script type="text/javascript">
+
     $(document).ready(function(){
-
         get_flash_deal_discount();
-
-        $('#products').on('change', function(){
-            get_flash_deal_discount();
-        });
-
-        function get_flash_deal_discount(){
-            var product_ids = $('#productss').val();
-            if(product_ids.length > 0){
-                $.post('{{ route('admin.flash_deals.product_discount_edit') }}', {_token:'{{ csrf_token() }}', product_ids:product_ids, flash_deal_id:{{ $flash_deal->id }}}, function(data){
-                    $('#discount_table').html(data);
-                    console.log(data);
-                    //SISMOO.plugins.fooTable();
-                });
-            }
-            else{
-                $('#discount_table').html(null);
-            }
-        }
     });
+
+
+    $('#product_edit').on('change', function(){
+        get_flash_deal_discount();
+    });
+
+    function get_flash_deal_discount(){
+        var product_ids = $('#product_edit').val();
+        if(product_ids.length > 0){
+            $.post('{{ route('admin.flash_deals.product_discount_edit') }}', {_token:'{{ csrf_token() }}', product_ids:product_ids, flash_deal_id:{{ $flash_deal->id }}}, function(data){
+                $('#discount_table').html(data);
+            });
+        }
+        else{
+            $('#discount_table').html(null);
+        }
+    }
+
+
 </script>
 @endisset
 
