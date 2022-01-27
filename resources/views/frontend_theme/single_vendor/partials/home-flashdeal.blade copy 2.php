@@ -5,6 +5,7 @@
     $from_datee=date("Y-m-d",strtotime($flash_deal->start_date));
     $to_datee=date("Y-m-d",strtotime($flash_deal->end_date));
 @endphp
+
 @if($to_day >= $from_datee && $to_day <= $to_datee)
 <section class="brand-section appear-animate" style="background-color: #f4f4f4;">
     <div class="container">
@@ -24,14 +25,14 @@
                     }
                 }">
 
-        @foreach ($flash_deal->products as $key => $flash_deal_product)
-            @include('frontend_theme.single_vendor.partials.product_box_3',['flash_deal_product'=>$flash_deal_product])
-        @endforeach
-
-
+                @foreach ($flash_deal->products as $key => $flash_deal_product)
+                    @include('frontend_theme.single_vendor.partials.product_box_3',['product'=>$product])
+                @endforeach
+                
         </div>
     </div>
 </section>
+
 @else
 asd
 @endif

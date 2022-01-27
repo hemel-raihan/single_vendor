@@ -71,7 +71,7 @@
                         <input class="horizontal-quantity form-control" type="text" name="quantity"  value="{{ $product->min_qty }}" min="{{ $product->min_qty }}" max="10">
                     </div> --}}
 
-                    <div class="product-single-qty">
+                    <div class="product-single-qty pb-2">
                         <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                             <span class="input-group-btn input-group-prepend">
                                 <button class="btn btn-outline btn-down-icon bootstrap-touchspin-down" type="button"></button>

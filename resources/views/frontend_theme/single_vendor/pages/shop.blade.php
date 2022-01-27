@@ -1,4 +1,25 @@
 @extends('frontend_theme.single_vendor.front_layout.app')
+
+@section('single_styles')
+<style>
+
+    /* product card */
+    .brand-section .product-default {
+        padding: 0 0.6rem;
+    }
+
+    .inner-icon figure {
+        height: 210px;
+    }
+
+    .product-default figure img:first-child {
+        height: 100%;
+        width: 100%;
+    }
+    /* end product card */
+</style>
+@endsection
+
 @section('main-content')
 <main class="main">
 <div class="container">
@@ -78,7 +99,9 @@
 
             <div class="row">
                 @foreach ($products as $product)
+                <div class="col-6 col-sm-3">
                 @include('frontend_theme.single_vendor.partials.product_box_2',['product'=>$product])
+                </div>
                 @endforeach
             </div><!-- End .row -->
 

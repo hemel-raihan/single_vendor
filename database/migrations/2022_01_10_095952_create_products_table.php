@@ -51,6 +51,7 @@ class CreateProductsTable extends Migration
             $table->integer('low_stock_qty')->nullable();
             $table->integer('min_qty')->default(1);
             $table->boolean('cash_on_delivery')->nullable();
+            $table->boolean('featured')->nullable();
             $table->boolean('todays_deal')->nullable();
             $table->integer('estimate_shipping_time')->nullable();
             $table->integer('num_of_sale')->default(0);

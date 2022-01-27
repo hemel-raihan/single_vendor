@@ -22,9 +22,19 @@ class HomepageController extends Controller
     public function load_hot_deals_section(){
         return view('frontend_theme.single_vendor.partials.home-hotdeals');
     }
+
+    public function load_best_selling_section(){
+        return view('frontend_theme.single_vendor.partials.home-best_selling');
+    }
+
     public function load_special_offer_section(){
         return view('frontend_theme.single_vendor.partials.home-special_offer');
     }
+
+    public function load_featured_section(){
+        return view('frontend_theme.single_vendor.partials.home-featured_product');
+    }
+
     public function load_brand_section(){
         return view('frontend_theme.single_vendor.partials.home-brand');
     }

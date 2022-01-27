@@ -1,10 +1,34 @@
 @extends('frontend_theme.single_vendor.front_layout.app')
+
+@section('single_styles')
+<style>
+    .brand-section {
+        padding: 0.9rem 0rem;
+    }
+
+    /* product card */
+    .brand-section .product-default {
+        padding: 0 0.6rem;
+    }
+
+    .inner-icon figure {
+        height: 210px;
+    }
+
+    .product-default figure img:first-child {
+        height: 100%;
+        width: 100%;
+    }
+    /* end product card */
+</style>
+@endsection
+
 @section('main-content')
 <main class="main">
     {{-- slider --}}
     @include('frontend_theme.single_vendor.partials.home-slider')
 
-<section class="search-section" style="background-color: #f4f4f4;">
+{{-- <section class="search-section" style="background-color: #f4f4f4;">
     <div class="container">
         <div class="search-name d-lg-flex align-items-center appear-animate"
             data-animation-name="fadeInUpShorter">
@@ -52,7 +76,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
 {{--Home Flashdeal section --}}
 <div id="home_flashdeal_section">
@@ -68,10 +92,22 @@
 <div id="home_hot_deal_section">
 
 </div>
+
+{{-- Best Selling  --}}
+<div id="section_best_selling">
+
+</div>
+
 {{--Home special offer section --}}
 <div id="home_specialoffer_section">
 
 </div>
+
+{{--Home featured section --}}
+<div id="home_brand_featured">
+
+</div>
+
 {{--Home brand section --}}
 <div id="home_brand_section">
 
@@ -129,6 +165,7 @@
                     }
                 });
         });
+
         $.post('{{ route('home.section.hot-deal') }}', {_token:'{{ csrf_token() }}'}, function(data){
             $('#home_hot_deal_section').html(data);
             // Now we can call the owlCarousel
@@ -146,6 +183,25 @@
                 }
             });
         });
+
+        $.post('{{ route('home.section.best_selling') }}', {_token:'{{ csrf_token() }}'}, function(data){
+            $('#section_best_selling').html(data);
+            // Now we can call the owlCarousel
+            var owl = $(".owl-carousel");
+            owl.owlCarousel({'loop': false,'dots': false,'nav': true,'margin': 20,'responsive': {
+                    '0': {
+                        'items': 2
+                    },
+                    '576': {
+                        'items': 4
+                    },
+                    '991': {
+                        'items': 6
+                    }
+                }
+            });
+        });
+
         $.post('{{ route('home.section.specialoffer') }}', {_token:'{{ csrf_token() }}'}, function(data){
             $('#home_specialoffer_section').html(data);
             // Now we can call the owlCarousel
@@ -163,6 +219,24 @@
                 }
             });
         });
+        $.post('{{ route('home.section.featured') }}', {_token:'{{ csrf_token() }}'}, function(data){
+            $('#home_brand_featured').html(data);
+            // Now we can call the owlCarousel
+            var owl = $(".owl-carousel");
+            owl.owlCarousel({'loop': false,'dots': false,'nav': true,'margin': 20,'responsive': {
+                    '0': {
+                        'items': 2
+                    },
+                    '576': {
+                        'items': 4
+                    },
+                    '991': {
+                        'items': 6
+                    }
+                }
+            });
+        });
+
         $.post('{{ route('home.section.brand') }}', {_token:'{{ csrf_token() }}'}, function(data){
             $('#home_brand_section').html(data);
             // Now we can call the owlCarousel
