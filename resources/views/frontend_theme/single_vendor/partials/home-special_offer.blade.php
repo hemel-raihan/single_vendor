@@ -54,7 +54,7 @@
             @foreach (\App\Models\Product\Product::where(['status'=>1,'todays_deal'=>1])->take(3)->get() as $product)
             <div class="product-default left-details product-widget">
                 <figure>
-                    <a href="demo42-product.html">
+                    <a href="{{ route('product.details',$product->slug) }}">
                         <img src="{{ asset('uploads/productphoto/'.$product->image) }}" width="95"
                             height="95" alt="product">
                     </a>
@@ -66,7 +66,7 @@
                         @endforeach
                     </div>
                     <h3 class="product-title">
-                        <a href="#">{{ $product->title }}</a>
+                        <a href="{{ route('product.details',$product->slug) }}">{{ $product->title }}</a>
                     </h3>
                     <div class="ratings-container">
                         <div class="product-ratings">
@@ -100,7 +100,7 @@
             @foreach (\App\Models\Product\Product::where(['status'=>1,'todays_deal'=>1])->take(3)->get() as $product)
             <div class="product-default left-details product-widget">
                 <figure>
-                    <a href="#">
+                    <a href="{{ route('product.details',$product->slug) }}">
                         <img src="{{ asset('uploads/productphoto/'.$product->image) }}" width="95"
                             height="95" alt="product">
                     </a>
@@ -112,7 +112,7 @@
                         @endforeach
                     </div>
                     <h3 class="product-title">
-                        <a href="#">{{ $product->title }}</a>
+                        <a href="{{ route('product.details',$product->slug) }}">{{ $product->title }}</a>
                     </h3>
                     <div class="ratings-container">
                         <div class="product-ratings">
@@ -124,7 +124,9 @@
                     </div>
                     <!-- End .product-container -->
                     <div class="price-box">
+                        @if ($product->unit_price != home_discounted_base_price($product))
                         <del class="old-price">Tk.{{ $product->unit_price }}</del>
+                        @endif
                         {{-- <span class="product-price">Tk.{{ $product->discount }}</span> --}}
                         <span class="product-price">Tk.{{ home_discounted_base_price($product) }}</span>
                     </div>

@@ -226,7 +226,7 @@
                         <!-- End .product-single-qty -->
                     </form>
 
-                    <a href="javascript:void(0)" onclick="addToCart({{ $product->id }})" class="btn btn-dark add-cart mr-2" title="Add to Cart">Add to Cart</a>
+                    <a href="javascript:void(0)" onclick="addToCart()" class="btn btn-dark add-cart mr-2" title="Add to Cart">Add to Cart</a>
 
                     <a href="{{ route('cart') }}" class="btn btn-gray view-cart">View cart</a>
                 </div>
