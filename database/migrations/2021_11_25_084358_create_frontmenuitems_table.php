@@ -27,6 +27,7 @@ class CreateFrontmenuitemsTable extends Migration
             $table->string('title')->nullable();
             $table->string('divider_title')->nullable();
             $table->string('slug')->nullable();
+            $table->string('url')->nullable();
             $table->string('target')->nullable();
             $table->timestamps();
         });

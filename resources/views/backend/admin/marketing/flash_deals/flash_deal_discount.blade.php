@@ -40,8 +40,8 @@
             </td>
             <td>
                 <select class="form-control sismoo-selectpicker" name="discount_type_{{ $id }}">
-                  <option value="amount">Flat</option>
-                  <option value="percent">Percent</option>
+                  <option value="Flat">Flat</option>
+                  <option value="Percent">Percent</option>
                 </select>
             </td>
           </tr>

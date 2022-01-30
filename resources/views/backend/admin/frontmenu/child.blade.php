@@ -21,9 +21,14 @@
         @if($childItem->type == 'divider')
         <strong> Divider: {{$childItem->divider_title }}</strong>
         @else
-
         <span  id="titlee-{{$childItem->id}}" > {{$childItem->title }}</span>
+        @isset($childItem->url)
+        <small id="url-{{$childItem->id}}" class="url">{{$childItem->url}}</small>
+        <small id="slug-{{$childItem->id}}" class="url">0</small>
+        @else
         <small id="slug-{{$childItem->id}}" class="url">{{$childItem->slug}}</small>
+        <small id="url-{{$childItem->id}}" class="url">0</small>
+        @endisset
         @endif
     </div>
 
@@ -34,3 +39,4 @@
 </li>
 @endforeach
 </ol>
+

@@ -78,7 +78,9 @@
                     </div>
                     <!-- End .product-container -->
                     <div class="price-box">
+                        @if ($product->unit_price != home_discounted_base_price($product))
                         <del class="old-price">Tk.{{ $product->unit_price }}</del>
+                        @endif
                         {{-- <span class="product-price">Tk.{{ $product->discount }}</span> --}}
                         <span class="product-price">Tk.{{ home_discounted_base_price($product) }}</span>
                     </div>
@@ -87,7 +89,7 @@
                 <!-- End .product-details -->
             </div>
             @endforeach
-           
+
         </div>
         <div class="col-md-4 appear-animate" data-animation-name="fadeInLeftShorter"
             data-animation-delay="400">
@@ -135,7 +137,7 @@
                 <!-- End .product-details -->
             </div>
             @endforeach
-            
+
         </div>
     </div>
 </section>

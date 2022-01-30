@@ -40,7 +40,7 @@
                 @else
                 <del class="old-price">${{number_format(($product->unit_price),2,'.','')}}</del>
                 @php
-                    if($product->discount_type == 'amount')
+                    if($product->discount_type == 'Flat')
                     {
                         $after_discount = $product->unit_price - $product->discount_rate;
                     }

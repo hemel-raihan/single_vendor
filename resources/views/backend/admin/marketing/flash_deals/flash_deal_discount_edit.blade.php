@@ -45,8 +45,8 @@
                 </td>
                 <td>
                     <select class="form-control sismoo-selectpicker" name="discount_type_{{ $id }}">
-                        <option value="amount" <?php if($product->discount_type == 'amount') echo "selected";?> >Flat</option>
-                        <option value="percent" <?php if($product->discount_type == 'percent') echo "selected";?> >Percent</option>
+                        <option value="Flat" <?php if($product->discount_type == 'Flat') echo "selected";?> >Flat</option>
+                        <option value="Percent" <?php if($product->discount_type == 'Percent') echo "selected";?> >Percent</option>
                     </select>
                 </td>
             </tr>
