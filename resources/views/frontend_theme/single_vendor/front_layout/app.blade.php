@@ -174,6 +174,9 @@
     {{-- end add to card modal --}}
 
     <!-- Plugins JS File -->
+
+
+    
     <script src="{{ asset('single_vendor/assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('single_vendor/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('single_vendor/assets/js/optional/isotope.pkgd.min.js') }}"></script>

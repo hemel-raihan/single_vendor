@@ -17,7 +17,9 @@ class HomepageController extends Controller
         return view('frontend_theme.single_vendor.partials.home-category');
     }
     public function load_flashdeal_section(){
-        return view('frontend_theme.single_vendor.partials.home-flashdeal');
+        return array(
+            'flashdeal'=> view('frontend_theme.single_vendor.partials.home-flashdeal')->render()
+        ); 
     }
     public function load_hot_deals_section(){
         return view('frontend_theme.single_vendor.partials.home-hotdeals');
@@ -45,12 +47,12 @@ class HomepageController extends Controller
         return view('frontend_theme.single_vendor.partials.home-recent_product');
     }
     public function single_product_details($slug){
-        $product = \App\Models\Product\Product::where('slug',$slug)->first();
+        $detailedProduct = \App\Models\Product\Product::where('slug',$slug)->first();
         // $photo = explode('|',$product->gallaryimage);
         // dd($photo);
         //$colors = json_decode($product->colors);
         //dd($color);
-        return view('frontend_theme.single_vendor.pages.single-product',compact('product'));
+        return view('frontend_theme.single_vendor.pages.single-product',compact('detailedProduct'));
     }
     public function shop($id)
     {

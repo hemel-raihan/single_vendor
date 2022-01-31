@@ -378,12 +378,13 @@
                     @isset($product)
                     <label class="form-label" for="type">Select Discount Type</label>
 					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="discount_type" id="type" >
+                        <option value="">sjdhka</option>
 						<option value="Flat" {{($product->discount_type == 'Flat') ? 'selected' : ''}} >Flat</option>
 						<option value="Percent" {{($product->discount_type == 'Percent') ? 'selected' : ''}}>Percent</option>
 					</select>
                     @else
                     <label class="form-label" for="type">Select Discount Type</label>
-					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="discount_type" id="type" >
+					<select class="form-control form-select" data-bs-placeholder="Select Type" name="discount_type" id="type" >
                         <option value="">Select Discount Type</option>
 						<option value="Flat">Flat</option>
 						<option value="Percent">Percent</option>
@@ -664,9 +665,8 @@
 					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="flash_deal_id" id="">
 						@foreach(\App\Models\Product\Flashdeal::where("status", 1)->get() as $flash_deal)
                         @foreach ($product->flashdeals as $flashproduct)
-
+						    <option value="{{$flash_deal->id}}" {{($flashproduct->id == $flash_deal->id) ? 'selected' : ''}}>{{$flash_deal->title}}</option>
                         @endforeach
-						<option value="{{$flash_deal->id}}" {{($flashproduct->id == $flash_deal->id) ? 'selected' : ''}}>{{$flash_deal->title}}</option>
                         @endforeach
 					</select>
                     @else
@@ -682,6 +682,7 @@
                     @isset($product)
                     <label class="form-label" for="type">Select Discount Type</label>
 					<select class="form-control form-select select2" data-bs-placeholder="Select Type" name="flash_discount_type" id="type"  >
+                        <option value="">asd</option>
 						<option value="Flat" {{($product->discount_type == 'Flat') ? 'selected' : ''}} >Flat</option>
 						<option value="Percent" {{($product->discount_type == 'Percent') ? 'selected' : ''}}>Percent</option>
 					</select>

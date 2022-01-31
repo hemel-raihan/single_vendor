@@ -149,7 +149,7 @@
                 });
         });
         $.post('{{ route('home.section.flashdeal') }}', {_token:'{{ csrf_token() }}'}, function(data){
-            $('#home_flashdeal_section').html(data);
+            $('#home_flashdeal_section').html(data.flashdeal);
                 // Now we can call the owlCarousel
                 var owl = $(".owl-carousel");
                 owl.owlCarousel({'loop': false,'dots': false,'nav': true,'margin': 20,'responsive': {

@@ -69,6 +69,8 @@ class CartController extends Controller
             }
             $data['temp_user_id'] = $temp_user_id;
             $carts = Cart::where('temp_user_id', $temp_user_id)->get();
+
+            
         }
 
         $data['product_id'] = $product->id;
@@ -162,14 +164,14 @@ class CartController extends Controller
                 }
             }
 
-            $data['address_id'] = $request->address_id;
             $data['quantity'] = $request['quantity'];
             $data['price'] = $price;
             $data['tax'] = $tax;
             //$data['shipping'] = 0;
             $data['shipping_cost'] = 0;
             $data['product_referral_code'] = null;
-            $data['cash_on_delivery'] = 'COD';
+            $data['cash_on_delivery'] = $product->cash_on_delivery;
+            $data['digital'] = $product->digital;
  
 
             if ($request['quantity'] == null){
@@ -255,13 +257,13 @@ class CartController extends Controller
                 }
             }
 
-            $data['address_id'] = $request->address_id;
             $data['quantity'] = 1;
             $data['price'] = $price;
             $data['tax'] = $tax;
             $data['shipping_cost'] = 0;
             $data['product_referral_code'] = null;
-            $data['cash_on_delivery'] = 'COD';
+            $data['cash_on_delivery'] = $product->cash_on_delivery;
+            $data['digital'] = $product->digital;
 
             if(count($carts) == 0){
                 Cart::create($data);

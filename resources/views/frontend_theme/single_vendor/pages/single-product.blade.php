@@ -14,7 +14,7 @@
 
     <div class="product-single-container product-single-default">
         <div class="cart-message d-none">
-            <strong class="single-cart-notice">{{ $product->title }}</strong>
+            <strong class="single-cart-notice">{{ $detailedProduct->title }}</strong>
             <span>has been added to your cart.</span>
         </div>
 
@@ -22,7 +22,7 @@
             <div class="col-lg-5 col-md-6 product-single-gallery">
                 <div class="product-slider-container">
                     @php
-                        $photos = explode('|',$product->gallaryimage);
+                        $photos = explode('|',$detailedProduct->gallaryimage);
                     @endphp
                     <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
                         @foreach ($photos as $key=>$photo)
@@ -54,7 +54,7 @@
             <!-- End .product-single-gallery -->
 
             <div class="col-lg-7 col-md-6 product-single-details">
-                <h1 class="product-title">{{ $product->title }}</h1>
+                <h1 class="product-title">{{ $detailedProduct->title }}</h1>
 
                 <div class="product-nav">
                     <div class="product-prev">
@@ -102,17 +102,17 @@
                 <hr class="short-divider">
 
                 <div class="price-box">
-                    {{-- <span class="product-price">Tk.{{ $product->unit_price }}</span> --}}
-                    @if ($product->unit_price != home_discounted_base_price($product))
-                    <del class="old-price">Tk.{{ $product->unit_price }}</del>
+                    {{-- <span class="product-price">Tk.{{ $detailedProduct->unit_price }}</span> --}}
+                    @if ($detailedProduct->unit_price != home_discounted_base_price($detailedProduct))
+                    <del class="old-price">Tk.{{ $detailedProduct->unit_price }}</del>
                     @endif
-                    {{-- <span class="product-price">Tk.{{ $product->discount }}</span> --}}
-                    <span class="product-price">Tk.{{ home_discounted_base_price($product) }}</span>
+                    {{-- <span class="product-price">Tk.{{ $detailedProduct->discount }}</span> --}}
+                    <span class="product-price">Tk.{{ home_discounted_base_price($detailedProduct) }}</span>
                 </div><!-- End .price-box -->
 
                 <div class="product-desc">
                     <p>
-                        {!!Str::limit($product->desc, 100)!!}
+                        {!!Str::limit($detailedProduct->desc, 100)!!}
                     </p>
                 </div><!-- End .product-desc -->
 
@@ -120,13 +120,13 @@
                     <!---->
                     <li>
                         SKU:
-                        <strong>{{ $product->sku }}</strong>
+                        <strong>{{ $detailedProduct->sku }}</strong>
                     </li>
 
                     <li>
                         CATEGORY:
                         <strong>
-                            @foreach ($product->productcategories as $category)
+                            @foreach ($detailedProduct->productcategories as $category)
                                 <a href="#" class="product-category">{{ $category->name }}</a>
                             @endforeach
                         </strong>
@@ -139,8 +139,8 @@
                     </li> --}}
                     <li>
                         Brand:
-                        @isset($product->brand)
-                        <strong><a href="#" class="product-category">{{$product->brand->name}}</a></strong>
+                        @isset($detailedProduct->brand)
+                        <strong><a href="#" class="product-category">{{$detailedProduct->brand->name}}</a></strong>
                         @endisset
 
                     </li>
@@ -150,10 +150,10 @@
                     <form id="option-choice-form">
 
                         {{-- Attribute --}}
-                        <input type="hidden" name="id" value="{{ $product->id }}">
+                        <input type="hidden" name="id" value="{{ $detailedProduct->id }}">
 
-                        @if ($product->choice_options != null)
-                        @foreach (json_decode($product->choice_options) as $key => $choice)
+                        @if ($detailedProduct->choice_options != null)
+                        @foreach (json_decode($detailedProduct->choice_options) as $key => $choice)
                             <div class="row no-gutters">
                                 <div class="col-sm-2">
                                     <div class="opacity-50 my-2">{{ \App\Models\Product\Attribute::find($choice->attribute_id)->name }}:</div>
@@ -179,14 +179,14 @@
                         @endforeach
                         @endif
                         {{-- Color --}}
-                        @if (count(json_decode($product->colors)) > 0)
+                        @if (count(json_decode($detailedProduct->colors)) > 0)
                         <div class="row no-gutters">
                             <div class="col-sm-2">
                                 <div class="opacity-50 my-2">{{ translate('Color')}}:</div>
                             </div>
                             <div class="col-sm-10">
                                 <div class="sismoo-radio-inline">
-                                    @foreach (json_decode($product->colors) as $key => $color)
+                                    @foreach (json_decode($detailedProduct->colors) as $key => $color)
                                     <label class="sismoo-megabox pl-0 mr-2" data-toggle="tooltip" data-title="{{ \App\Models\Product\Color::where('code', $color)->first()->name }}">
                                         <input
                                             type="radio"
@@ -208,13 +208,13 @@
 
 
                         <div class="product-single-qty">
-                            <input class="horizontal-quantity form-control" type="text" name="quantity"  value="{{ $product->min_qty }}" min="{{ $product->min_qty }}" max="10">
+                            <input class="horizontal-quantity form-control" type="text" name="quantity"  value="{{ $detailedProduct->min_qty }}" min="{{ $detailedProduct->min_qty }}" max="10">
                         </div>
-                        <input type="hidden" name="product_id" value="{{ $product->id }}" >
-                        <input type="hidden" name="price" value="{{ $product->unit_price }}" >
+                        <input type="hidden" name="product_id" value="{{ $detailedProduct->id }}" >
+                        <input type="hidden" name="price" value="{{ $detailedProduct->unit_price }}" >
 
                         {{-- @php
-                            $colors = json_decode($product->colors);
+                            $colors = json_decode($detailedProduct->colors);
                         @endphp
                         @foreach ($colors as $key=>$color)
                         <input type="text" name="color" value="{{ \App\Models\Product\Color::where('code', $color)->first()->name }}">
@@ -290,7 +290,7 @@
             <div class="tab-pane fade show active" id="product-desc-content" role="tabpanel"
                 aria-labelledby="product-tab-desc">
                 <div class="product-desc-content">
-                    {!!$product->desc!!}
+                    {!!$detailedProduct->desc!!}
                 </div><!-- End .product-desc-content -->
             </div><!-- End .tab-pane -->
 
@@ -311,8 +311,8 @@
                         <tr>
                             <th>Color</th>
                             <td>
-                                @if (count(json_decode($product->colors)) != 0)
-                                @foreach (json_decode($product->colors) as $key => $color)
+                                @if (count(json_decode($detailedProduct->colors)) != 0)
+                                @foreach (json_decode($detailedProduct->colors) as $key => $color)
                                 {{ \App\Models\Product\Color::where('code', $color)->first()->name }},
                                 @endforeach
                                 @else
@@ -324,8 +324,8 @@
                         <tr>
                             <th>Size</th>
                             <td>
-                                @if (count(json_decode($product->choice_options)) != 0)
-                                @foreach (json_decode($product->choice_options) as $key => $choice)
+                                @if (count(json_decode($detailedProduct->choice_options)) != 0)
+                                @foreach (json_decode($detailedProduct->choice_options) as $key => $choice)
                                 @foreach ($choice->values as $key => $value)
                                 {{$value}},
                                 @endforeach
@@ -445,195 +445,22 @@
         <h2 class="section-title">Related Products</h2>
 
         <div class="products-slider owl-carousel owl-theme dots-top dots-small dots-simple">
-            <div class="product-default inner-quickview inner-icon">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{asset('single_vendor/assets/images/demoes/demo42/product/product6-300x300.jpg')}}" width="300"
-                            height="300" alt="product">
-                    </a>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#">Fluids &amp; Chemicals</a>,
-                            <a href="#">Hot Deals</a>
-                        </div>
-                        <a href="wishlist.html" class="btn-icon-wish"><i class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="demo42-product.html">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:80%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div><!-- End .product-ratings -->
-                    </div><!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="product-price">$299.00</span>
-                    </div><!-- End .price-box -->
-                </div><!-- End .product-details -->
-            </div>
+            
+            @php
+            $related_product = \App\Models\Product\Product::find($detailedProduct->id);
+            foreach($related_product->productcategories as $productcategories)
+            {
+                $product_id = $productcategories->id;
+            }
+            $productcategory = \App\Models\Product\Productcategory::find($product_id);
+            $productcategoryposts = $productcategory->products()->get();
+            @endphp
 
-            <div class="product-default inner-quickview inner-icon">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{asset('single_vendor/assets/images/demoes/demo42/product/product11-300x300.jpg')}}" width="300"
-                            height="300" alt="product">
-                    </a>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#">Sound &amp; Video</a>
-                        </div>
-                        <a href="wishlist.html" class="btn-icon-wish"><i class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="demo42-product.html">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:80%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top">4.00</span>
-                        </div><!-- End .product-ratings -->
-                    </div><!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="product-price">$299.00</span>
-                    </div><!-- End .price-box -->
-                </div><!-- End .product-details -->
-            </div>
 
-            <div class="product-default inner-quickview inner-icon">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{asset('single_vendor/assets/images/demoes/demo42/product/product5-300x300.jpg')}}" width="300"
-                            height="300" alt="product">
-                    </a>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#">Hot Deals</a>,
-                            <a href="#">Steering Wheels</a>
-                        </div>
-                        <a href="wishlist.html" class="btn-icon-wish"><i class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="demo42-product.html">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:80%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div><!-- End .product-ratings -->
-                    </div><!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="product-price">$55.00</span>
-                    </div><!-- End .price-box -->
-                </div><!-- End .product-details -->
-            </div>
+        @foreach($productcategoryposts as $product)
+            @include('frontend_theme.single_vendor.partials.product_box_1')
+        @endforeach
 
-            <div class="product-default inner-quickview inner-icon">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{asset('single_vendor/assets/images/demoes/demo42/product/product7-300x300.jpg')}}" width="300"
-                            height="300" alt="product">
-                    </a>
-                    <div class="label-group">
-                        <span class="product-label label-hot">HOT</span>
-                        <span class="product-label label-sale">-35%</span>
-                    </div>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#">Interior Accessories</a>
-                        </div>
-                        <a href="wishlist.html" class="btn-icon-wish"><i class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="demo42-product.html">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:0%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div><!-- End .product-ratings -->
-                    </div><!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="product-price">$299.00</span>
-                    </div><!-- End .price-box -->
-                </div><!-- End .product-details -->
-            </div>
-
-            <div class="product-default inner-quickview inner-icon">
-                <figure>
-                    <a href="demo42-product.html">
-                        <img src="{{asset('single_vendor/assets/images/demoes/demo42/product/product13-300x300.jpg')}}" width="300"
-                            height="300" alt="product">
-                    </a>
-                    <div class="label-group">
-                        <span class="product-label label-sale">-17%</span>
-                    </div>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#">Auto Parts</a>
-                        </div>
-                        <a href="wishlist.html" class="btn-icon-wish"><i class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="demo42-product.html">Product Short Name</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:80%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div><!-- End .product-ratings -->
-                    </div><!-- End .product-container -->
-                    <div class="price-box">
-                        <del class="old-price">$59.00</del>
-                        <span class="product-price">$49.00</span>
-                    </div><!-- End .price-box -->
-                </div><!-- End .product-details -->
-            </div>
         </div><!-- End .products-slider -->
     </div><!-- End .products-section -->
 </div>

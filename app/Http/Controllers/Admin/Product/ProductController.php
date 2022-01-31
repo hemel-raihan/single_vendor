@@ -742,9 +742,12 @@ class ProductController extends Controller
         {
             $discount_type = $request->discount_type;
         }
-        if($request->flash_discount_type)
+        elseif($request->flash_discount_type)
         {
             $discount_type = $request->flash_discount_type;
+        }
+        else{
+            $discount_type=null;
         }
 
         if($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0){
@@ -814,8 +817,7 @@ class ProductController extends Controller
         {
             $variant_product = null;
         }
-
-
+        
         $product->update([
             // 'title' => $request->title,
             // 'slug' => $slug,
