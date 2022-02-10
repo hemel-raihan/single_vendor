@@ -19,6 +19,9 @@
         height: 100%;
         width: 100%;
     }
+    .ratings-container .ratings:before {
+            color: #fd5b5a;
+        }
     /* end product card */
 </style>
 @endsection
@@ -78,48 +81,63 @@
     </div>
 </section> --}}
 
-{{--Home Flashdeal section --}}
-<div id="home_flashdeal_section">
-
-</div>
 
 {{--Home Category section --}}
-<div id="home_category_section">
+{{-- <div id="home_category_section">
 
-</div>
+</div> --}}
+@include('frontend_theme.single_vendor.partials.home-category')
+
+
+{{--Home Flashdeal section --}}
+{{-- <div id="home_flashdeal_section">
+
+</div> --}}
+@include('frontend_theme.single_vendor.partials.home-flashdeal')
+
+
 
 {{--Home Hot Deals section --}}
-<div id="home_hot_deal_section">
+{{-- <div id="home_hot_deal_section">
 
-</div>
+</div> --}}
+@include('frontend_theme.single_vendor.partials.home-hotdeals')
 
 {{-- Best Selling  --}}
-<div id="section_best_selling">
+{{-- <div id="section_best_selling">
 
-</div>
+</div> --}}
+@include('frontend_theme.single_vendor.partials.home-best_selling')
 
 {{--Home special offer section --}}
-<div id="home_specialoffer_section">
+{{-- <div id="home_specialoffer_section">
 
-</div>
+</div> --}}
+@include('frontend_theme.single_vendor.partials.home-special_offer')
 
 {{--Home featured section --}}
-<div id="home_brand_featured">
+<!--<div id="home_brand_featured">-->
 
-</div>
+<!--</div>-->
+@include('frontend_theme.single_vendor.partials.home-featured_product')
 
 {{--Home brand section --}}
-<div id="home_brand_section">
+<!--<div id="home_brand_section">-->
 
-</div>
+<!--</div>-->
+@include('frontend_theme.single_vendor.partials.home-brand')
+
 {{--Home call section --}}
-<div id="home_call_section">
+<!--<div id="home_call_section">-->
 
-</div>
+<!--</div>-->
+@include('frontend_theme.single_vendor.partials.home-call_section')
+
 {{--Home recently product section --}}
-<div id="home_recent_section">
+{{-- <div id="home_recent_section">
 
-</div>
+</div> --}}
+@include('frontend_theme.single_vendor.partials.home-recent_product')
 
 
 @include('frontend_theme.single_vendor.partials.home-sub_cat')
@@ -149,7 +167,7 @@
                 });
         });
         $.post('{{ route('home.section.flashdeal') }}', {_token:'{{ csrf_token() }}'}, function(data){
-            $('#home_flashdeal_section').html(data.flashdeal);
+            $('#home_flashdeal_section').html(data);
                 // Now we can call the owlCarousel
                 var owl = $(".owl-carousel");
                 owl.owlCarousel({'loop': false,'dots': false,'nav': true,'margin': 20,'responsive': {

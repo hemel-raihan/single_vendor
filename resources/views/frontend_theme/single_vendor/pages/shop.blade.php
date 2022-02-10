@@ -150,7 +150,7 @@
                                 @if($category->children->isEmpty())
                                 @if ($category->parent_id == 0)
                                 <li>
-                                    <a href="{{route('shops',$category->id)}}"
+                                    <a href="{{route('shops',$category->slug)}}"
                                         aria-expanded="true" aria-controls="widget-category-1">
                                         {{$category->name}}<span class="products-count">({{$category->products()->count()}})</span>
                                     </a>
@@ -166,7 +166,7 @@
                                     <div class="collapse" id="{{$category->slug}}">
                                         <ul class="cat-sublist">
                                             @foreach($category->childrenRecursive as $key => $sub_cat)
-                                           <a href="{{route('shops',$category->id)}}"> <li>{{$sub_cat->name}}<span class="products-count">({{$category->products()->count()}})</span></li></a>
+                                           <a href="{{route('shops',$category->slug)}}"> <li>{{$sub_cat->name}}<span class="products-count">({{$category->products()->count()}})</span></li></a>
                                             @endforeach
                                         </ul>
                                     </div>

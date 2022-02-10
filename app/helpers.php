@@ -44,5 +44,26 @@ if (!function_exists('home_discounted_base_price')) {
 
         return $price;
     }
+
+    //Product rating
+
+    if (!function_exists('renderStarRating')) {
+        function renderStarRating($rating, $maxRating = 5)
+        {
+            $fullStar = "<span class='ratings' style='width:100%'></span>";
+            $halfStar = "<span class='ratings' style='width:50%'></span>";
+            $emptyStar = "<span class='ratings' style='width:0%'></span>";
+            $rating = $rating <= $maxRating ? $rating : $maxRating;
+    
+            $fullStarCount = (int)$rating;
+            $halfStarCount = ceil($rating) - $fullStarCount;
+            $emptyStarCount = $maxRating - $fullStarCount - $halfStarCount;
+    
+            $html = str_repeat($fullStar, $fullStarCount);
+            $html .= str_repeat($halfStar, $halfStarCount);
+            $html .= str_repeat($emptyStar, $emptyStarCount);
+            echo $html;
+        }
+    }
 }
 

@@ -1,5 +1,13 @@
 @extends('frontend_theme.single_vendor.front_layout.app')
 
+@section('single_styles')
+    <style>
+        .ratings-container .ratings:before {
+            color: #fd5b5a;
+        }
+    </style>
+@endsection
+
 @section('main-content')
 <main class="main">
 <div class="container" id="single_product_view">
@@ -92,11 +100,18 @@
 
                 <div class="ratings-container">
                     <div class="product-ratings">
-                        <span class="ratings" style="width:60%"></span><!-- End .ratings -->
+                        {{-- <span class="ratings" style="width:60%"></span> --}}
+                        {{ renderStarRating($detailedProduct->rating) }}
+                        <!-- End .ratings -->
                         <span class="tooltiptext tooltip-top"></span>
                     </div><!-- End .product-ratings -->
 
-                    <a href="#" class="rating-link">( 1 Reviews )</a>
+                    @php
+                        $total = 0;
+                        $total += $detailedProduct->reviews->count();
+                    @endphp
+
+                    <a href="#" class="rating-link">( {{ $total }} Reviews )</a>
                 </div><!-- End .ratings-container -->
 
                 <hr class="short-divider">
@@ -282,7 +297,7 @@
             <li class="nav-item">
                 <a class="nav-link" id="product-tab-reviews" data-toggle="tab"
                     href="#product-reviews-content" role="tab" aria-controls="product-reviews-content"
-                    aria-selected="false">Reviews (1)</a>
+                    aria-selected="false">Reviews ({{ $total }})</a>
             </li>
         </ul>
 
@@ -339,16 +354,25 @@
                 </table>
             </div><!-- End .tab-pane -->
 
+            {{-- Showing reviews --}}
             <div class="tab-pane fade" id="product-reviews-content" role="tabpanel"
                 aria-labelledby="product-tab-reviews">
+                {{-- Showing reviews --}}
                 <div class="product-reviews-content">
-                    <h3 class="reviews-title">1 review for Men Black Sports Shoes</h3>
+                    <h3 class="reviews-title">{{ $total }} review for Men Black Sports Shoes</h3>
+                    @foreach ($detailedProduct->reviews as $key => $review)
 
+                    @if($review->user != null)
                     <div class="comment-list">
                         <div class="comments">
                             <figure class="img-thumbnail">
+                                @if ($review->user->avatar != null)
+                                    <img src="{{asset('single_vendor/assets/images/blog/author.jpg')}}" alt="author" width="80"
+                                    height="80">
+                                @else
                                 <img src="{{asset('single_vendor/assets/images/blog/author.jpg')}}" alt="author" width="80"
                                     height="80">
+                                @endif
                             </figure>
 
                             <div class="comment-block">
@@ -357,30 +381,44 @@
 
                                     <div class="ratings-container float-sm-right">
                                         <div class="product-ratings">
-                                            <span class="ratings" style="width:60%"></span>
+                                            @php
+                                                $star = 20;
+
+                                                for($i=1; $i<$review->rating; $i++) {
+                                                    $star += 20;
+                                                }
+                                            @endphp
+                                            
+                                            <span class="ratings" style="width:{{ $star }}%"></span>
                                             <!-- End .ratings -->
                                             <span class="tooltiptext tooltip-top"></span>
                                         </div><!-- End .product-ratings -->
                                     </div>
 
                                     <span class="comment-by">
-                                        <strong>Joe Doe</strong> – April 12, 2018
+                                        <strong>{{ $review->user->name }}</strong> – {{ $review->created_at->format('l j F Y') }}
                                     </span>
                                 </div>
 
                                 <div class="comment-content">
-                                    <p>Excellent.</p>
+                                    <p>{{ $review->comment }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="divider"></div>
+                    @endif
+                    @endforeach
 
+                    <div class="divider"></div>
+                    @if (Auth::check())
                     <div class="add-product-review">
                         <h3 class="review-title">Add a review</h3>
 
-                        <form action="#" class="comment-form m-0">
+                        <form action="{{ route('reviews.store') }}" method="POST" class="comment-form m-0">
+                            @csrf
+
+                            <input type="hidden" name="product_id" value="{{ $detailedProduct->id }}">
                             <div class="rating-form">
                                 <label for="rating">Your rating <span class="required">*</span></label>
                                 <span class="rating-stars">
@@ -403,7 +441,7 @@
 
                             <div class="form-group">
                                 <label>Your review <span class="required">*</span></label>
-                                <textarea cols="5" rows="6" class="form-control form-control-sm"></textarea>
+                                <textarea name="comment" cols="5" rows="6" class="form-control form-control-sm"></textarea>
                             </div><!-- End .form-group -->
 
 
@@ -411,18 +449,18 @@
                                 <div class="col-md-6 col-xl-12">
                                     <div class="form-group">
                                         <label>Name <span class="required">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" required>
+                                        <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control form-control-sm" required>
                                     </div><!-- End .form-group -->
                                 </div>
 
                                 <div class="col-md-6 col-xl-12">
                                     <div class="form-group">
                                         <label>Email <span class="required">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" required>
+                                        <input type="text" name="email" value="{{ Auth::user()->email }}" class="form-control form-control-sm" required>
                                     </div><!-- End .form-group -->
                                 </div>
 
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input"
                                             id="save-name" />
@@ -430,12 +468,14 @@
                                             name, email, and website in this browser for the next time I
                                             comment.</label>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <input type="submit" class="btn btn-primary" value="Submit">
                         </form>
-                    </div><!-- End .add-product-review -->
+                    </div>
+                    @endif
+                    <!-- End .add-product-review -->
                 </div><!-- End .product-reviews-content -->
             </div><!-- End .tab-pane -->
         </div><!-- End .tab-content -->

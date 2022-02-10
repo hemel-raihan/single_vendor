@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('brand_id')->nullable();
             $table->string('title')->nullable();
             $table->string('slug')->unique()->nullable();
+            $table->double('rating',8,2)->nullable();
             $table->string('unit')->nullable();
             $table->string('purchase_qty')->nullable();
             $table->string('tags')->nullable();

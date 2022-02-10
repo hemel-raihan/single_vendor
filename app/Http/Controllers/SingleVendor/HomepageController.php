@@ -17,13 +17,15 @@ class HomepageController extends Controller
         return view('frontend_theme.single_vendor.partials.home-category');
     }
     public function load_flashdeal_section(){
-        return array(
-            'flashdeal'=> view('frontend_theme.single_vendor.partials.home-flashdeal')->render()
-        ); 
+        return view('frontend_theme.single_vendor.partials.home-flashdeal');
     }
+    
+    
     public function load_hot_deals_section(){
         return view('frontend_theme.single_vendor.partials.home-hotdeals');
     }
+    
+
 
     public function load_best_selling_section(){
         return view('frontend_theme.single_vendor.partials.home-best_selling');
@@ -46,17 +48,15 @@ class HomepageController extends Controller
     public function load_recent_section(){
         return view('frontend_theme.single_vendor.partials.home-recent_product');
     }
+    
     public function single_product_details($slug){
         $detailedProduct = \App\Models\Product\Product::where('slug',$slug)->first();
-        // $photo = explode('|',$product->gallaryimage);
-        // dd($photo);
-        //$colors = json_decode($product->colors);
-        //dd($color);
         return view('frontend_theme.single_vendor.pages.single-product',compact('detailedProduct'));
     }
-    public function shop($id)
+    
+    public function shop($slug)
     {
-        $category = Productcategory::find($id);
+        $category = Productcategory::where('slug',$slug)->first();
         $products = $category->products()->get();
         return view('frontend_theme.single_vendor.pages.shop',compact('products'));
     }

@@ -1,5 +1,5 @@
 <header class="header">
-    <div class="header-top">
+    {{-- <div class="header-top">
         <div class="container">
             <div class="header-left d-none d-md-block">
                 <div class="info-box info-box-icon-left text-primary justify-content-start p-0">
@@ -58,7 +58,7 @@
                 </div><!-- End .social-icons -->
             </div><!-- End .header-right -->
         </div><!-- End .container -->
-    </div>
+    </div> --}}
     <!-- End .header-top -->
 
     <div class="header-middle sticky-header" data-sticky-options="{'mobile': true}">
@@ -67,8 +67,11 @@
                 <button class="mobile-menu-toggler text-dark mr-2" type="button">
                     <i class="fas fa-bars"></i>
                 </button>
+                @php
+                    $setting = \App\Models\Admin\Setting::where('id',1)->first();
+                @endphp
                 <a href="{{ route('home') }}" class="logo">
-                    <img src="{{ asset('single_vendor/assets/images/demoes/demo42/shop42_logo.png') }}" class="w-100" width="202" height="80"
+                    <img src="{{ asset('uploads/settings/'.$setting->logo) }}" class="w-100" width="202" height="80"
                         alt="Porto Logo">
                 </a>
             </div><!-- End .header-left -->
@@ -148,7 +151,7 @@
                             @endphp
 
                             @foreach ($categories as $category)
-                            <li><a href="{{route('shops',$category->id)}}">{{ $category->name }}</a>
+                            <li><a href="{{route('shops',$category->slug)}}">{{ $category->name }}</a>
                                 <ul>
                                     @foreach ($category->childrenRecursive as $childCategory)
                                         @include('frontend_theme.single_vendor.categories.child_category', ['child_category' => $childCategory])

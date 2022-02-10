@@ -4,6 +4,7 @@ namespace App\Models\Product;
 
 use App\Models\Admin;
 use App\Models\Admin\Sidebar;
+use App\Models\Review\Review;
 use App\Models\Order\OrderDetail;
 use App\Models\Product\Productcategory;
 use Illuminate\Database\Eloquent\Model;
@@ -57,6 +58,10 @@ class Product extends Model
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    public function reviews() {
+        return $this->hasMany(Review::class)->where('status', 1);
     }
 
 }

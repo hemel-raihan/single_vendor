@@ -22,7 +22,7 @@
 
         @foreach (\App\Models\Product\Productcategory::where(['status'=>1])->get() as $key=>$category)
         <div class="product-category">
-            <a href="{{route('shops',$category->id)}}">
+            <a href="{{route('shops',$category->slug)}}">
                 <figure>
                     <img src="{{ asset('uploads/productcategory_photo/'.$category->image) }}" alt="category" width="250"
                         height="250">

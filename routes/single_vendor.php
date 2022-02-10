@@ -28,12 +28,16 @@ Route::post('/home/section/home-brand', 'SingleVendor\HomepageController@load_br
 Route::post('/home/section/home-callsection', 'SingleVendor\HomepageController@load_call_section')->name('home.section.call');
 Route::post('/home/section/home-recent', 'SingleVendor\HomepageController@load_recent_section')->name('home.section.recent');
 
+//product reviews
+Route::post('/product/reviews', 'SingleVendor\ReviewController@store')->name('reviews.store');
+
+
 Route::get('/product/details/{slug}', 'SingleVendor\HomepageController@single_product_details')->name('product.details');
-Route::get('/product/shops/{id}', 'SingleVendor\HomepageController@shop')->name('shops');
+Route::get('/product/shops/{slug}', 'SingleVendor\HomepageController@shop')->name('shops');
 Route::get('/product/shops/filtered/{catId}/{id}', 'SingleVendor\HomepageController@filter')->name('shops.filter');
 Route::get('/product/shops/filtered/attribute/{catId}/{id}', 'SingleVendor\HomepageController@filterAttribute')->name('shops.filter.attribute');
 // Route::get('/product/cart', 'SingleVendor\HomepageController@view_cart')->name('view.cart');
-Route::get('/product/checkout', 'SingleVendor\HomepageController@checkout')->name('checkout');
+//Route::get('/product/checkout', 'SingleVendor\HomepageController@checkout')->name('checkout');
 
 
 // Customer Panel
@@ -62,7 +66,7 @@ Route::post('/cart/show-cart-modal', 'SingleVendor\CartController@showCartModal'
 Route::post('/cart/addtocart', 'SingleVendor\CartController@addToCart')->name('cart.addToCart');
 Route::post('/cart/removeFromCart', 'SingleVendor\CartController@removeFromCart')->name('cart.removeFromCart');
 Route::post('/cart/updateQuantity', 'SingleVendor\CartController@updateQuantity')->name('cart.updateQuantity');
-Route::get('/cart/checkout', 'SingleVendor\CartController@checkout')->name('checkout');
+Route::get('/cart/checkout', 'SingleVendor\CartController@checkout')->name('checkout')->middleware('auth');
 //Order+OrderDetails Store
 Route::post('/order/store','SingleVendor\OrderController@store')->name('order.store');
 Route::get('/order/order-success', 'SingleVendor\OrderController@order_confirmed')->name('order.success');

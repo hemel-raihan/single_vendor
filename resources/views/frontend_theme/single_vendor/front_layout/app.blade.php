@@ -104,13 +104,13 @@
 
     </div><!-- End .page-wrapper -->
 
-    <div class="loading-overlay">
+    {{-- <div class="loading-overlay">
         <div class="bounce-loader">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="mobile-menu-overlay"></div>
     <!-- End .mobil-menu-overlay -->
@@ -174,9 +174,6 @@
     {{-- end add to card modal --}}
 
     <!-- Plugins JS File -->
-
-
-    
     <script src="{{ asset('single_vendor/assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('single_vendor/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('single_vendor/assets/js/optional/isotope.pkgd.min.js') }}"></script>
@@ -184,6 +181,10 @@
     <script src="{{ asset('single_vendor/assets/js/jquery.appear.min.js') }}"></script>
     <script src="{{ asset('single_vendor/assets/js/jquery.plugin.min.js') }}"></script>
     <!-- Main JS File -->
+    
+    
+    
+    
     <script src="{{ asset('single_vendor/assets/js/main.min.js') }}"></script>
 
     @yield('single_scripts')

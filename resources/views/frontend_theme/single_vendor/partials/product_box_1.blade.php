@@ -24,7 +24,7 @@
         </h3>
         <div class="ratings-container">
             <div class="product-ratings">
-                <span class="ratings" style="width:100%"></span>
+                {{ renderStarRating($product->rating) }}
                 <!-- End .ratings -->
                 <span class="tooltiptext tooltip-top"></span>
             </div>
